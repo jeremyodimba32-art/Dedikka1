@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="icon" type="image/x-icon" href="https://dedikka.com">
+<link rel="shortcut icon" type="image/x-icon" href="https://dedikka.com">
+<link rel="apple-touch-icon" href="https://dedikka.com">
+
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dedikka">
+<meta property="og:title" content="Page name · Dedikka">
+<meta property="og:description" content="Une dédicace spéciale faite avec amour pour toi.">
+<meta property="og:url" content="https://dedikka.com">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Page name · Dedikka">
+<meta name="twitter:description" content="Une dédicace spéciale faite avec amour pour toi.">
+<meta name="description" content="Une dédicace spéciale faite avec amour pour toi.">
+
+
+<link rel="manifest" href="https://dedikka.com">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nom de la page | Dedikka</title>
+    <meta name="description" content="Pour toi, qui fais battre mon cœur d'une façon unique. Dans chaque souvenir et chaque battement, there you are.">
+    <meta name="robots" content="noindex, nofollow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://dedikka.com">
+    <meta property="og:site_name" content="Dedikka">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Page name | Dedikka">
+    <meta property="og:description" content="Pour toi, qui fais battre mon cœur d'une façon unique. Dans chaque souvenir et chaque battement, there you are.">
+    <meta property="og:url" content="https://dedikka.com">
+        <meta property="og:locale" content="fr_FR">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Page name | Dedikka">
+    <meta name="twitter:description" content="Pour toi, qui fais battre mon cœur d'une façon unique. Dans chaque souvenir et chaque battement, there you are.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Battements de Lumière | Dedikka",
+        "description": "Une dédicace spéciale faite avec amour pour toi.",
+        "url": "https://dedikka.com",
+        "inLanguage": "fr"
+    }
+    </script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        background: #00000a !important;
+    }
+    body {
+        font-family: 'Share Tech Mono', monospace;
+        user-select: none;
+        cursor: none;
+        min-height: 100vh;
+    }
+
+    canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    #cursor {
+        position: fixed;
+        width: 38px;
+        height: 38px;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+    }
+    #cursor::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 1.5px solid rgba(255, 49, 88, 0.7);
+        border-radius: 50%;
+        box-shadow: 0 0 7px rgba(255, 49, 88, 0.35);
+        animation: cursorPulse 2.4s ease-in-out infinite;
+    }
+    #cursor::after {
+        content: '';
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: #ff3158;
+        border: none;
+        border-radius: 50%;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 6px rgba(255, 49, 88, 0.9), 0 0 12px rgba(255, 49, 88, 0.45);
+    }
+    @keyframes cursorPulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.35); opacity: 0.3; }
+    }
+    body.active #cursor::before {
+        border-color: rgba(255, 49, 88, 1);
+        animation: cursorBurst 0.35s ease-out forwards;
+    }
+    @keyframes cursorBurst {
+        to { transform: scale(4); opacity: 0; }
+    }
+
+    #vignette {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,8,0.85) 100%);
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    #scanlines {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 6;
+        background: repeating-linear-gradient(
+            to bottom,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.07) 3px,
+            rgba(0, 0, 0, 0.07) 4px
+        );
+        opacity: 0.35;
+    }
+
+    #ui-panel {
+        display: none !important;
+    }
+
+    #coords {
+        display: none;
+    }
+
+    #main-title {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 11;
+        pointer-events: none;
+        text-align: center;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: clamp(1.9rem, 4.2vw, 4rem);
+        line-height: 1.2;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: #ff3158;
+        -webkit-text-stroke: 1.6px rgba(255, 255, 255, 0.95);
+        paint-order: stroke fill;
+        text-shadow:
+            1px 0 0 rgba(255, 255, 255, 0.95),
+            -1px 0 0 rgba(255, 255, 255, 0.95),
+            0 1px 0 rgba(255, 255, 255, 0.95),
+            0 -1px 0 rgba(255, 255, 255, 0.95),
+            0 2px 16px rgba(0, 0, 0, 0.95),
+            0 0 10px rgba(255, 49, 88, 1),
+            0 0 34px rgba(255, 49, 88, 0.86),
+            0 0 72px rgba(255, 49, 88, 0.52);
+        animation: titleBreath 4.2s ease-in-out infinite;
+    }
+    @keyframes titleBreath {
+        0%, 100% { opacity: 0.82; transform: translateX(-50%) translateY(0); }
+        50% { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+    }
+
+    .corner {
+        position: fixed;
+        width: 30px; height: 30px;
+        z-index: 10;
+        pointer-events: none;
+        opacity: 0.6;
+    }
+    .corner::before, .corner::after {
+        content: '';
+        position: absolute;
+        background: #ff3158;
+        box-shadow: 0 0 4px rgba(255, 49, 88, 0.5);
+    }
+    .corner::before { width: 100%; height: 1.5px; top: 0; left: 0; }
+    .corner::after  { width: 1.5px; height: 100%; top: 0; left: 0; }
+    .c-tl { top: 14px; left: 14px; }
+    .c-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+    .c-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+    .c-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
+
+    @media (max-width: 600px) {
+        #vignette {
+            background: radial-gradient(ellipse at center, rgba(0,0,8,0.08) 42%, rgba(0,0,8,0.62) 100%);
+        }
+        #scanlines {
+            opacity: 0.22;
+        }
+        #main-title {
+            top: 18px;
+            width: calc(100vw - 128px);
+            max-width: 320px;
+            font-size: clamp(1.75rem, 8.5vw, 2.55rem);
+            line-height: 1.05;
+            white-space: normal;
+            overflow-wrap: break-word;
+            color: #ff3c64;
+            -webkit-text-stroke: 1px rgba(255, 232, 238, 0.78);
+            text-shadow:
+                0 1px 0 rgba(255, 230, 236, 0.55),
+                0 2px 12px rgba(0, 0, 0, 0.98),
+                0 0 8px rgba(255, 49, 88, 0.76),
+                0 0 26px rgba(255, 49, 88, 0.50);
+        }
+    }
+
+    .music-control {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        z-index: 2147483647;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-8px) scale(0.94);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+    }
+    body.music-visible .music-control,
+    .music-control.is-visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+        transition-delay: 0s;
+    }
+    .music-btn {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #ff3158, #c8001f);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        pointer-events: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.4), 0 0 12px rgba(255,49,88,0.35);
+        transition: all 0.3s ease;
+    }
+    .music-btn:hover { transform: scale(1.1); box-shadow: 0 8px 20px rgba(255,49,88,0.6), 0 0 22px rgba(255,49,88,0.4); }
+    .music-btn:active { transform: scale(0.95); }
+    .music-btn svg { width: 24px; height: 24px; fill: #fff; }
+    .volume-control {
+        width: 120px;
+        background: rgba(255,255,255,0.08);
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        border: 1px solid rgba(255,49,88,0.5);
+        margin-top: 10px;
+        display: none;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .volume-control.visible { display: block; opacity: 1; transform: translateY(0); }
+    .volume-control input {
+        width: 100%; height: 8px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 4px; outline: none; cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .volume-control input::-webkit-slider-thumb {
+        -webkit-appearance: none; width: 16px; height: 16px;
+        background: #ff3158; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .volume-control input::-moz-range-thumb {
+        width: 16px; height: 16px; background: #ff3158;
+        border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3); border: none;
+    }
+    @media (max-width: 768px) {
+        .music-control { top: 20px; right: 20px; }
+        .music-btn { width: 35px; height: 35px; }
+        .music-btn svg { width: 22px; height: 22px; }
+        .volume-control { width: 100px; margin-top: 8px; }
+        .volume-control input { height: 10px; }
+        .volume-control input::-webkit-slider-thumb { width: 18px; height: 18px; }
+        .volume-control input::-moz-range-thumb { width: 18px; height: 18px; }
+    }
+
+    .fullscreen-control {
+        position: fixed;
+        top: 25px;
+        left: 25px;
+        z-index: 2147483647;
+        pointer-events: auto;
+    }
+    .fullscreen-btn {
+        width: 50px; height: 50px; padding: 0;
+        border: none; border-radius: 999px;
+        background: linear-gradient(135deg, #c8001f 0%, #ff3158 100%);
+        cursor: pointer;
+        pointer-events: auto;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.42), 0 0 12px rgba(255,49,88,0.35);
+        transition: transform 0.26s ease, box-shadow 0.26s ease;
+    }
+    .fullscreen-btn:hover { transform: scale(1.08); box-shadow: 0 8px 20px rgba(255,49,88,0.6), 0 0 22px rgba(255,49,88,0.4); }
+    .fullscreen-btn:active { transform: scale(0.95); }
+    .fullscreen-btn svg { width: 28px; height: 28px; fill: #fff; }
+    #fullscreenExitIcon { width: 24px; height: 24px; }
+    @media (max-width: 720px) {
+        .fullscreen-control { top: 20px; left: 20px; }
+        .fullscreen-btn { width: 38px; height: 38px; }
+        .fullscreen-btn svg { width: 24px; height: 24px; }
+        #fullscreenExitIcon { width: 21px; height: 21px; }
+    }
+    @media (max-width: 480px) {
+        .fullscreen-control { top: 20px; left: 20px; }
+    }
+</style>
+    
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-NB2S147BDM"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-NB2S147BDM');</script>
+    <!-- DEDIKKA_PAGE_DATA -->
+</head>
+<body class="min-h-screen">
+    <script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+}
+</script>
+
+<script type="application/json" id="bubble-photos-data">[]</script>
+
+<div id="cursor"></div>
+
+<div id="vignette"></div>
+<div id="scanlines"></div>
+
+<div id="main-title"></div>
+
+<div class="corner c-tl"></div>
+<div class="corner c-tr"></div>
+<div class="corner c-bl"></div>
+<div class="corner c-br"></div>
+
+<div class="fullscreen-control" id="fullscreen-control">
+    <button class="fullscreen-btn" id="fullscreenBtn" type="button" aria-label="Plein écran" onpointerdown="window.directFullscreenToggle(event)" onclick="window.directFullscreenToggle(event)">
+        <svg id="fullscreenEnterIcon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 5h6v2H7v4H5V5zm12 0h2v6h-2V7h-4V5h4zM5 13h2v4h4v2H5v-6zm12 4v-4h2v6h-6v-2h4z"/>
+        </svg>
+        <svg id="fullscreenExitIcon" viewBox="0 0 24 24" aria-hidden="true" style="display:none;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:square;stroke-linejoin:round;">
+            <path d="M8 3V8H3M16 3V8H21M8 21V16H3M16 21V16H21"/>
+        </svg>
+    </button>
+</div>
+
+<div class="music-control">
+    <button class="music-btn" id="musicBtn" type="button" aria-label="Musique">
+        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+    </button>
+    <div class="volume-control" id="volumeControl">
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+    </div>
+</div>
+
+<audio id="backgroundMusic" loop preload="auto"></audio>
+
+<script>
+    window.musicAutoStarted = false;
+
+    window.directMusicPlay = function(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        var music = document.getElementById('backgroundMusic');
+        var playIcon = document.getElementById('playIcon');
+        var pauseIcon = document.getElementById('pauseIcon');
+        var volumeSlider = document.getElementById('volumeSlider');
+        var musicControl = document.querySelector('.music-control');
+
+        if (!music) return;
+
+        document.body.classList.add('music-visible');
+        if (musicControl) musicControl.classList.add('is-visible');
+        music.volume = parseFloat((volumeSlider && volumeSlider.value) || '0.5');
+
+        if (music.paused) {
+            music.play().then(function() {
+                if (playIcon) playIcon.style.display = 'none';
+                if (pauseIcon) pauseIcon.style.display = 'block';
+            }).catch(function() {});
+        }
+    };
+
+    window.directMusicToggle = function(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        if (window.directMusicToggleLast && performance.now() - window.directMusicToggleLast < 300) return;
+        window.directMusicToggleLast = performance.now();
+
+        var music = document.getElementById('backgroundMusic');
+        var playIcon = document.getElementById('playIcon');
+        var pauseIcon = document.getElementById('pauseIcon');
+
+        if (!music || music.paused) {
+            window.directMusicPlay();
+            return;
+        }
+
+        music.pause();
+        if (playIcon) playIcon.style.display = 'block';
+        if (pauseIcon) pauseIcon.style.display = 'none';
+    };
+
+    window.directFullscreenToggle = function(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+        }
+        window.skipSceneActivationUntil = performance.now() + 1000;
+        if (window.directFullscreenToggleLast && performance.now() - window.directFullscreenToggleLast < 300) return;
+        window.directFullscreenToggleLast = performance.now();
+
+        function syncDirectFullscreenIcon() {
+            var isActive = !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+            var enterIcon = document.getElementById('fullscreenEnterIcon');
+            var exitIcon = document.getElementById('fullscreenExitIcon');
+            var button = document.getElementById('fullscreenBtn');
+            if (enterIcon) enterIcon.style.display = isActive ? 'none' : 'block';
+            if (exitIcon) exitIcon.style.display = isActive ? 'block' : 'none';
+            if (button) button.setAttribute('aria-label', isActive ? "Exit fullscreen" : "Plein écran");
+        }
+
+        var active = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+        var action = null;
+        if (active) {
+            var exitFn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+            if (exitFn) action = exitFn.call(document);
+        } else {
+            var requestFn = document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen || document.documentElement.msRequestFullscreen;
+            if (requestFn) action = requestFn.call(document.documentElement);
+        }
+        if (action && typeof action.catch === 'function') {
+            action.catch(function() {}).finally(function() {
+                setTimeout(syncDirectFullscreenIcon, 80);
+            });
+        } else {
+            setTimeout(syncDirectFullscreenIcon, 80);
+        }
+    };
+</script>
+
+<div id="ui-panel">
+    <div class="border-wrap">
+        <div class="glass-inner">
+            <div class="panel-header">
+                <div class="status-dot" id="status-dot"></div>
+                <span class="panel-title">Battements de Lumière</span>
+                <span class="panel-id">HS-7A</span>
+            </div>
+            <div class="telemetry">
+                <div class="tele-row"><span class="tele-label">Membrane V</span><span class="tele-val" id="tele-mv">-70.0 mV</span></div>
+                <div class="tele-row"><span class="tele-label">Filaments</span><span class="tele-val active" id="tele-dend">247</span></div>
+                <div class="tele-row"><span class="tele-label">Propagation</span><span class="tele-val" id="tele-prop">EN VEILLE</span></div>
+            </div>
+            <div class="divider"></div>
+            <div class="bar-row"><span class="bar-label">Signal</span><div class="bar-track"><div class="bar-fill" id="bar-signal" style="width:8%"></div></div></div>
+            <div class="bar-row" style="margin-top:4px"><span class="bar-label">Noyau</span><div class="bar-track"><div class="bar-fill" id="bar-axon" style="width:100%; background: linear-gradient(90deg, rgba(255,80,0,0.5), rgba(255,160,0,0.8))"></div></div></div>
+            <div class="divider"></div>
+            <div class="status-line idle" id="status-msg">▸ EN ATTENTE</div>
+        </div>
+    </div>
+</div>
+
+<div id="coords">
+    <span id="coord-x">X: 0.000</span>
+    <span id="coord-y">Y: 8.000</span>
+    <span id="coord-z">Z: 45.000</span>
+    <span style="margin-top:4px; opacity:0.6">CAM · MODE ORBITE</span>
+</div>
+
+<script>
+(function() {
+    var data = window.DEDIKKA_PAGE_DATA || {};
+    var fields = data.form_fields || {};
+    var title = fields['data[main_title]'] || fields['data[title]'] || data.title || data.recipient_name;
+    if (title) {
+        document.title = title + ' — Dedikka';
+        window.addEventListener('DOMContentLoaded', function() {
+            var el = document.getElementById('main-title');
+            if (el) el.textContent = title;
+        });
+    }
+    var musicUrl = fields['music_url'] || fields['data[music_url]'] || '';
+    if (musicUrl) {
+        window.addEventListener('DOMContentLoaded', function() {
+            var music = document.getElementById('backgroundMusic');
+            if (music) music.src = musicUrl;
+        });
+    }
+})();
+</script>
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+    const cursorEl = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+        cursorEl.style.left = e.clientX + 'px';
+        cursorEl.style.top  = e.clientY + 'px';
+    });
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x00000a);
+    scene.fog = new THREE.FogExp2(0x00000f, 0.022);
+
+    const camera = new THREE.PerspectiveCamera(52, innerWidth / innerHeight, 0.1, 1000);
+    camera.position.set(0, 8, 45);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping  = true;
+    controls.dampingFactor  = 0.04;
+    controls.autoRotate     = false;
+    controls.autoRotateSpeed = 0.7;
+    controls.enablePan      = false;
+    controls.maxDistance    = 80;
+
+    const renderScene = new RenderPass(scene, camera);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 1.5, 0.4, 0.85);
+    bloomPass.threshold = 1.08;
+    bloomPass.strength  = 1.15;
+    bloomPass.radius    = 0.55;
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(renderScene);
+    composer.addPass(bloomPass);
+
+    const vertexShader = `
+        attribute float aIsInput;
+        varying vec2 vUv;
+        varying vec3 vWorldPos;
+        varying vec3 vNormal;
+        varying float vIsInput;
+        varying float vDist;
+
+        void main() {
+            vUv = uv;
+            vIsInput = aIsInput;
+            vec4 worldPos = modelMatrix * vec4(position, 1.0);
+            vWorldPos = worldPos.xyz;
+            vDist = length(worldPos.xyz);
+            vNormal = normalize(normalMatrix * normal);
+            gl_Position = projectionMatrix * viewMatrix * worldPos;
+        }
+    `;
+
+    const fragmentShader = `
+        uniform float uTime;
+        uniform float uPulseProgress;
+        uniform float uActivation;
+        uniform vec3 uCameraPos;
+
+        varying vec2 vUv;
+        varying vec3 vWorldPos;
+        varying vec3 vNormal;
+        varying float vIsInput;
+        varying float vDist;
+
+        float hash(vec3 p) {
+            p = fract(p * 0.3183099 + .1);
+            p *= 17.0;
+            return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+        }
+        float noise(vec3 x) {
+            vec3 i = floor(x);
+            vec3 f = fract(x);
+            f = f*f*(3.0-2.0*f);
+            return mix(
+                mix(mix(hash(i+vec3(0,0,0)),hash(i+vec3(1,0,0)),f.x),
+                    mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
+                mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),
+                    mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);
+        }
+        vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
+            return a + b * cos(6.28318*(c*t+d));
+        }
+
+        void main() {
+            vec3 viewDir = normalize(uCameraPos - vWorldPos);
+            float facing = abs(dot(vNormal, viewDir));
+            float fresnel = pow(1.0 - clamp(facing, 0.0, 1.0), 3.0);
+            float n1 = noise(vWorldPos * 0.5 + uTime * 0.2);
+            float n2 = noise(vWorldPos * 2.0 - uTime * 0.5);
+
+            float veins = smoothstep(0.48, 0.62, noise(vWorldPos * vec3(1.8, 3.8, 1.4) + vec3(uTime * 0.05, 0.0, 0.0)));
+            veins *= smoothstep(0.70, 0.35, abs(sin(vWorldPos.y * 1.15 + vWorldPos.x * 0.35)));
+            float grain = noise(vWorldPos * 7.0 + uTime * 0.08);
+            float heartbeat = 0.5 + 0.5 * sin(uTime * 2.8);
+            float livingPulse = pow(heartbeat, 6.0) * 0.45;
+
+            vec3 deepRed = vec3(0.34, 0.004, 0.016);
+            vec3 warmRed = vec3(1.06, 0.014, 0.052);
+            vec3 magenta = vec3(0.90, 0.032, 0.115);
+            vec3 cyanEdge = vec3(0.0, 0.85, 1.0);
+
+            vec3 baseColor = mix(deepRed, warmRed, n1 * 0.80 + grain * 0.32);
+            baseColor += veins * vec3(0.85, 0.010, 0.028);
+            baseColor += pow(fresnel, 2.4) * cyanEdge * (0.006 + n2 * 0.010);
+            baseColor += magenta * livingPulse * (0.24 + 0.035 * fresnel);
+            baseColor += pow(fresnel, 1.1) * vec3(0.22, 0.018, 0.035);
+            baseColor *= 1.17 + grain * 0.30;
+            if (vIsInput > 0.5) {
+                baseColor = mix(baseColor, vec3(1.04, 0.016, 0.056), 0.60);
+                baseColor += vec3(0.38, 0.009, 0.024) * (0.32 + veins * 0.38);
+            }
+
+            vec3 pulseColor = vec3(0.0);
+            if (vIsInput > 0.5 && uPulseProgress > -5.0) {
+                float pDist  = abs(vDist - uPulseProgress);
+                float core   = exp(-pDist * pDist * 1.8);
+                float trail  = smoothstep(8.0, 0.0, vDist - uPulseProgress) * smoothstep(-2.8, 0.0, uPulseProgress - vDist);
+                float pi     = max(core * 3.4, trail * 1.9);
+                pulseColor   = vec3(4.2, 0.68, 0.05) * pi * (0.85 + 0.15*n2);
+            }
+
+            vec3 actColor = vec3(0.0);
+            if (uActivation > 0.0) {
+                float distFromWave = vDist - uActivation;
+                float waveFront    = exp(-pow(distFromWave, 2.0) * 0.2) * step(0.0, -distFromWave);
+                float residual     = smoothstep(uActivation, uActivation - 25.0, vDist);
+                float actIntensity = waveFront * 4.0 + residual * 1.5;
+                actIntensity      *= (0.6 + 0.4 * noise(vWorldPos * 1.5 - uTime * 2.0));
+
+                vec3 dir    = normalize(vWorldPos);
+                float angle = atan(dir.z, dir.x);
+                vec3 rainbow = palette(
+                    angle * 0.15 + vDist * 0.05 - uTime * 0.5,
+                    vec3(0.5,0.5,0.5), vec3(0.5,0.5,0.5),
+                    vec3(1.0,1.0,1.0), vec3(0.00,0.33,0.67)
+                );
+                actColor = rainbow * actIntensity * 1.5;
+                if (vDist < 4.0) {
+                    float somaFlash = exp(-pow(uActivation * 0.2, 2.0)) * 2.5;
+                    actColor += vec3(1.0, 0.9, 0.8) * somaFlash;
+                }
+            }
+
+            vec3 finalColor = baseColor + pulseColor + actColor;
+            finalColor += pow(fresnel, 3.2) * vec3(0.008, 0.025, 0.030);
+            float hotPower = max(max(finalColor.r, finalColor.g), finalColor.b);
+            float lowChannel = min(finalColor.r, min(finalColor.g, finalColor.b));
+            float colorSpread = hotPower - lowChannel;
+            float whiteMask = step(0.001, uActivation) * smoothstep(0.72, 1.12, lowChannel) * (1.0 - smoothstep(0.22, 0.82, colorSpread));
+            float pinkArea = smoothstep(0.4, 5.8, vWorldPos.x);
+            float livingGrain = 0.82 + noise(vWorldPos * 1.15 + uTime * 0.22) * 0.34;
+            vec3 rescueYellow = vec3(hotPower * 1.04, hotPower * 0.72, hotPower * 0.05);
+            vec3 rescuePink = vec3(hotPower * 1.02, hotPower * 0.13, hotPower * 0.62);
+            vec3 rescuedColor = mix(rescueYellow, rescuePink, pinkArea) * livingGrain;
+            finalColor = mix(finalColor, rescuedColor, whiteMask * 0.7);
+            finalColor *= 0.7 - whiteMask * 0.04;
+            gl_FragColor = vec4(finalColor, 1.7);
+        }
+    `;
+
+    const material = new THREE.ShaderMaterial({
+        vertexShader, fragmentShader,
+        uniforms: {
+            uTime:          { value: 0 },
+            uPulseProgress: { value: -10.0 },
+            uActivation:    { value: 0 },
+            uCameraPos:     { value: new THREE.Vector3() }
+        },
+        transparent: false,
+        depthWrite:  true,
+        side: THREE.FrontSide
+    });
+    const branchMaterial = material.clone();
+    branchMaterial.uniforms = material.uniforms;
+    branchMaterial.depthTest = false;
+    branchMaterial.depthWrite = false;
+    branchMaterial.transparent = true;
+
+    const structureGroup = new THREE.Group();
+    scene.add(structureGroup);
+
+    function taperGeometry(geo, baseRadius, isInput) {
+        const pos  = geo.attributes.position;
+        const norm = geo.attributes.normal;
+        const uv   = geo.attributes.uv;
+        for (let i = 0; i < pos.count; i++) {
+            const u = uv.getX(i);
+            let t   = isInput ? 1.0 : (1.0 - u);
+            const taper = Math.pow(t, 0.6);
+            const shrink = baseRadius * (1.0 - taper);
+            pos.setXYZ(i,
+                pos.getX(i) - norm.getX(i) * shrink,
+                pos.getY(i) - norm.getY(i) * shrink,
+                pos.getZ(i) - norm.getZ(i) * shrink
+            );
+        }
+        geo.computeVertexNormals();
+    }
+
+    function addBranch(curve, radius, isInput, parent = structureGroup) {
+        const geo = new THREE.TubeGeometry(curve, Math.floor(curve.getLength() * 3), radius, 12, false);
+        taperGeometry(geo, radius, isInput);
+        const arr = new Float32Array(geo.attributes.position.count).fill(isInput ? 1.0 : 0.0);
+        geo.setAttribute('aIsInput', new THREE.BufferAttribute(arr, 1));
+        const mesh = new THREE.Mesh(geo, isInput ? branchMaterial : material);
+        mesh.renderOrder = isInput ? 24 : 0;
+        parent.add(mesh);
+        return { curve };
+    }
+
+    function outlineHeartPoint(t, scale = 0.72) {
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+        const p = new THREE.Vector2(x * scale * 0.98, y * scale * 0.9 - 0.8);
+        const lower = THREE.MathUtils.clamp((-4.0 - p.y) / 5.6, 0, 1);
+        const notch = THREE.MathUtils.clamp((p.y - 4.1) / 2.8, 0, 1) * THREE.MathUtils.clamp(1 - Math.abs(p.x) / 3.2, 0, 1);
+        p.x *= 1 - lower * 0.1;
+        p.y += lower * 0.34 + notch * 0.48;
+        return p;
+    }
+
+    function createRoundedHeartGeometry(radialSegments = 30, angularSegments = 192) {
+        const positions = [];
+        const uvs = [];
+        const indices = [];
+
+        function addVertex(p, z, r, aIndex) {
+            positions.push(p.x, p.y, z);
+            uvs.push(aIndex / angularSegments, r);
+            return positions.length / 3 - 1;
+        }
+
+        const front = [];
+        const back = [];
+        for (let rIndex = 0; rIndex <= radialSegments; rIndex++) {
+            const r = rIndex / radialSegments;
+            front[rIndex] = [];
+            back[rIndex] = [];
+            for (let aIndex = 0; aIndex < angularSegments; aIndex++) {
+                const t = (aIndex / angularSegments) * Math.PI * 2;
+                const edgePoint = outlineHeartPoint(t);
+                const p = edgePoint.multiplyScalar(r);
+                const edgeFade = Math.pow(Math.max(0, 1 - r), 0.42);
+                const topRound = THREE.MathUtils.clamp((8.5 - p.y) / 3.0, 0.25, 1.0);
+                const tipRound = THREE.MathUtils.clamp((p.y + 8.8) / 3.25, 0.1, 1.0);
+                const z = 0.26 + 2.55 * edgeFade * topRound * tipRound;
+                const ripple = Math.sin(p.x * 1.4 + p.y * 0.68) * 0.035 * (1 - r * 0.6);
+                front[rIndex][aIndex] = addVertex(p, z + ripple, r, aIndex);
+                back[rIndex][aIndex] = addVertex(p, -z - ripple, r, aIndex);
+            }
+        }
+
+        for (let rIndex = 0; rIndex < radialSegments; rIndex++) {
+            for (let aIndex = 0; aIndex < angularSegments; aIndex++) {
+                const next = (aIndex + 1) % angularSegments;
+                const f00 = front[rIndex][aIndex], f01 = front[rIndex][next];
+                const f10 = front[rIndex + 1][aIndex], f11 = front[rIndex + 1][next];
+                const b00 = back[rIndex][aIndex], b01 = back[rIndex][next];
+                const b10 = back[rIndex + 1][aIndex], b11 = back[rIndex + 1][next];
+                indices.push(f00, f10, f11, f00, f11, f01);
+                indices.push(b00, b01, b11, b00, b11, b10);
+            }
+        }
+
+        const edge = radialSegments;
+        for (let aIndex = 0; aIndex < angularSegments; aIndex++) {
+            const next = (aIndex + 1) % angularSegments;
+            const f0 = front[edge][aIndex], f1 = front[edge][next];
+            const b0 = back[edge][aIndex], b1 = back[edge][next];
+            indices.push(f0, b0, b1, f0, b1, f1);
+        }
+
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+        geo.setIndex(indices);
+        geo.computeVertexNormals();
+        return geo;
+    }
+
+    const heartGeo = createRoundedHeartGeometry();
+    heartGeo.scale(1.08, 1.08, 1.0);
+    const heartPos = heartGeo.attributes.position;
+    const heartIsInput = new Float32Array(heartPos.count).fill(0.0);
+    heartGeo.setAttribute('aIsInput', new THREE.BufferAttribute(heartIsInput, 1));
+    structureGroup.add(new THREE.Mesh(heartGeo, material));
+
+    const _pageData = window.DEDIKKA_PAGE_DATA || {};
+    const _fields = _pageData.form_fields || {};
+    const HEART_MESSAGE = _fields['data[heart_message]'] || _fields['heart_message'] || "Pour toi, qui fais battre mon cœur d'une façon unique. Dans chaque souvenir et chaque battement, tu es là.";
+    const MAX_HEART_MESSAGE_CHARS = 200;
+
+    function normalizeHeartText(text) {
+        return String(text || '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, MAX_HEART_MESSAGE_CHARS) || "JE T'AIME";
+    }
+
+    function wrapText(ctx, text, maxWidth, maxLines = 8) {
+        const words = text.split(' ');
+        const lines = [];
+        let line = '';
+        for (const word of words) {
+            const lineIndex = Math.min(lines.length, maxLines - 1);
+            const widthLimit = Array.isArray(maxWidth) ? maxWidth[lineIndex] || maxWidth[maxWidth.length - 1] : maxWidth;
+            const test = line ? `${line} ${word}` : word;
+            if (ctx.measureText(test).width <= widthLimit || !line) {
+                line = test;
+            } else {
+                lines.push(line);
+                line = word;
+            }
+        }
+        if (line) lines.push(line);
+        return lines;
+    }
+
+    function makeTextTexture(rawText, mode = 'fill') {
+        const text = normalizeHeartText(rawText);
+        const canvas = document.createElement('canvas');
+        canvas.width = 2048;
+        canvas.height = 768;
+        const compactViewport = innerWidth <= 700 || innerWidth / innerHeight < 0.72;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const len = text.length;
+        let fontSize = len <= 10 ? 235 : len <= 28 ? 190 : len <= 60 ? 145 : len <= 120 ? 108 : 82;
+        if (!compactViewport) {
+            const desktopScale = len <= 22 ? 1.24 : len <= 40 ? 1.16 : len <= 80 ? 1.10 : 1.02;
+            fontSize = Math.floor(fontSize * desktopScale);
+        } else {
+            const mobileScale = len <= 22 ? 1.26 : len <= 40 ? 1.18 : 1.12;
+            fontSize = Math.floor(fontSize * mobileScale);
+        }
+        let lines = [];
+        const usableWidth = canvas.width * (compactViewport ? 0.70 : 0.70);
+        const heartLineWidths = [
+            usableWidth * 1.00,
+            usableWidth * 0.96,
+            usableWidth * 0.90,
+            usableWidth * 0.80,
+            usableWidth * 0.66,
+            usableWidth * 0.52
+        ];
+        do {
+            ctx.font = `700 ${fontSize}px "Syncopate", sans-serif`;
+            lines = wrapText(ctx, text, heartLineWidths, heartLineWidths.length);
+            if (lines.length * fontSize * 1.32 <= canvas.height * 0.92) break;
+            fontSize -= 4;
+        } while (fontSize > 34);
+        const lineHeight = fontSize * 1.32;
+        const totalHeight = (lines.length - 1) * lineHeight;
+        const textOffsetX = compactViewport ? canvas.width * 0.015 : 0;
+        ctx.translate(canvas.width / 2 + textOffsetX, canvas.height / 2 - canvas.height * 0.04);
+        ctx.rotate(-0.08);
+        ctx.lineJoin = 'round';
+        ctx.font = `700 ${fontSize}px "Syncopate", sans-serif`;
+
+        function drawLines(draw) {
+            lines.forEach((line, i) => draw(line, 0, -totalHeight / 2 + i * lineHeight));
+        }
+
+        if (mode === 'outline') {
+            ctx.lineWidth = Math.max(7, fontSize * 0.13);
+            ctx.strokeStyle = '#020002';
+            drawLines((line, x, y) => ctx.strokeText(line, x, y));
+        } else {
+            ctx.fillStyle = '#ffffff';
+            drawLines((line, x, y) => ctx.fillText(line, x, y));
+            drawLines((line, x, y) => ctx.fillText(line, x, y));
+            ctx.lineWidth = Math.max(2, fontSize * 0.028);
+            ctx.strokeStyle = '#ffffff';
+            drawLines((line, x, y) => ctx.strokeText(line, x, y));
+        }
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.generateMipmaps = false;
+        texture.minFilter = THREE.NearestFilter;
+        texture.magFilter = THREE.NearestFilter;
+        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        return texture;
+    }
+
+    const heartTextFillTexture = makeTextTexture(HEART_MESSAGE, 'fill');
+    const heartTextOutlineTexture = makeTextTexture(HEART_MESSAGE, 'outline');
+
+    const heartTextOutlineMat = new THREE.MeshBasicMaterial({
+        map: heartTextOutlineTexture,
+        transparent: true,
+        opacity: 1,
+        blending: THREE.NormalBlending,
+        depthWrite: false,
+        depthTest: false,
+        alphaTest: 0.08,
+        side: THREE.FrontSide,
+        toneMapped: false
+    });
+    const heartTextMat = new THREE.ShaderMaterial({
+        uniforms: {
+            uMap: { value: heartTextFillTexture },
+            uOpacity: { value: 1.0 }
+        },
+        vertexShader: `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `,
+        fragmentShader: `
+            uniform sampler2D uMap;
+            uniform float uOpacity;
+            varying vec2 vUv;
+            void main() {
+                vec4 tex = texture2D(uMap, vUv);
+                if (tex.a < 0.08) discard;
+            vec3 softWhite = mix(vec3(0.76, 0.79, 0.85), vec3(0.94, 0.95, 0.98), smoothstep(0.25, 0.85, tex.a));
+            gl_FragColor = vec4(softWhite, tex.a * uOpacity * 0.96);
+            }
+        `,
+        transparent: true,
+        blending: THREE.NormalBlending,
+        depthWrite: false,
+        depthTest: false,
+        side: THREE.FrontSide,
+        toneMapped: false
+    });
+    const heartTextGeo = new THREE.PlaneGeometry(18.6, 7.8, 72, 28);
+    const heartTextOutline = new THREE.Mesh(heartTextGeo.clone(), heartTextOutlineMat);
+    const heartText = new THREE.Mesh(heartTextGeo, heartTextMat);
+    const isCompactMobileViewport = innerWidth <= 700 || innerWidth / innerHeight < 0.72;
+    const heartTextOffsetX = isCompactMobileViewport ? 0.10 : 0;
+    const heartTextOffsetY = isCompactMobileViewport ? -0.86 : -0.76;
+    const heartTextScale = isCompactMobileViewport ? 1.08 : 1.06;
+    const heartTextPos = heartText.geometry.attributes.position;
+    for (let i = 0; i < heartTextPos.count; i++) {
+        const x = heartTextPos.getX(i);
+        const y = heartTextPos.getY(i);
+        const nx = Math.abs(x) / 9.3;
+        const ny = Math.abs(y) / 3.9;
+        const heartBulge = 0.24 - Math.pow(nx, 1.9) * 0.78 - Math.pow(ny, 2.2) * 0.18;
+        const fabricRipple = Math.sin(x * 0.55 + y * 0.18) * 0.025 + Math.cos(y * 1.15) * 0.018;
+        const z = heartBulge + fabricRipple;
+        heartTextPos.setZ(i, z);
+    }
+    heartText.geometry.computeVertexNormals();
+    heartTextOutline.geometry.copy(heartText.geometry);
+    heartTextOutline.position.set(heartTextOffsetX, heartTextOffsetY, 2.72);
+    heartTextOutline.rotation.z = -0.08;
+    heartTextOutline.scale.setScalar(heartTextScale);
+    heartTextOutline.renderOrder = 29;
+    structureGroup.add(heartTextOutline);
+
+    heartText.position.set(heartTextOffsetX, heartTextOffsetY, 2.76);
+    heartText.rotation.z = -0.08;
+    heartText.scale.setScalar(heartTextScale);
+    heartText.renderOrder = 31;
+    structureGroup.add(heartText);
+
+    const heartTextBack = heartText.clone();
+    heartTextBack.position.set(heartTextOffsetX, heartTextOffsetY, -2.76);
+    heartTextBack.rotation.set(0, Math.PI, -0.08);
+    heartTextBack.renderOrder = 31;
+    structureGroup.add(heartTextBack);
+
+    const heartTextOutlineBack = heartTextOutline.clone();
+    heartTextOutlineBack.position.set(heartTextOffsetX, heartTextOffsetY, -2.72);
+    heartTextOutlineBack.rotation.set(0, Math.PI, -0.08);
+    heartTextOutlineBack.renderOrder = 29;
+    structureGroup.add(heartTextOutlineBack);
+
+    const bubbleGroup = new THREE.Group();
+    scene.add(bubbleGroup);
+
+    const loader = new THREE.TextureLoader();
+    loader.setCrossOrigin('anonymous');
+    const useMobileBubbleLayout = isCompactMobileViewport;
+
+    const _images = _pageData.images || {};
+    let bubblePhotos = [];
+    for (let k = 1; k <= 6; k++) {
+        const u = _images['image_' + k];
+        if (u && typeof u === 'string' && u.trim()) bubblePhotos.push(u.trim());
+    }
+    if (bubblePhotos.length === 0) {
+        try {
+            const raw = document.getElementById('bubble-photos-data')?.textContent;
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) bubblePhotos = parsed.filter(Boolean);
+            }
+        } catch(e) {}
+    }
+
+    const _bubbleCountField = parseInt(_fields['data[bubbles_count]'] || _fields['bubbles_count'] || '4', 10);
+    // Mode 4 branches si bubblePhotos a 4 éléments ou si moins/égal à 4 photos
+    const use4Layout = _bubbleCountField === 4 || bubblePhotos.length <= 4;
+    const bubblePositions = useMobileBubbleLayout
+        ? (use4Layout ? [
+            new THREE.Vector3(-10.0, 14.4, -2.8),
+            new THREE.Vector3(10.0, 14.4, -2.2),
+            new THREE.Vector3(10.0, -15.7, -2.0),
+            new THREE.Vector3(-10.0, -15.7, -2.2)
+        ] : [
+            new THREE.Vector3(-10.0, 14.4, -2.8),
+            new THREE.Vector3(0.0, 16.8, -2.8),
+            new THREE.Vector3(10.0, 14.4, -2.2),
+            new THREE.Vector3(10.0, -15.7, -2.0),
+            new THREE.Vector3(0.0, -18.2, -2.0),
+            new THREE.Vector3(-10.0, -15.7, -2.2)
+        ])
+        : (use4Layout ? [
+            new THREE.Vector3(-17.2, 10.8, -2.8),
+            new THREE.Vector3(17.2, 10.8, -2.8),
+            new THREE.Vector3(14.4, -12.2, -2.0),
+            new THREE.Vector3(-14.4, -12.2, -2.0)
+        ] : [
+            new THREE.Vector3(-17.2, 10.8, -2.8),
+            new THREE.Vector3(17.2, 10.8, -2.8),
+            new THREE.Vector3(22.5, 0.8, -2.2),
+            new THREE.Vector3(14.4, -12.2, -2.0),
+            new THREE.Vector3(-14.4, -12.2, -2.0),
+            new THREE.Vector3(-22.5, 0.8, -2.2)
+        ]);
+
+    const bubbleObjects = [];
+    const BUBBLE_PHOTO_RADIUS = 3.05;
+    const BUBBLE_FRAME_RADIUS = 3.48;
+    const photoGeo = new THREE.CircleGeometry(BUBBLE_PHOTO_RADIUS, 128);
+    const backGeo = new THREE.CircleGeometry(3.25, 128);
+    const glassGeo = new THREE.SphereGeometry(3.38, 48, 24);
+    const shineGeo = new THREE.CircleGeometry(0.56, 48);
+    const glowGeo = new THREE.SphereGeometry(3.72, 36, 18);
+    const glowMat = new THREE.MeshBasicMaterial({
+        color: 0xff5eb8, transparent: true, opacity: useMobileBubbleLayout ? 0.036 : 0.055,
+        blending: THREE.AdditiveBlending, depthWrite: false
+    });
+    const backMat = new THREE.MeshBasicMaterial({
+        color: 0x180619, transparent: true, opacity: 0.38, side: THREE.DoubleSide
+    });
+    const glassMat = new THREE.MeshBasicMaterial({
+        color: 0x9ff7ff, transparent: true, opacity: useMobileBubbleLayout ? 0.010 : 0.025,
+        blending: THREE.AdditiveBlending, depthWrite: false
+    });
+    const shineMat = new THREE.MeshBasicMaterial({
+        color: 0xffffff, transparent: true, opacity: useMobileBubbleLayout ? 0.060 : 0.18,
+        blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
+    });
+
+    function createNeuralCurve(start, end, segments, spread, phase = 0) {
+        const pts = [];
+        const dir = end.clone().sub(start).normalize();
+        const side = new THREE.Vector3(-dir.y, dir.x, 0.25).normalize();
+        const up = new THREE.Vector3(0.18, 0.35, 1).cross(dir).normalize();
+        for (let s = 0; s <= segments; s++) {
+            const t = s / segments;
+            const ease = t * t * (3 - 2 * t);
+            const p = start.clone().lerp(end, ease);
+            const wave = Math.sin(t * Math.PI * 2.0 + phase) * spread;
+            const wave2 = Math.sin(t * Math.PI * 3.0 + phase * 0.7) * spread * 0.55;
+            const fade = Math.sin(t * Math.PI);
+            p.add(side.clone().multiplyScalar(wave * fade));
+            p.add(up.clone().multiplyScalar(wave2 * fade));
+            pts.push(p);
+        }
+        return new THREE.CatmullRomCurve3(pts);
+    }
+
+    function addNeuralPhotoLink(end, i) {
+        const origin = new THREE.Vector3(0, -0.8, 0.15);
+        const toCenter = end.clone().normalize();
+        const contact = end.clone().sub(toCenter.multiplyScalar(BUBBLE_FRAME_RADIUS));
+        const mainCurve = createNeuralCurve(origin, contact, 20, 0.75 + (i % 3) * 0.16, i * 0.8);
+        addBranch(mainCurve, useMobileBubbleLayout ? 0.2 : 0.15, true, bubbleGroup);
+        for (let j = 0; j < 3; j++) {
+            const t = 0.25 + j * 0.18 + Math.random() * 0.05;
+            const branchStart = mainCurve.getPoint(Math.min(t, 0.82));
+            const tangent = mainCurve.getTangent(Math.min(t, 0.82));
+            const branchSide = new THREE.Vector3(
+                -tangent.y + (Math.random() - 0.5) * 0.7,
+                tangent.x + (Math.random() - 0.5) * 0.7,
+                (Math.random() - 0.5) * 1.4
+            ).normalize();
+            const branchLength = 3.2 + Math.random() * 4.8;
+            const towardPhoto = end.clone().sub(branchStart).normalize().multiplyScalar(1.4 + j * 0.15);
+            const branchEnd = branchStart.clone().add(branchSide.multiplyScalar(branchLength)).add(towardPhoto);
+            const twig = createNeuralCurve(branchStart, branchEnd, 9, 0.34 + Math.random() * 0.25, i + j);
+            addBranch(twig, (useMobileBubbleLayout ? 0.052 : 0.035) + Math.random() * 0.035, true, bubbleGroup);
+        }
+        return null;
+    }
+
+    function addBubbleNeuralFrame(bubble, i) {
+        const framePts = [];
+        for (let k = 0; k <= 120; k++) {
+            const a = (k / 120) * Math.PI * 2;
+            const wobble = 1 + Math.sin(k * 0.34 + i) * 0.035 + Math.sin(k * 0.71 + i * 0.4) * 0.018;
+            framePts.push(new THREE.Vector3(Math.cos(a) * BUBBLE_FRAME_RADIUS * wobble, Math.sin(a) * BUBBLE_FRAME_RADIUS * wobble, 0.16));
+        }
+        addBranch(new THREE.CatmullRomCurve3(framePts, true), useMobileBubbleLayout ? 0.12 : 0.08, true, bubble);
+        for (let j = 0; j < 4; j++) {
+            const a = i * 0.45 + j * Math.PI * 0.5;
+            const start = new THREE.Vector3(Math.cos(a) * BUBBLE_FRAME_RADIUS, Math.sin(a) * BUBBLE_FRAME_RADIUS, 0.16);
+            const end = new THREE.Vector3(
+                Math.cos(a + 0.22) * (3.85 + Math.random() * 0.65),
+                Math.sin(a + 0.22) * (3.85 + Math.random() * 0.65),
+                0.16 + (Math.random() - 0.5) * 0.2
+            );
+            addBranch(createNeuralCurve(start, end, 6, 0.12, i + j), useMobileBubbleLayout ? 0.052 : 0.034, true, bubble);
+        }
+    }
+
+    // Toujours créer les 4 (ou 6) branches et bulles de lumière du cœur
+    bubblePositions.forEach((pos, i) => {
+        const bubble = new THREE.Group();
+        bubble.position.copy(pos);
+        const photoMat = new THREE.MeshBasicMaterial({
+            color: useMobileBubbleLayout ? 0xf0eeee : 0xffffff, transparent: true, opacity: 0,
+            side: THREE.DoubleSide, fog: false, toneMapped: true
+        });
+        if (bubblePhotos[i]) loader.load(bubblePhotos[i], texture => {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.minFilter = THREE.LinearMipmapLinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            photoMat.map = texture;
+            photoMat.opacity = 1;
+            photoMat.needsUpdate = true;
+        });
+        const glow = new THREE.Mesh(glowGeo, glowMat.clone());
+        const back = new THREE.Mesh(backGeo, backMat.clone());
+        const photo = new THREE.Mesh(photoGeo, photoMat);
+        const glass = new THREE.Mesh(glassGeo, glassMat.clone());
+        const shine = new THREE.Mesh(shineGeo, shineMat.clone());
+        back.position.z = -0.035;
+        photo.position.z = 0.02;
+        if (useMobileBubbleLayout) photo.scale.setScalar(0.91);
+        glass.position.z = 0.08;
+        shine.position.set(-0.82, 0.92, 0.16);
+        shine.scale.set(useMobileBubbleLayout ? 0.72 : 1.1, useMobileBubbleLayout ? 0.16 : 0.28, 1);
+        bubble.add(glow, back, photo, glass, shine);
+        addBubbleNeuralFrame(bubble, i);
+        addNeuralPhotoLink(pos, i);
+        bubbleGroup.add(bubble);
+        bubbleObjects.push({ bubble, photo, glow, glass, shine, base: pos.clone(), phase: i * 0.9 });
+    });
+
+    function makeParticles(count, spread, colorHex, size, opacity) {
+        const geo = new THREE.BufferGeometry();
+        const pos = new Float32Array(count * 3);
+        for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * spread;
+        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        return new THREE.Points(geo, new THREE.PointsMaterial({
+            color: colorHex, size, transparent: true, opacity,
+            blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+        }));
+    }
+
+    const dustA = makeParticles(1200, 120, 0x224466, 0.08, 0.25);
+    const dustB = makeParticles(400,  90, 0x003355, 0.16, 0.18);
+    const dustC = makeParticles(120,  60, 0x00aacc, 0.30, 0.12);
+    scene.add(dustA, dustB, dustC);
+
+    const elMv     = document.getElementById('tele-mv');
+    const elProp   = document.getElementById('tele-prop');
+    const elSignal = document.getElementById('bar-signal');
+    const elAxon   = document.getElementById('bar-axon');
+    const elStatus = document.getElementById('status-msg');
+    const elDot    = document.getElementById('status-dot');
+    const elPanel  = document.getElementById('ui-panel');
+    const elCoordX = document.getElementById('coord-x');
+    const elCoordY = document.getElementById('coord-y');
+    const elCoordZ = document.getElementById('coord-z');
+
+    let state = 0;
+    let pulseProg = -10.0;
+    let actProg   = 0.0;
+    const INPUT_LENGTH = 26.0;
+    const PULSE_SPEED = 17.0;
+    const ACTIVATION_SPEED = 12.5;
+    let animOrbitTime = 0, animSwayBlend = 0, animBaseAngle = 0, animBaseRadius = 45, animBaseY = 8;
+    let idleOrbitTime = 0, idleBaseAngle = 0, idleBaseRadius = 45, idleBaseY = 8;
+    let clickAnimationFinished = false;
+    let userIsControlling = false;
+    let manualControlUntil = 0;
+    let animationCameraLocked = false;
+
+    function captureAnimationCameraBase() {
+        const orbitOffset = camera.position.clone().sub(controls.target);
+        animOrbitTime = idleOrbitTime;
+        animSwayBlend = 0;
+        animBaseAngle  = Math.atan2(orbitOffset.x, orbitOffset.z);
+        animBaseRadius = Math.sqrt(orbitOffset.x * orbitOffset.x + orbitOffset.z * orbitOffset.z);
+        animBaseY = camera.position.y;
+    }
+
+    controls.addEventListener('start', () => {
+        userIsControlling = true;
+        manualControlUntil = performance.now() + 1400;
+        if (state !== 0) {
+            animationCameraLocked = true;
+            controls.autoRotate = false;
+        }
+    });
+    controls.addEventListener('end',   () => {
+        userIsControlling = false;
+        manualControlUntil = performance.now() + 1400;
+        if (state !== 0) {
+            animationCameraLocked = true;
+            captureAnimationCameraBase();
+            controls.autoRotate = false;
+        }
+    });
+
+    let mvBase = -70.0, mvTarget = -70.0;
+
+    window.addEventListener('click', (event) => {
+        if (performance.now() < (window.skipSceneActivationUntil || 0)) return;
+        if (event.target.closest('#fullscreen-control, .music-control, button, input, a')) return;
+        if (state !== 0) return;
+        animationCameraLocked = false;
+        state = 1; pulseProg = INPUT_LENGTH; actProg = 0.0;
+        const orbitOffset = camera.position.clone().sub(controls.target);
+        animOrbitTime = Math.max(animOrbitTime, idleOrbitTime);
+        animBaseAngle  = Math.atan2(orbitOffset.x, orbitOffset.z);
+        animBaseRadius = Math.sqrt(orbitOffset.x * orbitOffset.x + orbitOffset.z * orbitOffset.z);
+        animBaseY = camera.position.y;
+        controls.autoRotate = false;
+        material.uniforms.uPulseProgress.value = pulseProg;
+        material.uniforms.uActivation.value = 0.0;
+        if (elPanel) elPanel.style.opacity = '0';
+        document.body.classList.add('active');
+        document.body.classList.add('music-visible');
+        if (!window.musicAutoStarted && window.directMusicPlay) {
+            window.musicAutoStarted = true;
+            window.directMusicPlay();
+        }
+        setTimeout(() => document.body.classList.remove('active'), 450);
+        mvTarget = 40.0;
+    });
+
+    const layoutState = { heartScale: 1.12 };
+
+    function applyResponsiveLayout() {
+        const mobile = innerWidth <= 700 || innerWidth / innerHeight < 0.72;
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight);
+        composer.setSize(innerWidth, innerHeight);
+        if (mobile) {
+            layoutState.heartScale = 0.92;
+            camera.position.z = Math.max(camera.position.z, 63);
+            camera.position.y = 4.8;
+            bubbleGroup.scale.set(1.03, 1.12, 1.0);
+            bubbleGroup.position.y = 0.0;
+            controls.target.set(0, 2, 0);
+            controls.maxDistance = 92;
+        } else {
+            layoutState.heartScale = 1.12;
+            bubbleGroup.scale.set(1, 1, 1);
+            bubbleGroup.position.y = 0;
+            controls.target.set(0, 1.3, 0);
+            controls.maxDistance = 80;
+        }
+        if (state === 0 && !clickAnimationFinished) {
+            const orbitOffset = camera.position.clone().sub(controls.target);
+            idleBaseAngle  = Math.atan2(orbitOffset.x, orbitOffset.z);
+            idleBaseRadius = Math.sqrt(orbitOffset.x * orbitOffset.x + orbitOffset.z * orbitOffset.z);
+            idleBaseY = camera.position.y;
+        }
+        controls.update();
+    }
+
+    applyResponsiveLayout();
+    window.addEventListener('resize', applyResponsiveLayout);
+
+    const clock = new THREE.Clock();
+    let frameCount = 0;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const delta = clock.getDelta();
+        frameCount++;
+        controls.update();
+        dustA.rotation.y += delta * 0.008; dustA.rotation.x += delta * 0.003;
+        dustB.rotation.y -= delta * 0.005; dustB.rotation.z += delta * 0.002;
+        dustC.rotation.y += delta * 0.015;
+        const beatTime = material.uniforms.uTime.value * 1.15;
+        const beatPhase = beatTime - Math.floor(beatTime);
+        const beatA = Math.exp(-Math.pow((beatPhase - 0.08) / 0.045, 2.0));
+        const beatB = Math.exp(-Math.pow((beatPhase - 0.22) / 0.065, 2.0)) * 0.55;
+        structureGroup.scale.setScalar(layoutState.heartScale + (beatA + beatB) * 0.03);
+        heartTextMat.uniforms.uOpacity.value = 1;
+        heartText.scale.setScalar(1 + Math.sin(material.uniforms.uTime.value * 1.6) * 0.012);
+        heartTextOutline.scale.copy(heartText.scale);
+        heartTextBack.scale.copy(heartText.scale);
+        heartTextOutlineBack.scale.copy(heartText.scale);
+        bubbleObjects.forEach(item => {
+            item.bubble.position.copy(item.base);
+            item.bubble.scale.setScalar(1 + Math.sin(material.uniforms.uTime.value * 2.0 + item.phase) * 0.025);
+            item.glow.material.opacity  = state === 0 ? (useMobileBubbleLayout ? 0.036 : 0.055) : (useMobileBubbleLayout ? 0.070 : 0.12);
+            item.glass.material.opacity = state === 0 ? (useMobileBubbleLayout ? 0.004 : 0.025) : (useMobileBubbleLayout ? 0.012 : 0.035);
+            item.shine.material.opacity = state === 0 ? (useMobileBubbleLayout ? 0.038 : 0.18) : (useMobileBubbleLayout ? 0.070 : 0.18);
+        });
+        material.uniforms.uTime.value += delta;
+        material.uniforms.uCameraPos.value.copy(camera.position);
+        mvBase += (Math.random() - 0.5) * 0.4;
+        mvBase = Math.max(-80, Math.min(-55, mvBase));
+        mvTarget += (mvBase - mvTarget) * 0.05;
+        if (state === 1) {
+            pulseProg -= delta * PULSE_SPEED;
+            material.uniforms.uPulseProgress.value = pulseProg;
+            mvTarget = 40.0 * (1.0 - pulseProg / INPUT_LENGTH);
+            if (pulseProg <= 2.0) {
+                state = 2; pulseProg = -10.0;
+                material.uniforms.uPulseProgress.value = -10.0;
+                actProg = 0.0; camera.position.y += 0.5;
+            }
+        } else if (state === 2) {
+            actProg += delta * ACTIVATION_SPEED;
+            material.uniforms.uActivation.value = actProg;
+            if (actProg > 75.0) {
+                state = 0; material.uniforms.uActivation.value = 0.0;
+                clickAnimationFinished = true; controls.autoRotate = false; mvTarget = -70.0;
+            }
+        }
+        const allowCameraSway = !userIsControlling && performance.now() > manualControlUntil;
+        if (state !== 0 && allowCameraSway && !animationCameraLocked) {
+            animOrbitTime += delta;
+            animSwayBlend = Math.min(1, animSwayBlend + delta * 1.4);
+            const smoothBlend = animSwayBlend * animSwayBlend * (3 - 2 * animSwayBlend);
+            const angle = animBaseAngle + Math.sin(animOrbitTime * 0.95) * 0.22 * smoothBlend;
+            camera.position.set(
+                controls.target.x + Math.sin(angle) * animBaseRadius,
+                animBaseY + Math.sin(animOrbitTime * 0.55) * 0.22 * smoothBlend,
+                controls.target.z + Math.cos(angle) * animBaseRadius
+            );
+            camera.lookAt(controls.target);
+        } else if (!clickAnimationFinished && state === 0 && allowCameraSway) {
+            idleOrbitTime += delta;
+            const angle = idleBaseAngle + Math.sin(idleOrbitTime * 0.55) * 0.16;
+            camera.position.set(
+                controls.target.x + Math.sin(angle) * idleBaseRadius,
+                idleBaseY + Math.sin(idleOrbitTime * 0.36) * 0.12,
+                controls.target.z + Math.cos(angle) * idleBaseRadius
+            );
+            camera.lookAt(controls.target);
+        }
+        composer.render();
+    }
+
+    animate();
+</script>
+
+<script>
+    var music = document.getElementById('backgroundMusic');
+    var musicBtn = document.getElementById('musicBtn');
+    var playIcon = document.getElementById('playIcon');
+    var pauseIcon = document.getElementById('pauseIcon');
+    var volumeSlider = document.getElementById('volumeSlider');
+    var volumeControl = document.getElementById('volumeControl');
+    var hideVolumeTimeout = null;
+    var lastMusicToggleAt = -1000;
+
+    function setMusicIcons(isPlaying) {
+        if (playIcon) playIcon.style.display = isPlaying ? 'none' : 'block';
+        if (pauseIcon) pauseIcon.style.display = isPlaying ? 'block' : 'none';
+    }
+
+    function revealMusicControl() {
+        document.body.classList.add('music-visible');
+        var musicControl = document.querySelector('.music-control');
+        if (musicControl) musicControl.classList.add('is-visible');
+    }
+
+    function startBackgroundMusic() {
+        if (!music) return;
+        if (window.directMusicPlay) {
+            window.directMusicPlay();
+            return;
+        }
+        revealMusicControl();
+        music.play().then(function() {
+            setMusicIcons(true);
+        }).catch(function() {
+            setMusicIcons(false);
+        });
+    }
+
+    window.startBackgroundMusic = startBackgroundMusic;
+
+    function toggleMusic() {
+        if (!music) return;
+        revealMusicControl();
+        lastMusicToggleAt = performance.now();
+        if (music.paused) {
+            startBackgroundMusic();
+        } else {
+            music.pause();
+            setMusicIcons(false);
+        }
+    }
+
+    if (music && volumeSlider) {
+        music.volume = parseFloat(volumeSlider.value || '0.5');
+        music.load();
+        music.addEventListener('play', function() { setMusicIcons(true); });
+        music.addEventListener('pause', function() { setMusicIcons(false); });
+        music.addEventListener('error', function() { setMusicIcons(false); });
+    }
+    setMusicIcons(false);
+
+    function handleMusicButtonPress(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (performance.now() - lastMusicToggleAt < 250) return;
+        toggleMusic();
+        if (volumeControl && !volumeControl.classList.contains('visible')) {
+            volumeControl.classList.add('visible');
+            clearTimeout(hideVolumeTimeout);
+            hideVolumeTimeout = setTimeout(function() { volumeControl.classList.remove('visible'); }, 2000);
+        } else if (volumeControl) {
+            volumeControl.classList.remove('visible');
+        }
+    }
+    if (musicBtn) {
+        musicBtn.addEventListener('click', handleMusicButtonPress);
+    }
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', function(e) {
+            var volume = parseFloat(e.target.value);
+            if (music) music.volume = volume;
+            clearTimeout(hideVolumeTimeout);
+            if (volumeControl) volumeControl.classList.add('visible');
+        });
+        volumeSlider.addEventListener('change', function() {
+            hideVolumeTimeout = setTimeout(function() { if (volumeControl) volumeControl.classList.remove('visible'); }, 2000);
+        });
+    }
+    if (volumeControl) {
+        volumeControl.addEventListener('mouseenter', function() { clearTimeout(hideVolumeTimeout); });
+        volumeControl.addEventListener('mouseleave', function() {
+            hideVolumeTimeout = setTimeout(function() { volumeControl.classList.remove('visible'); }, 2000);
+        });
+    }
+    if (volumeSlider) {
+        volumeSlider.addEventListener('touchstart', function(e) { e.stopPropagation(); clearTimeout(hideVolumeTimeout); });
+        volumeSlider.addEventListener('touchend', function() {
+            hideVolumeTimeout = setTimeout(function() { if (volumeControl) volumeControl.classList.remove('visible'); }, 2000);
+        });
+    }
+    document.addEventListener('click', function(e) {
+        if (volumeControl && !volumeControl.contains(e.target) && musicBtn && !musicBtn.contains(e.target)) {
+            volumeControl.classList.remove('visible');
+            clearTimeout(hideVolumeTimeout);
+        }
+    });
+</script>
+
+<script>
+    var fullscreenBtn = document.getElementById('fullscreenBtn');
+    var fullscreenEnterIcon = document.getElementById('fullscreenEnterIcon');
+    var fullscreenExitIcon = document.getElementById('fullscreenExitIcon');
+    var fullscreenControl = document.getElementById('fullscreen-control');
+
+    function getFullscreenElement() {
+        return document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement || null;
+    }
+    function isFullscreenSupported() {
+        return Boolean(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.msFullscreenEnabled ||
+            document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen || document.documentElement.msRequestFullscreen);
+    }
+    function syncFullscreenButtonState() {
+        var active = !!getFullscreenElement();
+        if (fullscreenEnterIcon) fullscreenEnterIcon.style.display = active ? 'none' : 'block';
+        if (fullscreenExitIcon) fullscreenExitIcon.style.display = active ? 'block' : 'none';
+        var label = active ? "Exit fullscreen" : "Plein écran";
+        if (fullscreenBtn) {
+            fullscreenBtn.setAttribute('aria-label', label);
+            fullscreenBtn.title = label;
+        }
+    }
+    if (!isFullscreenSupported()) {
+        if (fullscreenControl) fullscreenControl.style.display = 'none';
+    } else {
+        syncFullscreenButtonState();
+        document.addEventListener('fullscreenchange', syncFullscreenButtonState);
+        document.addEventListener('webkitfullscreenchange', syncFullscreenButtonState);
+        document.addEventListener('msfullscreenchange', syncFullscreenButtonState);
+    }
+</script>
+
+    
+    
+    </body>
+</html>

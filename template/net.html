@@ -1,0 +1,2999 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Netflix d'Amour · Dedikka</title>
+
+    <!-- DEDIKKA_PAGE_DATA -->
+    <link rel="icon" type="image/svg+xml" href="/images/dedikka-icon.svg">
+    <link rel="stylesheet" href="/build/assets/app-Das63TBu.css">
+    <style>
+/* === Netflix Intro CSS (Inlined & Standalone) === */
+/* Overlay de la intro de Netflix (animación del logo). Scopeado para no
+   afectar el resto de la página. Se oculta por JS al terminar (~4.5s). */
+#netflix-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  overflow: hidden;
+  transition: opacity .6s ease;
+}
+#netflix-intro-overlay.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#netflix-intro-overlay #container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#container netflixintro {
+  display: block;
+  position: relative;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  animation-name: zoom-in;
+  animation-delay: 1s; /* Cambiado de 2.5s (2s delay + 0.5s original) a 1s (0.5s delay + 0.5s original) */
+  animation-duration: 3.5s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+  background-size: 4000px;
+  background-position: -1950px 0;
+}
+
+#container netflixintro::before {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: #000000;
+  width: 150%;
+  height: 30%;
+  left: -25%;
+  bottom: -27%;
+  border-radius: 50%;
+  z-index: 5;
+  transform-origin: left center;
+  background-size: 4000px;
+  background-position: -1950px 0;
+}
+
+#container netflixintro[letter=N] {
+  transform-origin: 30% center;
+}
+
+#container netflixintro[letter=N] .helper-1 {
+  width: 19.5%;
+  height: 100%;
+  background-color: rgba(228, 9, 19, 0.5);
+  left: 22.4%;
+  top: 0;
+  transform: rotate(180deg);
+  animation-name: fading-lumieres-box;
+  animation-duration: 2s;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro[letter=N] .helper-1 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.7s; /* Cambiado de 3.2s (2s delay + 1.2s original) a 1.7s (0.5s delay + 1.2s original) */
+}
+
+#container netflixintro[letter=N] .helper-1 .effect-brush [class*=fur-] {
+  bottom: 0;
+  height: 40%;
+}
+
+#container netflixintro[letter=N] .helper-3 {
+  width: 19%;
+  height: 150%;
+  left: 40.5%;
+  top: -25%;
+  transform: rotate(-19.5deg);
+  box-shadow: 0px 0px 35px -12px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=N] .helper-3 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.3s; /* Cambiado de 2.8s (2s delay + 0.8s original) a 1.3s (0.5s delay + 0.8s original) */
+}
+
+#container netflixintro[letter=N] .helper-2 {
+  width: 19.5%;
+  height: 100%;
+  left: 57.8%;
+  top: 0;
+  transform: rotate(180deg);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=N] .helper-2 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s; /* Cambiado de 2.5s (2s delay + 0.5s original) a 1s (0.5s delay + 0.5s original) */
+}
+
+#container netflixintro[letter=E] {
+  transform-origin: 30% center;
+}
+
+#container netflixintro[letter=E] .helper-1 {
+  width: 19.5%;
+  height: 100%;
+  background-color: rgba(228, 9, 19, 0.5);
+  left: 22%;
+  top: 0;
+  transform: rotate(180deg);
+  animation-name: fading-lumieres-box;
+  animation-duration: 2s;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro[letter=E] .helper-1 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.7s; /* Cambiado de 3.2s (2s delay + 1.2s original) a 1.7s (0.5s delay + 1.2s original) */
+}
+
+#container netflixintro[letter=E] .helper-1 .effect-brush [class*=fur-] {
+  bottom: 0;
+  height: 40%;
+}
+
+#container netflixintro[letter=E] .helper-2 {
+  width: 17.5%;
+  height: 50%;
+  left: 38%;
+  top: -49px;
+  transform: rotate(270deg);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=E] .helper-2 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.3s; /* Cambiado de 2.8s (2s delay + 0.8s original) a 1.3s (0.5s delay + 0.8s original) */
+}
+
+#container netflixintro[letter=E] .helper-3 {
+  width: 17%;
+  height: 39%;
+  left: 33%;
+  top: 29%;
+  transform: rotate(-90deg);
+  box-shadow: 0px 0px 35px -12px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  animation-name: fading-out;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.5s; /* Cambiado de 3s (2s delay + 1s original) a 1.5s (0.5s delay + 1s original) */
+}
+
+#container netflixintro[letter=E] .helper-3 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+}
+
+#container netflixintro[letter=E] .helper-4 {
+  width: 17.5%;
+  height: 50%;
+  left: 38%;
+  top: 196px;
+  transform: rotate(270deg);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=E] .helper-4 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s; /* Cambiado de 2.5s (2s delay + 0.5s original) a 1s (0.5s delay + 0.5s original) */
+}
+
+#container netflixintro[letter=T] {
+  transform-origin: center center;
+}
+
+#container netflixintro[letter=T] .helper-1 {
+  width: 19.5%;
+  height: 100%;
+  background-color: rgba(228, 9, 19, 0.5);
+  left: 38%;
+  top: 0;
+  transform: rotate(180deg);
+  animation-name: fading-lumieres-box;
+  animation-duration: 2s;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro[letter=T] .helper-1 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.5s; /* Cambiado de 3s (2s delay + 1s original) a 1.5s (0.5s delay + 1s original) */
+}
+
+#container netflixintro[letter=T] .helper-1 .effect-brush [class*=fur-] {
+  bottom: 0;
+  height: 40%;
+}
+
+#container netflixintro[letter=T] .helper-2 {
+  width: 17.5%;
+  height: 54%;
+  left: 39%;
+  top: -55px;
+  transform: rotate(270deg);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=T] .helper-2 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s; /* Cambiado de 2.5s (2s delay + 0.5s original) a 1s (0.5s delay + 0.5s original) */
+}
+
+#container netflixintro[letter=F] {
+  transform-origin: 30% center;
+}
+
+#container netflixintro[letter=F] .helper-1 {
+  width: 19.5%;
+  height: 100%;
+  background-color: rgba(228, 9, 19, 0.5);
+  left: 22%;
+  top: 0;
+  transform: rotate(180deg);
+  animation-name: fading-lumieres-box;
+  animation-duration: 2s;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro[letter=F] .helper-1 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.7s; /* Cambiado de 3.2s (2s delay + 1.2s original) a 1.7s (0.5s delay + 1.2s original) */
+}
+
+#container netflixintro[letter=F] .helper-1 .effect-brush [class*=fur-] {
+  bottom: 0;
+  height: 40%;
+}
+
+#container netflixintro[letter=F] .helper-2 {
+  width: 17.5%;
+  height: 50%;
+  left: 38%;
+  top: -49px;
+  transform: rotate(270deg);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=F] .helper-2 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.2s; /* Cambiado de 2.7s (2s delay + 0.7s original) a 1.2s (0.5s delay + 0.7s original) */
+}
+
+#container netflixintro[letter=F] .helper-3 {
+  width: 17%;
+  height: 39%;
+  left: 33%;
+  top: 29%;
+  transform: rotate(-90deg);
+  box-shadow: 0px 0px 35px -12px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  animation-name: fading-out;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.5s; /* Cambiado de 3s (2s delay + 1s original) a 1.5s (0.5s delay + 1s original) */
+}
+
+#container netflixintro[letter=F] .helper-3 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s; /* Cambiado de 2.5s (2s delay + 0.5s original) a 1s (0.5s delay + 0.5s original) */
+}
+
+#container netflixintro[letter=L] {
+  transform-origin: 30% center;
+}
+
+#container netflixintro[letter=L] .helper-1 {
+  width: 19.5%;
+  height: 100%;
+  background-color: rgba(228, 9, 19, 0.5);
+  left: 22%;
+  top: 0;
+  transform: rotate(180deg);
+  animation-name: fading-lumieres-box;
+  animation-duration: 2s;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro[letter=L] .helper-1 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.3s; /* Cambiado de 2.8s (2s delay + 0.8s original) a 1.3s (0.5s delay + 0.8s original) */
+}
+
+#container netflixintro[letter=L] .helper-1 .effect-brush [class*=fur-] {
+  bottom: 0;
+  height: 40%;
+}
+
+#container netflixintro[letter=L] .helper-2 {
+  width: 17.5%;
+  height: 50%;
+  left: 38%;
+  top: 196px;
+  transform: rotate(270deg);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=L] .helper-2 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 0.9s; /* Cambiado de 2.4s (2s delay + 0.4s original) a 0.9s (0.5s delay + 0.4s original) */
+}
+
+#container netflixintro[letter=I] {
+  transform-origin: center center;
+}
+
+#container netflixintro[letter=I] .helper-1 {
+  width: 19.5%;
+  height: 100%;
+  background-color: rgba(228, 9, 19, 0.5);
+  left: 38%;
+  top: 0;
+  transform: rotate(180deg);
+  animation-name: fading-lumieres-box;
+  animation-duration: 2s;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro[letter=I] .helper-1 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.5s; /* Cambiado de 3s (2s delay + 1s original) a 1.5s (0.5s delay + 1s original) */
+}
+
+#container netflixintro[letter=I] .helper-1 .effect-brush [class*=fur-] {
+  bottom: 0;
+  height: 40%;
+}
+
+#container netflixintro[letter=X] {
+  transform-origin: center center;
+}
+
+#container netflixintro[letter=X] .helper-1 {
+  width: 19%;
+  height: 150%;
+  left: 40.5%;
+  top: -25%;
+  transform: rotate(-19.5deg);
+  animation-name: fading-lumieres-box;
+  animation-duration: 2s;
+  animation-delay: 1.1s; /* Cambiado de 2.6s (2s delay + 0.6s original) a 1.1s (0.5s delay + 0.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro[letter=X] .helper-1 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1.7s; /* Cambiado de 3.2s (2s delay + 1.2s original) a 1.7s (0.5s delay + 1.2s original) */
+}
+
+#container netflixintro[letter=X] .helper-1 .effect-brush [class*=fur-] {
+  bottom: 0;
+  height: 40%;
+}
+
+#container netflixintro[letter=X] .helper-2 {
+  width: 19%;
+  height: 150%;
+  left: 40.5%;
+  top: -25%;
+  transform: rotate(19.5deg);
+  overflow: hidden;
+}
+
+#container netflixintro[letter=X] .helper-2 .effect-brush {
+  animation-name: brush-moving;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s; /* Cambiado de 2.5s (2s delay + 0.5s original) a 1s (0.5s delay + 0.5s original) */
+}
+
+#container netflixintro [class*=helper-] {
+  position: absolute;
+}
+
+#container netflixintro [class*=helper-] .effect-brush {
+  position: absolute;
+  width: 100%;
+  height: 300%;
+  top: 0;
+  overflow: hidden;
+}
+
+#container netflixintro [class*=helper-] .effect-brush::before {
+  display: block;
+  content: "";
+  position: absolute;
+  background-color: #e40913;
+  width: 100%;
+  height: 70%;
+  box-shadow: 0px 0px 29px 24px #e40913;
+}
+
+#container netflixintro [class*=helper-] .effect-brush [class*=fur-] {
+  display: block;
+  position: absolute;
+  bottom: 10%;
+  height: 30%;
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-1 {
+  left: 0%;
+  width: 3.8%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 15%, rgba(0, 0, 0, 0) 81%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-2 {
+  left: 3.8%;
+  width: 2.8%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 10%, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-3 {
+  left: 6.6%;
+  width: 4.8%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 37%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-4 {
+  left: 11.4%;
+  width: 4%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 23%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-5 {
+  left: 15.4%;
+  width: 4%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 15%, rgba(0, 0, 0, 0) 86%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-6 {
+  left: 19.4%;
+  width: 2.5%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 27%, rgba(0, 0, 0, 0) 89%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-7 {
+  left: 21.9%;
+  width: 4%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 20%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-8 {
+  left: 25.9%;
+  width: 2%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 30%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-9 {
+  left: 27.9%;
+  width: 4%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 35%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-10 {
+  left: 31.9%;
+  width: 3.5%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 39%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-11 {
+  left: 35.4%;
+  width: 2%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 34%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-12 {
+  left: 37.4%;
+  width: 2.6%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 22%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-13 {
+  left: 40%;
+  width: 6%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 47%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-14 {
+  left: 46%;
+  width: 2%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 36%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-15 {
+  left: 48%;
+  width: 5.5%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 29%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-16 {
+  left: 53.5%;
+  width: 3%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 39%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-17 {
+  left: 56.5%;
+  width: 4.1%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 45%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-18 {
+  left: 60.6%;
+  width: 2.4%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 34%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-19 {
+  left: 63%;
+  width: 4%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 47%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-20 {
+  left: 67%;
+  width: 1.5%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 27%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-21 {
+  left: 68.5%;
+  width: 2.8%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 37%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-22 {
+  left: 71.3%;
+  width: 2.3%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 9%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-23 {
+  left: 73.6%;
+  width: 2.2%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 28%, rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-24 {
+  left: 75.8%;
+  width: 1%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 37%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-25 {
+  left: 76.8%;
+  width: 2.1%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 28%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-26 {
+  left: 78.9%;
+  width: 4.1%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 34%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-27 {
+  left: 83%;
+  width: 2.5%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 21%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-28 {
+  left: 85.5%;
+  width: 4.5%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 39%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-29 {
+  left: 90%;
+  width: 2.8%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 30%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-30 {
+  left: 92.8%;
+  width: 3.5%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 19%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-brush .fur-31 {
+  left: 96.3%;
+  width: 3.7%;
+  background: linear-gradient(to bottom, #e40913 0%, #e40913 37%, rgba(0, 0, 0, 0) 100%);
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation-name: showing-lumieres;
+  animation-duration: 2s;
+  animation-delay: 2.1s; /* Cambiado de 3.6s (2s delay + 1.6s original) a 2.1s (0.5s delay + 1.6s original) */
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres [class*=lamp-] {
+  position: absolute;
+  display: block;
+  height: 100%;
+  box-shadow: 0px 0px 10px 0px rgba(228, 9, 19, 0.75);
+  background: var(--color);
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres [class*=lamp-]::before {
+  position: absolute;
+  content: " ";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color);
+  box-shadow: 0px 0px 10px 0px rgba(228, 9, 19, 0.75);
+}
+
+/* Lamps con delays ajustados */
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-1 {
+  --color: #ff0100;
+  z: 6;
+  left: 0.7%;
+  width: 1%;
+  animation-delay: 1.98s; /* Cambiado de 3.48s (2s delay + 1.48s original) a 1.98s (0.5s delay + 1.48s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-1::before {
+  left: 59%;
+  animation-delay: 1.83s; /* Cambiado de 3.33s (2s delay + 1.33s original) a 1.83s (0.5s delay + 1.33s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-2 {
+  --color: #ffde01;
+  left: 2.2%;
+  width: 1.4%;
+  animation-delay: 2.41s; /* Cambiado de 3.91s (2s delay + 1.91s original) a 2.41s (0.5s delay + 1.91s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-2::before {
+  left: 92%;
+  animation-delay: 1.76s; /* Cambiado de 3.26s (2s delay + 1.26s original) a 1.76s (0.5s delay + 1.26s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-3 {
+  --color: #ff00cc;
+  left: 5.8%;
+  width: 2.1%;
+  animation-delay: 0.69s; /* Cambiado de 2.19s (2s delay + 0.19s original) a 0.69s (0.5s delay + 0.19s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-3::before {
+  left: 162%;
+  animation-delay: 0.64s; /* Cambiado de 2.14s (2s delay + 0.14s original) a 0.64s (0.5s delay + 0.14s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-4 {
+  --color: #04fd8f;
+  left: 10.1%;
+  width: 2%;
+  animation-delay: 1.51s; /* Cambiado de 3.01s (2s delay + 1.01s original) a 1.51s (0.5s delay + 1.01s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-4::before {
+  left: 18%;
+  animation-delay: 2.34s; /* Cambiado de 3.84s (2s delay + 1.84s original) a 2.34s (0.5s delay + 1.84s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-5 {
+  --color: #ff0100;
+  left: 12.9%;
+  width: 1.4%;
+  animation-delay: 2.14s; /* Cambiado de 3.64s (2s delay + 1.64s original) a 2.14s (0.5s delay + 1.64s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-5::before {
+  left: 143%;
+  animation-delay: 2.37s; /* Cambiado de 3.87s (2s delay + 1.87s original) a 2.37s (0.5s delay + 1.87s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-6 {
+  --color: #ff9600;
+  left: 15.3%;
+  width: 2.8%;
+  animation-delay: 2.27s; /* Cambiado de 3.77s (2s delay + 1.77s original) a 2.27s (0.5s delay + 1.77s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-6::before {
+  left: 67%;
+  animation-delay: 1.94s; /* Cambiado de 3.44s (2s delay + 1.44s original) a 1.94s (0.5s delay + 1.44s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-7 {
+  --color: #0084ff;
+  left: 21.2%;
+  width: 2.5%;
+  animation-delay: 2.49s; /* Cambiado de 3.99s (2s delay + 1.99s original) a 2.49s (0.5s delay + 1.99s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-7::before {
+  left: 180%;
+  animation-delay: 1.35s; /* Cambiado de 2.85s (2s delay + 0.85s original) a 1.35s (0.5s delay + 0.85s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-8 {
+  --color: #f84006;
+  left: 25%;
+  width: 2.5%;
+  animation-delay: 2.17s; /* Cambiado de 3.67s (2s delay + 1.67s original) a 2.17s (0.5s delay + 1.67s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-8::before {
+  left: 118%;
+  animation-delay: 2.49s; /* Cambiado de 3.99s (2s delay + 1.99s original) a 2.49s (0.5s delay + 1.99s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-9 {
+  --color: #ffc601;
+  left: 30.5%;
+  width: 3%;
+  animation-delay: 1.04s; /* Cambiado de 2.54s (2s delay + 0.54s original) a 1.04s (0.5s delay + 0.54s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-9::before {
+  left: 99%;
+  animation-delay: 2.35s; /* Cambiado de 3.85s (2s delay + 1.85s original) a 2.35s (0.5s delay + 1.85s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-10 {
+  --color: #ff4800;
+  left: 36.3%;
+  width: 3%;
+  animation-delay: 0.51s; /* Cambiado de 2.01s (2s delay + 0.01s original) a 0.51s (0.5s delay + 0.01s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-10::before {
+  left: 171%;
+  animation-delay: 0.99s; /* Cambiado de 2.49s (2s delay + 0.49s original) a 0.99s (0.5s delay + 0.49s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-11 {
+  --color: #fd0100;
+  left: 41%;
+  width: 2.2%;
+  animation-delay: 1.46s; /* Cambiado de 2.96s (2s delay + 0.96s original) a 1.46s (0.5s delay + 0.96s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-11::before {
+  left: 111%;
+  animation-delay: 0.52s; /* Cambiado de 2.02s (2s delay + 0.02s original) a 0.52s (0.5s delay + 0.02s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-12 {
+  --color: #01ffff;
+  left: 44.2%;
+  width: 2.6%;
+  animation-delay: 2.03s; /* Cambiado de 3.53s (2s delay + 1.53s original) a 2.03s (0.5s delay + 1.53s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-12::before {
+  left: 48%;
+  animation-delay: 2.32s; /* Cambiado de 3.82s (2s delay + 1.82s original) a 2.32s (0.5s delay + 1.82s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-13 {
+  --color: #ffc601;
+  left: 51.7%;
+  width: 0.5%;
+  animation-delay: 0.88s; /* Cambiado de 2.38s (2s delay + 0.38s original) a 0.88s (0.5s delay + 0.38s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-13::before {
+  left: 48%;
+  animation-delay: 1.12s; /* Cambiado de 2.62s (2s delay + 0.62s original) a 1.12s (0.5s delay + 0.62s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-14 {
+  --color: #ffc601;
+  left: 52.1%;
+  width: 1.8%;
+  animation-delay: 2.42s; /* Cambiado de 3.92s (2s delay + 1.92s original) a 2.42s (0.5s delay + 1.92s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-14::before {
+  left: 135%;
+  animation-delay: 0.81s; /* Cambiado de 2.31s (2s delay + 0.31s original) a 0.81s (0.5s delay + 0.31s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-15 {
+  --color: #0078fe;
+  left: 53.8%;
+  width: 2.3%;
+  animation-delay: 1.97s; /* Cambiado de 3.47s (2s delay + 1.47s original) a 1.97s (0.5s delay + 1.47s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-15::before {
+  left: 20%;
+  animation-delay: 0.97s; /* Cambiado de 2.47s (2s delay + 0.47s original) a 0.97s (0.5s delay + 0.47s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-16 {
+  --color: #0080ff;
+  left: 57.2%;
+  width: 2%;
+  animation-delay: 2.31s; /* Cambiado de 3.81s (2s delay + 1.81s original) a 2.31s (0.5s delay + 1.81s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-16::before {
+  left: 155%;
+  animation-delay: 2.06s; /* Cambiado de 3.56s (2s delay + 1.56s original) a 2.06s (0.5s delay + 1.56s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-17 {
+  --color: #ffae01;
+  left: 62.3%;
+  width: 2.9%;
+  animation-delay: 2.21s; /* Cambiado de 3.71s (2s delay + 1.71s original) a 2.21s (0.5s delay + 1.71s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-17::before {
+  left: 196%;
+  animation-delay: 0.63s; /* Cambiado de 2.13s (2s delay + 0.13s original) a 0.63s (0.5s delay + 0.13s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-18 {
+  --color: #ff00bf;
+  left: 65.8%;
+  width: 1.7%;
+  animation-delay: 1.2s; /* Cambiado de 2.7s (2s delay + 0.7s original) a 1.2s (0.5s delay + 0.7s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-18::before {
+  left: 130%;
+  animation-delay: 2.28s; /* Cambiado de 3.78s (2s delay + 1.78s original) a 2.28s (0.5s delay + 1.78s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-19 {
+  --color: #a601f4;
+  left: 72.8%;
+  width: 0.8%;
+  animation-delay: 2.19s; /* Cambiado de 3.69s (2s delay + 1.69s original) a 2.19s (0.5s delay + 1.69s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-19::before {
+  left: 94%;
+  animation-delay: 1.98s; /* Cambiado de 3.48s (2s delay + 1.48s original) a 1.98s (0.5s delay + 1.48s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-20 {
+  --color: #f30b34;
+  left: 74.3%;
+  width: 2%;
+  animation-delay: 1.29s; /* Cambiado de 2.79s (2s delay + 0.79s original) a 1.29s (0.5s delay + 0.79s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-20::before {
+  left: 108%;
+  animation-delay: 2.42s; /* Cambiado de 3.92s (2s delay + 1.92s original) a 2.42s (0.5s delay + 1.92s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-21 {
+  --color: #ff00bf;
+  left: 79.8%;
+  width: 2%;
+  animation-delay: 0.76s; /* Cambiado de 2.26s (2s delay + 0.26s original) a 0.76s (0.5s delay + 0.26s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-21::before {
+  left: 68%;
+  animation-delay: 1.6s; /* Cambiado de 3.1s (2s delay + 1.1s original) a 1.6s (0.5s delay + 1.1s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-22 {
+  --color: #04fd8f;
+  left: 78.2%;
+  width: 2%;
+  animation-delay: 1.56s; /* Cambiado de 3.06s (2s delay + 1.06s original) a 1.56s (0.5s delay + 1.06s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-22::before {
+  left: 77%;
+  animation-delay: 1.65s; /* Cambiado de 3.15s (2s delay + 1.15s original) a 1.65s (0.5s delay + 1.15s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-23 {
+  --color: #01ffff;
+  left: 78.5%;
+  width: 2%;
+  animation-delay: 1.3s; /* Cambiado de 2.8s (2s delay + 0.8s original) a 1.3s (0.5s delay + 0.8s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-23::before {
+  left: 103%;
+  animation-delay: 1.11s; /* Cambiado de 2.61s (2s delay + 0.61s original) a 1.11s (0.5s delay + 0.61s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-24 {
+  --color: #a201ff;
+  left: 85.3%;
+  width: 1.1%;
+  animation-delay: 1.71s; /* Cambiado de 3.21s (2s delay + 1.21s original) a 1.71s (0.5s delay + 1.21s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-24::before {
+  left: 190%;
+  animation-delay: 1.02s; /* Cambiado de 2.52s (2s delay + 0.52s original) a 1.02s (0.5s delay + 0.52s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-25 {
+  --color: #ec0014;
+  left: 86.9%;
+  width: 1.1%;
+  animation-delay: 0.69s; /* Cambiado de 2.19s (2s delay + 0.19s original) a 0.69s (0.5s delay + 0.19s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-25::before {
+  left: 117%;
+  animation-delay: 2.27s; /* Cambiado de 3.77s (2s delay + 1.77s original) a 2.27s (0.5s delay + 1.77s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-26 {
+  --color: #0078fe;
+  left: 88.8%;
+  width: 2%;
+  animation-delay: 2.43s; /* Cambiado de 3.93s (2s delay + 1.93s original) a 2.43s (0.5s delay + 1.93s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-26::before {
+  left: 43%;
+  animation-delay: 2.28s; /* Cambiado de 3.78s (2s delay + 1.78s original) a 2.28s (0.5s delay + 1.78s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-27 {
+  --color: #ff0036;
+  left: 92.4%;
+  width: 2.4%;
+  animation-delay: 0.95s; /* Cambiado de 2.45s (2s delay + 0.45s original) a 0.95s (0.5s delay + 0.45s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-27::before {
+  left: 156%;
+  animation-delay: 1.64s; /* Cambiado de 3.14s (2s delay + 1.14s original) a 1.64s (0.5s delay + 1.14s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-28 {
+  --color: #06f98c;
+  left: 96.2%;
+  width: 2.1%;
+  animation-delay: 1.78s; /* Cambiado de 3.28s (2s delay + 1.28s original) a 1.78s (0.5s delay + 1.28s original) */
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-28::before {
+  left: 4%;
+  animation-delay: 1.69s; /* Cambiado de 3.19s (2s delay + 1.19s original) a 1.69s (0.5s delay + 1.19s original) */
+}
+
+/* Animaciones para las luces */
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-1,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-3,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-5,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-7,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-9,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-11,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-13,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-15,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-17,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-19,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-21,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-23,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-25,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-27 {
+  animation-name: lumieres-moving-left;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-1::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-3::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-5::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-7::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-9::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-11::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-13::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-15::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-17::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-19::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-21::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-23::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-25::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-27::before {
+  animation-name: lumieres-moving-left;
+  animation-duration: 5.5s;
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-2,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-4,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-6,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-8,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-10,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-12,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-14,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-16,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-18,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-20,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-22,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-24,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-26,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-28 {
+  animation-name: lumieres-moving-right;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+}
+
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-2::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-4::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-6::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-8::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-10::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-12::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-14::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-16::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-18::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-20::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-22::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-24::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-26::before,
+#container netflixintro [class*=helper-] .effect-lumieres .lamp-28::before {
+  animation-name: lumieres-moving-right;
+  animation-duration: 5.5s;
+}
+
+/* Keyframes */
+@keyframes brush-moving {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes fading-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lumieres-moving-right {
+  0% {
+    transform: translate(0);
+  }
+  40% {
+    transform: translate(-10px) scaleX(1);
+  }
+  50% {
+    transform: translate(-60px);
+  }
+  100% {
+    transform: translate(-120px) scaleX(3);
+  }
+}
+
+@keyframes lumieres-moving-left {
+  0% {
+    transform: translate(0);
+  }
+  40% {
+    transform: translate(10px) scaleX(1);
+  }
+  50% {
+    transform: translate(60px);
+  }
+  100% {
+    transform: translate(120px) scaleX(3);
+  }
+}
+
+@keyframes zoom-in {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(15);
+  }
+}
+
+@keyframes showing-lumieres {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fading-lumieres-box {
+  0% {
+    background-color: rgba(228, 9, 19, 0.5);
+  }
+  100% {
+    background-color: rgba(228, 9, 19, 0);
+  }
+}
+    </style>
+
+    
+    <style>
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    background-color: #141414;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Common Elements */
+.netflix-logo {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    width: 80px;
+    height: 22px;
+}
+
+.netflix-logo svg {
+    width: 120%;
+    height: 120%;
+    fill: #E63946;
+}
+
+.loveflix-wordmark {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -1px;
+    color: #E63946;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.loveflix-wordmark span {
+    color: #fff;
+}
+
+.back-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(42, 42, 42, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 20;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Profile Selection Screen */
+#profile-selection {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #141414;
+    transition: opacity 0.5s;
+    padding: 20px;
+}
+
+.profile-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.3rem;
+    text-align: center;
+    font-weight: 400;
+    color: #fff;
+}
+
+.profiles-container {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.profile-card:hover {
+    transform: scale(1.05);
+}
+
+.profile-image {
+    width: 25vw;
+    height: 25vw;
+    max-width: 150px;
+    max-height: 150px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.profile-card:hover .profile-image {
+    border-color: #fff;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #999;
+    font-weight: 400;
+}
+
+.profile-card:hover .profile-name {
+    color: #fff;
+}
+
+/* Series Detail Screen */
+#series-detail {
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    background: #141414;
+    position: relative;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.hero-section.series, .hero-section.peliculas {
+    background: #141414;
+}
+
+.hero-section.lista {
+    background-size: cover;
+    background-position: center;
+    height: auto;
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: 120px;
+}
+
+.nav-bar {
+    position: absolute;
+    top: 60px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    gap: 15px;
+    z-index: 15;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-item {
+    cursor: pointer;
+    font-size: 17px;
+    color: #ffffff;
+    font-weight: 500;
+    transition: color 0.4s;
+    position: relative;
+    padding: 8px 4px;
+}
+
+.nav-item.active {
+    color: #fff;
+    font-weight: 700;
+}
+
+.nav-item:hover {
+    color: #E63946;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #E63946;
+    transition: width 0.3s;
+}
+
+.nav-item:hover::after,
+.nav-item.active::after {
+    width: 100%;
+}
+
+.series-content {
+    padding: 105px 20px 10px;
+    max-width: 100%;
+    z-index: 10;
+    position: relative;
+}
+
+.series-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.n-letter {
+    color: #E63946;
+    font-size: 24px;
+    font-weight: 900;
+    margin-right: 5px;
+}
+
+.series-text {
+    font-size: 12px;
+    color: #e1e1e1;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.series-title {
+    font-size: clamp(28px, 7vw, 50px);
+    margin-bottom: 1rem;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.1;
+    max-width: 18ch;
+}
+
+.series-description {
+    font-size: clamp(14px, 3.5vw, 18px);
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    font-weight: 400;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.45);
+    max-width: 62ch;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.play-button, .info-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    width: 100%;
+}
+
+.play-button {
+    background-color: rgba(255, 255, 255, 1);
+    color: #000;
+}
+
+.play-button:hover {
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.info-button {
+    background-color: rgba(109, 109, 110, 0.7);
+    color: #fff;
+}
+
+.info-button:hover {
+    background-color: rgba(109, 109, 110, 0.4);
+}
+
+.play-icon, .info-icon {
+    margin-right: 8px;
+    font-size: inherit;
+}
+
+/* Episodes Section */
+.episodes-section {
+    padding: 0 20px 40px;
+    background: #141414;
+}
+
+.episodes-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #e5e5e5;
+}
+
+.episodes-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scrollbar-width: none;
+}
+
+.episodes-row::-webkit-scrollbar {
+    display: none;
+}
+
+.episode-thumb {
+    min-width: 70vw;
+    height: 40vw;
+    max-height: 200px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    background: #2f2f2f;
+}
+
+.episode-thumb:hover {
+    transform: scale(1.02);
+}
+
+.episode-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.episode-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,.9));
+    padding: 12px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.episode-thumb:hover .episode-overlay {
+    opacity: 1;
+}
+
+.episode-duration {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2px 6px;
+    font-size: 11px;
+    border-radius: 2px;
+    color: #fff;
+}
+
+.episode-number {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.8);
+}
+
+/* Mi Lista Specific Styles */
+.lista-content {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    text-align: center;
+    width: 100%;
+    z-index: 2;
+}
+
+.lista-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #E63946;
+    text-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    animation: pulse 2s infinite;
+}
+
+.lista-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    opacity: 0.8;
+    max-width: 100%;
+    line-height: 1.4;
+}
+
+.lista-reasons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    max-width: 100%;
+    width: 100%;
+    list-style: none;
+}
+
+.lista-reasons li {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(229, 9, 20, 0.3);
+    border-radius: 8px;
+    padding: 18px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e5e5e5;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    cursor: default;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+}
+
+.lista-reasons li:nth-child(1) { animation-delay: 0.1s; }
+.lista-reasons li:nth-child(2) { animation-delay: 0.2s; }
+.lista-reasons li:nth-child(3) { animation-delay: 0.3s; }
+.lista-reasons li:nth-child(4) { animation-delay: 0.4s; }
+.lista-reasons li:nth-child(5) { animation-delay: 0.5s; }
+.lista-reasons li:nth-child(6) { animation-delay: 0.6s; }
+.lista-reasons li:nth-child(7) { animation-delay: 0.7s; }
+.lista-reasons li:nth-child(8) { animation-delay: 0.8s; }
+.lista-reasons li:nth-child(9) { animation-delay: 0.9s; }
+
+.lista-reasons li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(229, 9, 20, 0.2);
+    border-color: #E63946;
+}
+
+.lista-reasons li::before {
+    content: '\276D';
+    font-size: 1.3rem;
+    color: #E63946;
+    margin-right: 8px;
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.lista-reasons li:hover::before {
+    transform: scale(1.1);
+}
+
+/* Section Text Styles */
+.section-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+    z-index: 5;
+    position: relative;
+    margin-top: -50px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.2s;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: #181818;
+    border-radius: 6px;
+    max-width: 100%;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,.8);
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #fff;
+    background: rgba(24, 24, 24, 0.8);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.close-modal:hover {
+    background: #333;
+}
+
+.modal-image {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.modal-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: blur(20px);
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 6px 6px 0 0;
+    position: relative;
+    z-index: 2;
+}
+
+.modal-info {
+    padding: 20px;
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.modal-details {
+    color: #d2d2d2;
+    line-height: 1.4;
+    font-size: 14px;
+}
+
+/* Episode Detail Modal */
+.episode-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+    padding: 20px;
+}
+
+.episode-modal-content {
+    background-color: #181818;
+    border-radius: 8px;
+    max-width: 100%;
+    max-height: 90vh;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,.9);
+}
+
+.episode-modal-image {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+    display: block;
+}
+
+.episode-modal-info {
+    padding: 15px;
+    background: linear-gradient(transparent, rgba(0,0,0,.9));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #fff;
+}
+
+.episode-modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.episode-modal-description {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #d2d2d2;
+}
+
+.close-episode-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.2s;
+}
+
+.close-episode-modal:hover {
+    background: rgba(0, 0, 0, 0.95);
+}
+
+/* Video Player */
+.video-player {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.98);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.video-container {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 90vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+video {
+    max-width: 100%;
+    max-height: 90vh;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.close-video {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 35px;
+    cursor: pointer;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.maturity-rating {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 11px;
+    margin-right: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.year-duration {
+    color: #d4d4d4;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+/* Video iframe */
+.video-player iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 4px;
+    max-width: 100%;
+    max-height: 90vh;
+}
+
+/* Music Player */
+.player-container {
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-radius: 19.2px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 0.8px 0 rgba(229, 9, 20, 0.1);
+    width: 100%;
+    max-width: 384px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(229, 9, 20, 0.2);
+    margin: 40px auto 0;
+}
+
+.player-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.8px;
+    background: linear-gradient(90deg, transparent, rgba(229, 9, 20, 0.6), transparent);
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 16px;
+}
+
+.album-cover {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 4;
+}
+
+.album-cover:hover {
+    transform: scale(1.05) rotateZ(2deg);
+    box-shadow: 0 9.6px 25.6px rgba(0, 0, 0, 0.5);
+}
+
+.song-info { flex: 1; color: white; }
+
+.song-title {
+    font-size: 20.8px;
+    font-weight: 700;
+    margin-bottom: 6.4px;
+    text-shadow: 0 1.6px 6.4px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.artist-name { font-size: 14.4px; opacity: 0.85; font-weight: 400; color: #b3b3b3; }
+
+.favorite-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 19.2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto;
+    width: 38.4px;
+    height: 38.4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+}
+
+.favorite-btn:hover { transform: scale(1.1); background: rgba(229, 9, 20, 0.3); box-shadow: 0 3.2px 12.8px rgba(229, 9, 20, 0.4); }
+.favorite-btn.active { color: #E63946; background: rgba(229, 9, 20, 0.2); border-color: rgba(229, 9, 20, 0.4); }
+
+.controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 4px 0; }
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 44.8px;
+    height: 44.8px;
+    border-radius: 50%;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(8px);
+}
+
+.control-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.08); box-shadow: 0 4.8px 16px rgba(229, 9, 20, 0.3); }
+
+.play-btn {
+    width: 57.6px;
+    height: 57.6px;
+    font-size: 22.4px;
+    background: linear-gradient(135deg, #E63946 0%, #b8070f 100%);
+    border: none;
+    box-shadow: 0 6.4px 19.2px rgba(229, 9, 20, 0.5), inset 0 0.8px 0 rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-btn:hover { transform: scale(1.08); box-shadow: 0 9.6px 25.6px rgba(229, 9, 20, 0.6), inset 0 0.8px 0 rgba(255, 255, 255, 0.2); }
+
+.play-icon-svg, .pause-icon-svg { width: 16px; height: 16px; fill: currentColor; }
+.play-btn .play-icon-svg, .play-btn .pause-icon-svg { width: 24px; height: 24px; }
+
+.volume-controls { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 12px; gap: 9.6px; }
+
+.volume-icon {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 12.8px;
+    cursor: pointer;
+    padding: 6.4px;
+    border-radius: 6.4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    width: 28.8px;
+    height: 28.8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.volume-icon:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+
+.volume-slider-container {
+    position: absolute;
+    bottom: 116px;
+    right: 21.6px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 9.6px 5.6px;
+    border-radius: 12.8px;
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 9.6px 25.6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.volume-slider-container.show { opacity: 1; visibility: visible; transform: translateY(-4px); }
+
+.volume-slider-vertical { width: 6.4px; height: 80px; background: rgba(255, 255, 255, 0.2); border-radius: 3.2px; position: relative; cursor: pointer; }
+.volume-slider-fill { position: absolute; bottom: 0; width: 100%; background: linear-gradient(180deg, #E63946 0%, #b8070f 100%); border-radius: 3.2px; height: 70%; transition: height 0.2s ease; }
+.volume-percentage { color: white; font-size: 10.4px; text-align: center; margin-top: 9.6px; font-weight: 600; }
+
+.progress-container { margin: 16px 0; }
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #E63946 0%, #b8070f 100%);
+    width: 0%;
+    transition: width 0.1s ease;
+    position: relative;
+}
+
+.progress::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12.8px;
+    height: 12.8px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1.6px 6.4px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.progress-bar:hover .progress::after { opacity: 1; }
+
+.time-info { display: flex; justify-content: space-between; color: #b3b3b3; font-size: 11.2px; margin-top: 9.6px; font-weight: 500; }
+
+.spotify-icon { position: absolute; top: 12px; left: 16px; color: white; font-size: 22.4px; opacity: 0.8; z-index: 5; }
+
+.wave-animation {
+    position: absolute;
+    bottom: -24px;
+    left: -24px;
+    right: -24px;
+    height: 48px;
+    background: linear-gradient(90deg, rgba(229, 9, 20, 0.1) 0%, rgba(184, 7, 15, 0.1) 100%);
+    border-radius: 50% 50% 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.playing .wave-animation { opacity: 1; animation: wave 3s ease-in-out infinite; }
+.playing .album-cover { animation: spin 15s linear infinite; }
+
+.music-player-section {
+    padding: 10px 20px;
+    background: #141414;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+    .netflix-logo { top: 20px; left: 20px; width: 92.5px; height: 25px; }
+    .back-button { top: 20px; right: 20px; padding: 6px 12px; font-size: 0.9rem; }
+    .profile-title { font-size: 2.7rem; margin-bottom: 3rem; }
+    .profiles-container { gap: 2rem; }
+    .profile-image { width: 10vw; height: 10vw; max-width: 200px; max-height: 200px; min-width: 84px; min-height: 84px; }
+    .profile-name { font-size: 1.3vw; }
+    .hero-section { height: 75vh; min-height: 520px; }
+    .hero-section.series, .hero-section.peliculas, .hero-section.musica {
+        height: 32vh;
+        min-height: 260px;
+    }
+    .hero-section.inicio { justify-content: flex-end !important; padding-bottom: 80px; overflow: hidden; }
+    .hero-section.series, .hero-section.musica { justify-content: flex-start; }
+    .nav-bar { top: 20px; left: clamp(120px, 12vw, 220px); right: clamp(20px, 8vw, 180px); gap: 20px; z-index: 15; }
+    .nav-item { font-size: 18px; padding: 0; }
+    .nav-item::after { bottom: -5px; }
+    .series-content {
+        padding: clamp(92px, 9.8vh, 136px) clamp(28px, 5vw, 80px) clamp(22px, 4vh, 40px);
+        width: 100%;
+        max-width: min(56vw, 780px);
+        z-index: 10;
+        position: relative;
+        align-self: flex-start;
+    }
+    .hero-section.inicio .series-content {
+        padding-top: 10px !important;
+        max-width: min(66vw, 980px);
+    }
+
+    .hero-section.inicio .series-label {
+        display: flex !important;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+    .n-letter { font-size: 30px; }
+    .series-text { font-size: 14px; }
+    .series-title { font-size: clamp(2rem, 3.2vw, 4rem); }
+    .series-description { font-size: clamp(1rem, 1.15vw, 1.3rem); }
+    .action-buttons { flex-direction: row; gap: 12px; }
+    .play-button, .info-button { width: auto; min-width: 110px; padding: 10px 24px; font-size: clamp(0.95rem, 1.04vw, 1.1rem); }
+    .episodes-section { padding: 0 60px 40px; }
+    .episodes-title { font-size: 20px; margin-bottom: 20px; }
+    .episode-thumb { min-width: 32vh; height: 18vh; }
+    .episode-overlay { padding: 16px; font-size: 14px; }
+    .episode-duration { top: 10px; right: 10px; font-size: 12px; }
+    .episode-number { top: 10px; left: 10px; font-size: 24px; }
+    .lista-content { padding: 40px 60px 0; }
+    .lista-title { font-size: 3.5rem; }
+    .lista-subtitle { font-size: 1.5rem; margin-bottom: 3rem; max-width: 800px; }
+    .lista-reasons { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; }
+    .lista-reasons li { padding: 20px; font-size: 1.2rem; }
+    .section-text {
+        font-size: clamp(1rem, 1.05vw, 1.2rem);
+        padding: 12px clamp(28px, 5vw, 80px) 0;
+        max-width: min(56vw, 780px);
+        text-align: left;
+        align-self: flex-start;
+        margin-top: 0;
+    }
+    .modal { padding: 0; }
+    .modal-content { max-width: 850px; width: 90%; max-height: 80vh; }
+    .close-modal { top: 15px; right: 15px; font-size: 24px; width: 36px; height: 36px; }
+    .modal-image { height: 400px; }
+    .modal-info { padding: 24px 48px 48px; }
+    .modal-title { font-size: 26px; margin-bottom: 16px; }
+    .modal-details { font-size: 16px; }
+    .episode-modal { padding: 0; }
+    .episode-modal-content { max-width: 90%; }
+    .episode-modal-image { max-height: 80vh; }
+    .episode-modal-info { padding: 20px; }
+    .episode-modal-title { font-size: 24px; margin-bottom: 8px; }
+    .episode-modal-description { font-size: 16px; }
+    .close-episode-modal { top: 20px; right: 20px; font-size: 28px; width: 40px; height: 40px; }
+    .video-player { padding: 0; }
+    .video-container { width: 80%; max-width: 1000px; max-height: 85vh; }
+    video { max-width: 100%; max-height: 85vh; width: auto; height: auto; }
+    .close-video { top: 20px; right: 20px; font-size: 48px; background: rgba(0, 0, 0, 0.8); }
+    .maturity-rating { font-size: 12px; margin-right: 8px; }
+    .year-duration { font-size: clamp(0.9rem, 0.95vw, 1rem); margin-bottom: 10px; max-width: 62ch; }
+    .music-player-section { padding: 12px 60px 28px; }
+    .music-player-section .player-container { margin: 0 auto; }
+
+    .hero-section.series .series-content,
+    .hero-section.musica .series-content {
+        padding-top: clamp(92px, 9.5vh, 128px);
+        max-width: min(70vw, 1080px);
+    }
+
+    .hero-section.series .series-title,
+    .hero-section.musica .series-title {
+        font-size: clamp(1.8rem, 2.6vw, 3rem);
+        max-width: min(70vw, 980px);
+    }
+}
+
+@media (max-width: 480px) {
+    .player-container { max-width: 90vw; padding: 4vw; border-radius: 5vw; transform: scale(0.9); margin: 10px auto 0; }
+    .album-cover { width: 15vw; height: 15vw; }
+    .song-title { font-size: 5vw; }
+    .control-btn { width: 12vw; height: 12vw; font-size: 4vw; }
+    .play-btn { width: 15vw; height: 15vw; font-size: 6vw; }
+    .favorite-btn { width: 10vw; height: 10vw; font-size: 5vw; }
+    .volume-icon { width: 9vw; height: 9vw; font-size: 5.5vw; }
+    .volume-slider-container { bottom: 33vw; right: 2.5vw; padding: 2.5vw; border-radius: 3.5vw; }
+    .volume-slider-vertical { width: 2vw; height: 20vw; border-radius: 1vw; }
+    .volume-percentage { font-size: 3vw; margin-top: 2.5vw; }
+    .progress-bar { height: 2vw; border-radius: 1vw; }
+    .progress::after { width: 3.5vw; height: 3.5vw; }
+    .time-info { font-size: 3vw; margin-top: 2.5vw; }
+    .spotify-icon { font-size: 6vw; top: 3vw; left: 4vw; }
+    .wave-animation { height: 12vw; bottom: -6vw; left: -6vw; right: -6vw; }
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0% { text-shadow: 0 0 10px rgba(229, 9, 20, 0.5); } 50% { text-shadow: 0 0 20px rgba(229, 9, 20, 0.8); } 100% { text-shadow: 0 0 10px rgba(229, 9, 20, 0.5); } }
+@keyframes wave { 0%, 100% { transform: translateY(0) scaleX(1); opacity: 0.3; } 50% { transform: translateY(-6.4px) scaleX(1.02); opacity: 0.6; } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.fade-in { animation: fadeIn 0.5s ease-in; }
+    </style>
+    <style>
+.hero-section.inicio {
+    background: linear-gradient(77deg, rgba(0,0,0,.6), transparent 85%),
+                linear-gradient(77deg, rgba(0,0,0,.6), transparent 85%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+    </style>
+</head>
+
+<body>
+
+    
+    <div id="netflix-intro-overlay" aria-hidden="true">
+        <div id="container">
+            <netflixintro letter="L">
+                <div class="helper-1">
+                    <div class="effect-brush">
+                        <span class="fur-31"></span><span class="fur-30"></span><span class="fur-29"></span><span class="fur-28"></span><span class="fur-27"></span><span class="fur-26"></span><span class="fur-25"></span><span class="fur-24"></span><span class="fur-23"></span><span class="fur-22"></span><span class="fur-21"></span><span class="fur-20"></span><span class="fur-19"></span><span class="fur-18"></span><span class="fur-17"></span><span class="fur-16"></span><span class="fur-15"></span><span class="fur-14"></span><span class="fur-13"></span><span class="fur-12"></span><span class="fur-11"></span><span class="fur-10"></span><span class="fur-9"></span><span class="fur-8"></span><span class="fur-7"></span><span class="fur-6"></span><span class="fur-5"></span><span class="fur-4"></span><span class="fur-3"></span><span class="fur-2"></span><span class="fur-1"></span>                    </div>
+                    <div class="effect-lumieres">
+                        <span class="lamp-1"></span><span class="lamp-2"></span><span class="lamp-3"></span><span class="lamp-4"></span><span class="lamp-5"></span><span class="lamp-6"></span><span class="lamp-7"></span><span class="lamp-8"></span><span class="lamp-9"></span><span class="lamp-10"></span><span class="lamp-11"></span><span class="lamp-12"></span><span class="lamp-13"></span><span class="lamp-14"></span><span class="lamp-15"></span><span class="lamp-16"></span><span class="lamp-17"></span><span class="lamp-18"></span><span class="lamp-19"></span><span class="lamp-20"></span><span class="lamp-21"></span><span class="lamp-22"></span><span class="lamp-23"></span><span class="lamp-24"></span><span class="lamp-25"></span><span class="lamp-26"></span><span class="lamp-27"></span><span class="lamp-28"></span>                    </div>
+                </div>
+                <div class="helper-2">
+                    <div class="effect-brush">
+                        <span class="fur-31"></span><span class="fur-30"></span><span class="fur-29"></span><span class="fur-28"></span><span class="fur-27"></span><span class="fur-26"></span><span class="fur-25"></span><span class="fur-24"></span><span class="fur-23"></span><span class="fur-22"></span><span class="fur-21"></span><span class="fur-20"></span><span class="fur-19"></span><span class="fur-18"></span><span class="fur-17"></span><span class="fur-16"></span><span class="fur-15"></span><span class="fur-14"></span><span class="fur-13"></span><span class="fur-12"></span><span class="fur-11"></span><span class="fur-10"></span><span class="fur-9"></span><span class="fur-8"></span><span class="fur-7"></span><span class="fur-6"></span><span class="fur-5"></span><span class="fur-4"></span><span class="fur-3"></span><span class="fur-2"></span><span class="fur-1"></span>                    </div>
+                </div>
+                <div class="helper-3">
+                    <div class="effect-brush">
+                        <span class="fur-31"></span><span class="fur-30"></span><span class="fur-29"></span><span class="fur-28"></span><span class="fur-27"></span><span class="fur-26"></span><span class="fur-25"></span><span class="fur-24"></span><span class="fur-23"></span><span class="fur-22"></span><span class="fur-21"></span><span class="fur-20"></span><span class="fur-19"></span><span class="fur-18"></span><span class="fur-17"></span><span class="fur-16"></span><span class="fur-15"></span><span class="fur-14"></span><span class="fur-13"></span><span class="fur-12"></span><span class="fur-11"></span><span class="fur-10"></span><span class="fur-9"></span><span class="fur-8"></span><span class="fur-7"></span><span class="fur-6"></span><span class="fur-5"></span><span class="fur-4"></span><span class="fur-3"></span><span class="fur-2"></span><span class="fur-1"></span>                    </div>
+                </div>
+            </netflixintro>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var overlay = document.getElementById('netflix-intro-overlay');
+            if (!overlay) return;
+            // La animación dura ~4.5s; ocultar el overlay al terminar.
+            setTimeout(function () {
+                overlay.classList.add('hide');
+                setTimeout(function () { overlay.remove(); }, 600);
+            }, 4500);
+        })();
+    </script>
+
+    <!-- Profile Selection Screen -->
+    <section id="profile-selection">
+        <div class="netflix-logo">
+            <span class="loveflix-wordmark">LOVE<span>FLIX</span></span>
+        </div>
+        <h1 class="profile-title">Qui regarde la dédicace ?</h1>
+
+        <div class="profiles-container">
+                        <div class="profile-card">
+                <div class="profile-image">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Perfil 1">
+                                    </div>
+                <div class="profile-name">Profil 1</div>
+            </div>
+                        <div class="profile-card">
+                <div class="profile-image">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Perfil 2">
+                                    </div>
+                <div class="profile-name">Profil 2</div>
+            </div>
+                    </div>
+
+                <div class="player-container" id="player">
+            <div class="spotify-icon">&#9834;</div>
+            <div class="player-header">
+                <img src="/images/disco.svg" alt="Pochette de l’album" class="album-cover" id="albumCover">
+                <div class="song-info">
+                    <div class="song-title" id="songTitle">Notre Histoire</div>
+                </div>
+                <button class="favorite-btn" id="favoriteBtn">&#9825;</button>
+            </div>
+            <div class="controls">
+                <button class="control-btn play-btn" id="playBtn">
+                    <svg class="play-icon-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+            </div>
+            <div class="volume-controls">
+                <span class="volume-icon" id="volumeIcon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </span>
+                <div class="volume-slider-container" id="volumeSliderContainer">
+                    <div class="volume-slider-vertical" id="volumeSliderVertical">
+                        <div class="volume-slider-fill" id="volumeSliderFill"></div>
+                    </div>
+                    <div class="volume-percentage" id="volumePercentage">70%</div>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time-info">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+            <div class="wave-animation"></div>
+            <audio id="audioPlayer" preload="none"></audio>
+        </div>
+            </section>
+
+    <!-- Main Content Screen -->
+    <section id="series-detail">
+        <div class="netflix-logo">
+            <span class="loveflix-wordmark">LOVE<span>FLIX</span></span>
+        </div>
+        <button class="back-button" id="back-to-profiles">Gérer les profils</button>
+        <div class="hero-section inicio">
+            <nav class="nav-bar">
+                <div class="nav-item active" data-nav="inicio">Accueil</div>
+                <div class="nav-item" data-nav="series">Épisodes</div>
+                                <div class="nav-item" data-nav="musica">Musique</div>
+                                <div class="nav-item" data-nav="lista">Ma liste</div>
+            </nav>
+            <div class="series-content">
+                <div class="series-label">
+                    <span class="n-letter">N</span>
+                    <span class="series-text">SERIES</span>
+                </div>
+                <h1 class="series-title">Notre Série d'Amour</h1>
+                <div class="year-duration">13+ 2026 - Romance · Amour infini</div>
+                <p class="series-description">Chaque épisode raconte un chapitre de notre amour, nos souvenirs et nos rires.</p>
+                <div class="action-buttons">
+                    <button class="play-button" id="play-button">
+                        <span class="play-icon">&#9658;</span> Play
+                    </button>
+                    <button class="info-button" id="info-button">
+                        <span class="info-icon">&#9432;</span> More info
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="episodes-section">
+            <h2 class="episodes-title">Épisodes</h2>
+            <div class="episodes-row">
+                                <div class="episode-thumb"
+                     data-episode="1"
+                     data-image="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Épisode 1">
+                                        <div class="episode-number">1</div>
+                    <div class="episode-duration">25m</div>
+                    <div class="episode-overlay">1. Titre de l&#039;épisode 1</div>
+                </div>
+                            </div>
+        </div>
+
+                <div class="music-player-section" id="music-player-section" style="display: none;">
+            <div class="player-container" id="music-section-player">
+                <div class="spotify-icon">&#9834;</div>
+                <div class="player-header">
+                    <img src="/images/disco.svg" alt="Pochette de l’album" class="album-cover" id="musicAlbumCover">
+                    <div class="song-info">
+                        <div class="song-title" id="musicSongTitle">Notre Histoire</div>
+                    </div>
+                    <button class="favorite-btn" id="musicFavoriteBtn">&#9825;</button>
+                </div>
+                <div class="controls">
+                    <button class="control-btn play-btn" id="musicPlayBtn">
+                        <svg class="play-icon-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                </div>
+                <div class="volume-controls">
+                    <span class="volume-icon" id="musicVolumeIcon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                    </span>
+                    <div class="volume-slider-container" id="musicVolumeSliderContainer">
+                        <div class="volume-slider-vertical" id="musicVolumeSliderVertical">
+                            <div class="volume-slider-fill" id="musicVolumeSliderFill"></div>
+                        </div>
+                        <div class="volume-percentage" id="musicVolumePercentage">70%</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="musicProgressBar">
+                        <div class="progress" id="musicProgress"></div>
+                    </div>
+                    <div class="time-info">
+                        <span id="musicCurrentTime">0:00</span>
+                        <span id="musicDuration">0:00</span>
+                    </div>
+                </div>
+                <div class="wave-animation"></div>
+                <audio id="musicAudioPlayer" preload="none"></audio>
+            </div>
+        </div>
+            </section>
+
+    <!-- Info Modal -->
+    <div class="modal" id="info-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <div class="modal-image">
+                <img alt="Visuel de la série">
+            </div>
+            <div class="modal-info">
+                <h2 class="modal-title">Détails</h2>
+                <p class="modal-details">
+                    <strong>Détails</strong><br><br>
+                    Modal description<br><br>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Episode Detail Modal -->
+    <div class="episode-modal" id="episode-modal">
+        <div class="episode-modal-content">
+            <button class="close-episode-modal" id="close-episode-modal">&times;</button>
+            <img class="episode-modal-image" id="episode-modal-image" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20200%22%3E%3Crect%20width%3D%22300%22%20height%3D%22200%22%20fill%3D%22%23111%22%2F%3E%3C%2Fsvg%3E" alt="Image de l’épisode">
+            <div class="episode-modal-info">
+                <h3 class="episode-modal-title" id="episode-modal-title"></h3>
+                <p class="episode-modal-description" id="episode-modal-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Player -->
+    <div class="video-player" id="video-player">
+        <div class="video-container">
+            <button class="close-video" id="close-video">&times;</button>
+                            <iframe id="youtube-iframe"
+                        width="100%"
+                        height="100%"
+                        src="about:blank"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+                    </div>
+    </div>
+
+    <script>
+        // Musique Player JavaScript
+        class MusiquePlayer {
+            constructor(containerId, audioId, playBtnId, favoriteBtnId, progressBarId, progressId,
+                        currentTimeId, durationId, volumeIconId, volumeSliderContainerId,
+                        volumeSliderFillId, volumePercentageId, albumCoverId) {
+                this.isPlaying = false;
+                this.isFavorite = false;
+                this.volume = 0.7;
+                this.showVolumeSlider = false;
+                this.currentTime = 0;
+                this.duration = 0;
+
+                this.containerId = containerId;
+                this.audioId = audioId;
+                this.playBtnId = playBtnId;
+                this.favoriteBtnId = favoriteBtnId;
+                this.progressBarId = progressBarId;
+                this.progressId = progressId;
+                this.currentTimeId = currentTimeId;
+                this.durationId = durationId;
+                this.volumeIconId = volumeIconId;
+                this.volumeSliderContainerId = volumeSliderContainerId;
+                this.volumeSliderFillId = volumeSliderFillId;
+                this.volumePercentageId = volumePercentageId;
+                this.albumCoverId = albumCoverId;
+
+                this.initializeElements();
+                this.attachEventListeners();
+                this.updateVolumeDisplay();
+            }
+
+            initializeSharedAudio() {
+                this.audioPlayer.addEventListener('timeupdate', () => {
+                    const msSection = this.player.closest('#music-player-section');
+                    if (msSection && msSection.style.display === 'block') {
+                        this.currentTime = this.audioPlayer.currentTime;
+                        this.updateProgress();
+                    }
+                });
+            }
+
+            initializeElements() {
+                this.player = document.getElementById(this.containerId);
+                this.audioPlayer = document.getElementById(this.audioId);
+                this.playBtn = document.getElementById(this.playBtnId);
+                this.favoriteBtn = document.getElementById(this.favoriteBtnId);
+                this.progressBar = document.getElementById(this.progressBarId);
+                this.progress = document.getElementById(this.progressId);
+                this.currentTimeEl = document.getElementById(this.currentTimeId);
+                this.durationEl = document.getElementById(this.durationId);
+                this.albumCover = document.getElementById(this.albumCoverId);
+                this.volumeIcon = document.getElementById(this.volumeIconId);
+                this.volumeSliderContainer = document.getElementById(this.volumeSliderContainerId);
+                this.volumeSliderFill = document.getElementById(this.volumeSliderFillId);
+                this.volumePercentage = document.getElementById(this.volumePercentageId);
+                if (this.audioPlayer) this.audioPlayer.volume = this.volume;
+            }
+
+            attachEventListeners() {
+                if (!this.audioPlayer) return;
+                this.audioPlayer.addEventListener('loadedmetadata', () => { this.updateDurationDisplay(); });
+                this.audioPlayer.addEventListener('canplay', () => { this.updateDurationDisplay(); });
+                this.audioPlayer.addEventListener('timeupdate', () => {
+                    this.currentTime = this.audioPlayer.currentTime;
+                    this.updateProgress();
+                });
+                this.audioPlayer.addEventListener('ended', () => { this.togglePlay(); });
+                if (this.playBtn) this.playBtn.addEventListener('click', () => this.togglePlay());
+                if (this.favoriteBtn) this.favoriteBtn.addEventListener('click', () => this.toggleFavorite());
+                if (this.progressBar) this.progressBar.addEventListener('click', (e) => this.seekTo(e));
+                if (this.albumCover) this.albumCover.addEventListener('click', () => this.togglePlay());
+                if (this.volumeIcon) this.volumeIcon.addEventListener('click', () => this.toggleVolumeSlider());
+                if (this.volumeSliderContainer) {
+                    const vsv = this.volumeSliderContainer.querySelector('.volume-slider-vertical');
+                    if (vsv) vsv.addEventListener('click', (e) => this.setVolumeFromVerticalBar(e));
+                }
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.volume-controls')) this.hideVolumeSlider();
+                });
+            }
+
+            linkPlayers(otherPlayer) {
+                this.isPlaying = otherPlayer.isPlaying;
+                this.isFavorite = otherPlayer.isFavorite;
+                this.volume = otherPlayer.volume;
+                if (this.isPlaying) {
+                    this.playBtn.innerHTML = '<svg class="pause-icon-svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    this.player.classList.add('playing');
+                } else {
+                    this.playBtn.innerHTML = '<svg class="play-icon-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    this.player.classList.remove('playing');
+                }
+                if (this.favoriteBtn) {
+                    this.favoriteBtn.textContent = this.isFavorite ? '\u2764' : '\u2661';
+                    this.favoriteBtn.classList.toggle('active', this.isFavorite);
+                }
+                this.updateVolumeDisplay();
+            }
+
+            togglePlay() {
+                if (!this.audioPlayer) return;
+                this.isPlaying = !this.isPlaying;
+                if (this.isPlaying) {
+                    this.playBtn.innerHTML = '<svg class="pause-icon-svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    const currentTime = this.audioPlayer.currentTime;
+                    const pp = this.audioPlayer.play();
+                    if (pp !== undefined) {
+                        pp.then(() => { this.player.classList.add('playing'); })
+                          .catch(error => {
+                              this.audioPlayer.currentTime = currentTime + 0.01;
+                              setTimeout(() => { this.audioPlayer.play().then(() => { this.player.classList.add('playing'); }).catch(() => { this.isPlaying = false; this.playBtn.innerHTML = '<svg class="play-icon-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; this.player.classList.remove('playing'); }); }, 100);
+                          });
+                    } else {
+                        this.player.classList.add('playing');
+                    }
+                } else {
+                    this.playBtn.innerHTML = '<svg class="play-icon-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    this.audioPlayer.pause();
+                    this.player.classList.remove('playing');
+                }
+                if (window.profilePlayer && this !== window.profilePlayer) {
+                    window.profilePlayer.linkPlayers(this);
+                } else if (window.musicPlayer && this !== window.musicPlayer) {
+                    window.musicPlayer.linkPlayers(this);
+                }
+            }
+
+            toggleFavorite() {
+                this.isFavorite = !this.isFavorite;
+                if (this.favoriteBtn) {
+                    this.favoriteBtn.textContent = this.isFavorite ? '\u2764' : '\u2661';
+                    this.favoriteBtn.classList.toggle('active', this.isFavorite);
+                }
+                if (window.profilePlayer && this !== window.profilePlayer) {
+                    window.profilePlayer.isFavorite = this.isFavorite;
+                    if (window.profilePlayer.favoriteBtn) { window.profilePlayer.favoriteBtn.textContent = this.isFavorite ? '\u2764' : '\u2661'; window.profilePlayer.favoriteBtn.classList.toggle('active', this.isFavorite); }
+                } else if (window.musicPlayer && this !== window.musicPlayer) {
+                    window.musicPlayer.isFavorite = this.isFavorite;
+                    if (window.musicPlayer.favoriteBtn) { window.musicPlayer.favoriteBtn.textContent = this.isFavorite ? '\u2764' : '\u2661'; window.musicPlayer.favoriteBtn.classList.toggle('active', this.isFavorite); }
+                }
+            }
+
+            seekTo(e) {
+                if (!this.progressBar || !this.audioPlayer) return;
+                const rect = this.progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                const newTime = percent * this.audioPlayer.duration;
+                this.audioPlayer.currentTime = newTime;
+                this.currentTime = newTime;
+                if (this.isPlaying) { const pp = this.audioPlayer.play(); if (pp) pp.catch(() => { setTimeout(() => { this.audioPlayer.play(); }, 50); }); }
+                this.updateProgress();
+                if (window.profilePlayer && this !== window.profilePlayer) window.profilePlayer.audioPlayer.currentTime = newTime;
+                else if (window.musicPlayer && this !== window.musicPlayer) window.musicPlayer.audioPlayer.currentTime = newTime;
+            }
+
+            toggleVolumeSlider() {
+                this.showVolumeSlider = !this.showVolumeSlider;
+                if (this.volumeSliderContainer) this.volumeSliderContainer.classList.toggle('show', this.showVolumeSlider);
+            }
+
+            hideVolumeSlider() {
+                this.showVolumeSlider = false;
+                if (this.volumeSliderContainer) this.volumeSliderContainer.classList.remove('show');
+            }
+
+            setVolumeFromVerticalBar(e) {
+                const rect = e.target.getBoundingClientRect();
+                const percent = (rect.bottom - e.clientY) / rect.height;
+                this.setVolume(percent);
+            }
+
+            setVolume(value) {
+                this.volume = Math.max(0, Math.min(1, value));
+                if (this.audioPlayer) this.audioPlayer.volume = this.volume;
+                this.updateVolumeDisplay();
+                if (window.profilePlayer && this !== window.profilePlayer) { window.profilePlayer.volume = this.volume; if (window.profilePlayer.audioPlayer) window.profilePlayer.audioPlayer.volume = this.volume; window.profilePlayer.updateVolumeDisplay(); }
+                else if (window.musicPlayer && this !== window.musicPlayer) { window.musicPlayer.volume = this.volume; if (window.musicPlayer.audioPlayer) window.musicPlayer.audioPlayer.volume = this.volume; window.musicPlayer.updateVolumeDisplay(); }
+            }
+
+            updateVolumeDisplay() {
+                if (this.volumeSliderFill) this.volumeSliderFill.style.height = (this.volume * 100) + '%';
+                if (this.volumePercentage) this.volumePercentage.textContent = Math.round(this.volume * 100) + '%';
+            }
+
+            updateProgress() {
+                if (!this.audioPlayer || !this.progress) return;
+                const percent = (this.currentTime / this.audioPlayer.duration) * 100;
+                this.progress.style.width = (isNaN(percent) ? 0 : percent) + '%';
+                if (this.currentTimeEl) this.currentTimeEl.textContent = this.formatTime(this.currentTime);
+            }
+
+            formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            updateDurationDisplay() {
+                if (this.audioPlayer && this.audioPlayer.duration && !isNaN(this.audioPlayer.duration) && this.audioPlayer.duration > 0) {
+                    this.duration = this.audioPlayer.duration;
+                    if (this.durationEl) this.durationEl.textContent = this.formatTime(this.duration);
+                }
+            }
+        }
+
+        // Raccordement du formulaire Dedikka et interactions de la page publiée.
+        document.addEventListener('DOMContentLoaded', function() {
+            const page = window.DEDIKKA_PAGE_DATA || {};
+            const fields = page.form_fields || {};
+            const images = page.images || {};
+            const value = (key, fallback = '') => String(fields[key] ?? fallback).trim();
+            const setText = (selector, text) => {
+                const node = document.querySelector(selector);
+                if (node) node.textContent = text;
+                return node;
+            };
+            const setImage = (node, url) => {
+                if (!node) return;
+                if (url) { node.src = url; node.hidden = false; }
+                else { node.removeAttribute('src'); node.hidden = true; }
+            };
+
+            const pageTitle = page.title || value('data[series_title]', 'Notre série d’amour');
+            const seriesTitle = value('data[series_title]', pageTitle);
+            const mainDescription = value('data[description]');
+            const yearDuration = value('data[year_duration]');
+            const modalTitle = value('data[modal_title]', seriesTitle);
+            const modalDetails = value('data[modal_details]');
+            const modalDescription = value('data[modal_description]', mainDescription);
+            document.title = pageTitle + ' · Dedikka';
+            setText('.profile-title', 'Qui regarde la dédicace ?');
+            setText('.back-button', 'Retour aux profils');
+            setText('.nav-item[data-nav="inicio"]', 'Accueil');
+            setText('.nav-item[data-nav="series"]', 'Épisodes');
+            setText('.nav-item[data-nav="musica"]', 'Musique');
+            setText('.nav-item[data-nav="lista"]', 'Ma liste');
+            setText('.play-button', '▶ Lire la bande-annonce');
+            setText('.info-button', 'ⓘ Plus d’informations');
+            setText('.series-title', seriesTitle);
+            setText('.year-duration', yearDuration);
+            setText('.series-description', mainDescription);
+            setText('.modal-title', modalTitle);
+            setText('.modal-details', [modalDetails, modalDescription].filter(Boolean).join('\n\n'));
+            setText('.episodes-title', 'Les épisodes');
+            setText('.series-text', 'SÉRIE');
+
+            const hero = document.querySelector('.hero-section');
+            const heroImage = images.image_2 || '';
+            if (hero) {
+                hero.style.backgroundImage = heroImage
+                    ? 'linear-gradient(to top, rgba(20,20,20,.96), rgba(20,20,20,.12)), url(' + JSON.stringify(heroImage) + ')'
+                    : 'linear-gradient(to top, #141414, #252525)';
+                hero.style.backgroundSize = 'cover';
+                hero.style.backgroundPosition = 'center';
+            }
+            const modalImage = document.querySelector('.modal-image img');
+            setImage(modalImage, images.image_1 || '');
+            const modalImageWrap = document.querySelector('.modal-image');
+            if (modalImageWrap) modalImageWrap.style.backgroundImage = images.image_1 ? 'url(' + JSON.stringify(images.image_1) + ')' : 'none';
+
+            const profilesContainer = document.querySelector('.profiles-container');
+            const profileCount = Math.max(1, Math.min(4, parseInt(value('data[num_profiles]', '2'), 10) || 2));
+            if (profilesContainer) {
+                profilesContainer.replaceChildren();
+                for (let i = 1; i <= profileCount; i++) {
+                    const name = value('data[profile_name_' + i + ']', i === 1 ? page.recipient_name || 'Profil 1' : 'Profil ' + i);
+                    const card = document.createElement('div');
+                    card.className = 'profile-card';
+                    card.dataset.profile = String(i);
+                    const photo = document.createElement('div');
+                    photo.className = 'profile-image';
+                    const imageUrl = images['image_' + (i + 2)] || '';
+                    if (imageUrl) {
+                        const img = document.createElement('img');
+                        img.src = imageUrl;
+                        img.alt = name;
+                        photo.appendChild(img);
+                    }
+                    const label = document.createElement('div');
+                    label.className = 'profile-name';
+                    label.textContent = name;
+                    card.append(photo, label);
+                    profilesContainer.appendChild(card);
+                }
+            }
+
+            const episodeCount = Math.max(1, Math.min(3, parseInt(value('data[num_episodes]', '1'), 10) || 1));
+            const episodeData = {};
+            const episodesRow = document.querySelector('.episodes-row');
+            if (episodesRow) {
+                episodesRow.replaceChildren();
+                for (let i = 1; i <= episodeCount; i++) {
+                    const title = value('data[episode_title_' + i + ']', 'Épisode ' + i);
+                    const duration = value('data[episode_duration_' + i + ']');
+                    const description = value('data[episode_description_' + i + ']');
+                    const image = images['image_' + (i + 6)] || '';
+                    episodeData[i] = { title, duration, description, image };
+                    const card = document.createElement('div');
+                    card.className = 'episode-thumb';
+                    card.dataset.episode = String(i);
+                    const img = document.createElement('img');
+                    if (image) { img.src = image; img.alt = title; }
+                    else img.hidden = true;
+                    const number = document.createElement('div');
+                    number.className = 'episode-number';
+                    number.textContent = String(i);
+                    const time = document.createElement('div');
+                    time.className = 'episode-duration';
+                    time.textContent = duration;
+                    const overlay = document.createElement('div');
+                    overlay.className = 'episode-overlay';
+                    overlay.textContent = title;
+                    card.append(img, number, time, overlay);
+                    episodesRow.appendChild(card);
+                }
+            }
+
+            const episodeModal = document.getElementById('episode-modal');
+            const episodeModalImage = document.getElementById('episode-modal-image');
+            const episodeModalTitle = document.getElementById('episode-modal-title');
+            const episodeModalDescription = document.getElementById('episode-modal-description');
+            const openEpisode = card => {
+                const item = episodeData[card.dataset.episode];
+                if (!item || !episodeModal) return;
+                setImage(episodeModalImage, item.image);
+                if (episodeModalTitle) episodeModalTitle.textContent = item.title;
+                if (episodeModalDescription) episodeModalDescription.textContent = item.description;
+                episodeModal.style.display = 'flex';
+            };
+            episodesRow?.addEventListener('click', event => {
+                const card = event.target.closest('.episode-thumb');
+                if (card) openEpisode(card);
+            });
+            document.getElementById('close-episode-modal')?.addEventListener('click', () => { if (episodeModal) episodeModal.style.display = 'none'; });
+
+            const profileSelection = document.getElementById('profile-selection');
+            const seriesDetail = document.getElementById('series-detail');
+            profilesContainer?.addEventListener('click', event => {
+                if (!event.target.closest('.profile-card')) return;
+                if (profileSelection) profileSelection.style.display = 'none';
+                if (seriesDetail) { seriesDetail.style.display = 'flex'; seriesDetail.classList.add('fade-in'); }
+            });
+            document.getElementById('back-to-profiles')?.addEventListener('click', () => {
+                if (seriesDetail) { seriesDetail.classList.remove('fade-in'); seriesDetail.style.display = 'none'; }
+                if (profileSelection) { profileSelection.style.display = 'flex'; profileSelection.style.opacity = '1'; }
+            });
+
+            const reasons = [];
+            const reasonCount = Math.max(0, Math.min(9, parseInt(value('data[num_reasons]', '9'), 10) || 0));
+            for (let i = 1; i <= reasonCount; i++) {
+                const reason = value('data[reason_' + i + ']');
+                if (reason) reasons.push(reason);
+            }
+            const heroSection = document.querySelector('.hero-section');
+            const seriesContent = document.querySelector('.series-content');
+            const episodesSection = document.querySelector('.episodes-section');
+            const musicSection = document.getElementById('music-player-section');
+            let listContent = null;
+            const listTitle = value('data[lista_title]', 'Raisons de mon amour');
+            const listSubtitle = value('data[lista_subtitle]');
+            const renderList = () => {
+                if (!heroSection) return;
+                listContent = document.createElement('div');
+                listContent.className = 'lista-content';
+                const heading = document.createElement('h1');
+                heading.className = 'lista-title';
+                heading.textContent = listTitle;
+                const subtitle = document.createElement('p');
+                subtitle.className = 'lista-subtitle';
+                subtitle.textContent = listSubtitle;
+                const list = document.createElement('ul');
+                list.className = 'lista-reasons';
+                reasons.forEach(reason => { const li = document.createElement('li'); li.textContent = reason; list.appendChild(li); });
+                listContent.append(heading, subtitle, list);
+                heroSection.appendChild(listContent);
+            };
+
+            const musicUrl = value('music_url') || value('data[music_url]');
+            const profileAudio = document.getElementById('audioPlayer');
+            const musicAudio = document.getElementById('musicAudioPlayer');
+            if (profileAudio) {
+                if (musicUrl) { profileAudio.src = musicUrl; profileAudio.load(); }
+                else { profileAudio.removeAttribute('src'); profileAudio.load(); }
+            }
+            if (musicAudio) { musicAudio.removeAttribute('src'); musicAudio.load(); }
+            const profilePlayer = new MusiquePlayer('player', 'audioPlayer', 'playBtn', 'favoriteBtn',
+                'progressBar', 'progress', 'currentTime', 'duration', 'volumeIcon',
+                'volumeSliderContainer', 'volumeSliderFill', 'volumePercentage', 'albumCover');
+            const musicPlayer = new MusiquePlayer('music-section-player', 'musicAudioPlayer', 'musicPlayBtn',
+                'musicFavoriteBtn', 'musicProgressBar', 'musicProgress', 'musicCurrentTime',
+                'musicDuration', 'musicVolumeIcon', 'musicVolumeSliderContainer',
+                'musicVolumeSliderFill', 'musicVolumePercentage', 'musicAlbumCover');
+            musicPlayer.audioPlayer = profilePlayer.audioPlayer;
+            musicPlayer.initializeSharedAudio();
+            window.profilePlayer = profilePlayer;
+            window.musicPlayer = musicPlayer;
+            if (!musicUrl) {
+                const profilePlayerEl = document.getElementById('player');
+                if (profilePlayerEl) profilePlayerEl.style.display = 'none';
+                document.querySelector('.nav-item[data-nav="musica"]')?.setAttribute('hidden', '');
+            }
+
+            const navItems = document.querySelectorAll('.nav-item');
+            const updateSection = section => {
+                navItems.forEach(item => item.classList.toggle('active', item.dataset.nav === section));
+                if (heroSection) heroSection.className = 'hero-section ' + section;
+                if (listContent) { listContent.remove(); listContent = null; }
+                if (seriesContent) seriesContent.style.display = section === 'musica' || section === 'lista' ? 'none' : 'block';
+                if (episodesSection) episodesSection.style.display = section === 'inicio' || section === 'series' ? 'block' : 'none';
+                if (musicSection) musicSection.style.display = section === 'musica' && Boolean(musicUrl) ? 'flex' : 'none';
+                if (section === 'inicio') {
+                    setText('.series-title', seriesTitle);
+                    setText('.series-description', mainDescription);
+                    setText('.year-duration', yearDuration);
+                } else if (section === 'series') {
+                    setText('.series-title', value('data[series_section_title]', 'Les épisodes'));
+                    setText('.series-description', value('data[series_section_desc]'));
+                    setText('.year-duration', '');
+                } else if (section === 'lista') renderList();
+            };
+            navItems.forEach(item => item.addEventListener('click', () => updateSection(item.dataset.nav)));
+
+            const infoModal = document.getElementById('info-modal');
+            document.getElementById('info-button')?.addEventListener('click', () => { if (infoModal) infoModal.style.display = 'flex'; });
+            document.getElementById('close-modal')?.addEventListener('click', () => { if (infoModal) infoModal.style.display = 'none'; });
+            const videoPlayer = document.getElementById('video-player');
+            const playButton = document.getElementById('play-button');
+            const videoUrl = value('data[video_url]') || value('data[video_b2_url]') || value('video_url');
+            const youtubeFrame = document.getElementById('youtube-iframe');
+            const videoContainer = document.querySelector('.video-container');
+            const youtubeId = (videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/) || [])[1];
+            let uploadedVideo = null;
+            if (videoUrl && !youtubeId && /\.(mp4|webm|mov|avi|mkv)(?:[?#].*)?$/i.test(videoUrl) && videoContainer) {
+                uploadedVideo = document.createElement('video');
+                uploadedVideo.controls = true;
+                uploadedVideo.playsInline = true;
+                uploadedVideo.src = videoUrl;
+                uploadedVideo.style.cssText = 'width:100%;height:100%;object-fit:contain;background:#000';
+                youtubeFrame?.remove();
+                videoContainer.appendChild(uploadedVideo);
+            } else if (youtubeFrame && youtubeId) {
+                youtubeFrame.src = 'https://www.youtube-nocookie.com/embed/' + youtubeId + '?controls=1&rel=0';
+            } else if (playButton) playButton.hidden = true;
+            playButton?.addEventListener('click', () => {
+                if (!videoUrl || !videoPlayer) return;
+                videoPlayer.style.display = 'flex';
+                if (uploadedVideo) uploadedVideo.play().catch(() => {});
+                else if (youtubeFrame && youtubeId) youtubeFrame.src = 'https://www.youtube-nocookie.com/embed/' + youtubeId + '?controls=1&rel=0&autoplay=1';
+            });
+            const hideVideo = () => {
+                if (videoPlayer) videoPlayer.style.display = 'none';
+                if (uploadedVideo) uploadedVideo.pause();
+                if (youtubeFrame && youtubeId) youtubeFrame.src = 'https://www.youtube-nocookie.com/embed/' + youtubeId + '?controls=1&rel=0';
+            };
+            document.getElementById('close-video')?.addEventListener('click', hideVideo);
+            document.addEventListener('click', event => {
+                if (event.target === infoModal && infoModal) infoModal.style.display = 'none';
+                if (event.target === episodeModal) episodeModal.style.display = 'none';
+                if (event.target === videoPlayer) hideVideo();
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key !== 'Escape') return;
+                if (infoModal) infoModal.style.display = 'none';
+                if (episodeModal) episodeModal.style.display = 'none';
+                hideVideo();
+            });
+            updateSection('inicio');
+        });
+</script>
+</body>
+
+</html>

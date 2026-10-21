@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<!--
+MIT License
+
+Copyright (c) 2026 john maller
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html lang="fr">
+<head>
+<meta name="description" content="Une dédicace personnalisée au cœur d’une galaxie animée. Créée avec Dedikka.">
+<meta name="theme-color" content="#7A1B2E">
+<meta property="og:title" content="Galaxie Infinie · Dedikka">
+<meta property="og:description" content="Une dédicace personnalisée au cœur d’une galaxie animée.">
+<meta property="og:image" content="https://dedikka.web.app/images/galaxie-infinie-preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://dedikka.web.app/templates/galaxia-infinita.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://dedikka.web.app/images/galaxie-infinie-preview.jpg">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Galaxie Infinie · Dedikka</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%96%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  html, body { 
+    margin: 0; 
+    height: 100%; 
+    background: #000; 
+    overflow: hidden; 
+    font-family: 'Playfair Display', serif; 
+    touch-action: none;
+  }
+  canvas { display: block; }
+
+  #start-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #3a001e 0%, #000000 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    color: #ff99cc;
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 1s ease;
+    text-shadow: 0 0 15px #ff3399;
+    flex-direction: column;
+  }
+  #start-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pulse-text {
+    animation: pulse 1.5s infinite alternate;
+    letter-spacing: 0.5px;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.1); opacity: 1; }
+  }
+  .start-heart {
+    margin-top: 18px;
+    font-size: 3.4rem;
+    animation: startHeartBeat 1.1s ease-in-out infinite;
+  }
+  @keyframes startHeartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+  }
+  @media (max-width: 480px) {
+    .start-heart { font-size: 2.6rem; margin-top: 12px; }
+  }
+
+  #top-kicker {
+    position: fixed; top: 10px; left: 0; width: 100%; text-align: center;
+    z-index: 1500; color: #ffd5ef; font: 600 0.95rem/1.2 system-ui, sans-serif;
+    text-shadow: 0 0 10px rgba(255, 51, 153, 0.65); pointer-events: none;
+  }
+  #recipient-title {
+    position: fixed; top: 100px; left: 0; width: 100%; text-align: center;
+    z-index: 1500; color: #ffe7f5; font: 500 0.95rem/1.2 system-ui, sans-serif;
+    pointer-events: none;
+  }
+  #top-title {
+    position: fixed;
+    top: 38px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1500;
+    pointer-events: none;
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 2.6rem;
+    white-space: pre-line;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #ff66cc, #ff0077, #ff99ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 14px rgba(255, 0, 153, 0.6));
+    animation: titlePulse 1.6s ease-in-out infinite;
+  }
+  @keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+  @media (max-width: 480px) {
+    #top-kicker { top: 7px; font-size: 0.78rem; }
+    #top-title { font-size: 1.55rem; top: 30px; padding: 0 12px; }
+    #recipient-title { top: 95px; font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="start-screen">
+  <div class="pulse-text" id="tap-text">Touchez pour entrer</div>
+  <div class="start-heart" aria-hidden="true">❤️</div>
+</div>
+
+<div id="top-kicker"></div>
+<div id="top-title">Notre univers</div>
+<div id="recipient-title" hidden></div>
+
+<canvas id="c"></canvas>
+
+<audio id="audio" loop></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.148.0/build/three.min.js"></script>
+<!-- DEDIKKA_PAGE_DATA -->
+<script type="application/json" id="dedica-config">{}</script>
+<script>/**
+ * Runtime DEDICA (~1KB) - inyectado por el generador junto al bloque de
+ * config de cada plantilla T2+. Ver docs/00-FIJO/02-contrato-de-plantilla.md.
+ *
+ * Es la UNICA pieza de JS compartida entre publicacion, ZIP/single-file y el
+ * live preview del editor. Se vendoriza (se copia inline en cada plantilla
+ * generada), nunca se carga por red desde una plantilla publicada.
+ */
+(function () {
+  'use strict';
+
+  function isPlainObject(v) {
+    return v !== null && typeof v === 'object' && !Array.isArray(v);
+  }
+
+  /**
+   * Deep merge inmutable. Los arrays se REEMPLAZAN enteros, nunca se
+   * combinan indice a indice (ver la regla en el contrato de plantilla).
+   */
+  function merge(defaults, overrides) {
+    if (!isPlainObject(overrides)) return defaults;
+    var out = Array.isArray(defaults) ? defaults.slice() : Object.assign({}, defaults);
+    for (var key in overrides) {
+      if (!Object.prototype.hasOwnProperty.call(overrides, key)) continue;
+      var a = defaults ? defaults[key] : undefined;
+      var b = overrides[key];
+      out[key] = isPlainObject(a) && isPlainObject(b) ? merge(a, b) : b;
+    }
+    return out;
+  }
+
+  var listeners = {};
+
+  function on(event, cb) {
+    (listeners[event] = listeners[event] || []).push(cb);
+  }
+
+  function emit(event, payload) {
+    (listeners[event] || []).forEach(function (cb) {
+      try { cb(payload); } catch (e) { /* una plantilla rota no debe tumbar el runtime */ }
+    });
+  }
+
+  // Live preview: el editor envia el config actualizado via postMessage.
+  // Hoy no hay ningun caller real (el preview local recarga el iframe
+  // completo por src, ver docs/00-FIJO/07-frontend-react.md y
+  // frontend/src/editor/preview/Preview.tsx) pero el listener se deja
+  // listo para cuando se active, ya validado por origen.
+  //
+  // Este runtime se vendoriza igual en plantillas publicadas, ZIP,
+  // single-file y en el preview del editor, asi que no hay un origin
+  // fijo unico que hardcodear aqui. En su lugar: (1) solo se acepta un
+  // mensaje cuyo `source` sea exactamente window.parent (descarta
+  // ventanas/iframes ajenos que puedan estar posteando al mismo window),
+  // y (2) cuando el navegador expone el origin real del padre
+  // (ancestorOrigins, o su fallback via document.referrer), `ev.origin`
+  // debe coincidir exactamente. Si ninguno de los dos esta disponible
+  // (p.ej. Firefox sin referrer), el chequeo de origin se omite y solo
+  // queda la validacion de `source`.
+  function expectedEditorOrigin() {
+    try {
+      if (window.location.ancestorOrigins && window.location.ancestorOrigins.length) {
+        return window.location.ancestorOrigins[0];
+      }
+    } catch (e) { /* ignorar */ }
+    try {
+      if (document.referrer) return new URL(document.referrer).origin;
+    } catch (e) { /* ignorar */ }
+    return null;
+  }
+
+  window.addEventListener('message', function (ev) {
+    if (ev.source !== window.parent) return;
+    var expected = expectedEditorOrigin();
+    if (expected && ev.origin !== expected) return;
+    if (!ev.data || ev.data.source !== 'dedica-editor') return;
+    if (ev.data.type === 'update') emit('update', ev.data.config);
+  });
+
+  function readConfig() {
+    var el = document.getElementById('dedica-config');
+    var config = {};
+    if (el) {
+      try { config = JSON.parse(el.textContent || '{}'); } catch (e) { config = {}; }
+    }
+    if (!isPlainObject(config)) config = {};
+    var page = window.DEDIKKA_PAGE_DATA;
+    if (!isPlainObject(page)) return config;
+    var fields = isPlainObject(page.form_fields) ? page.form_fields : {};
+    function field(name) {
+      var value = fields['data[' + name + ']'];
+      if (value === undefined || value === null) value = fields[name];
+      return value === undefined || value === null ? '' : String(value).trim();
+    }
+    var titleLines = [field('h1_title'), field('h1_accent')].filter(Boolean);
+    var phrases = [];
+    for (var i = 1; i <= 15; i++) {
+      var phrase = field('phrase_' + i);
+      if (phrase) phrases.push(phrase);
+    }
+    var images = isPlainObject(page.images) ? page.images : {};
+    var photos = Object.keys(images)
+      .filter(function (key) { return /^image_\d+$/.test(key) && typeof images[key] === 'string'; })
+      .sort(function (a, b) { return Number(a.slice(6)) - Number(b.slice(6)); })
+      .map(function (key) { return images[key]; });
+    var musicEnabled = !/^(false|0|off|non)$/i.test(field('enable_music'));
+    return merge(config, {
+      tapTexto: field('btn_text') || 'Touchez pour entrer',
+      titulo: titleLines.join('\n') || String(page.title || 'Notre univers'),
+      kicker: field('kicker') || '',
+      recipientName: String(page.recipient_name || ''),
+      frases: phrases,
+      fotos: photos,
+      musica: musicEnabled ? field('music_url') : ''
+    });
+  }
+
+  window.DEDICA = {
+    merge: merge,
+    on: on,
+    config: readConfig(),
+  };
+})();
+</script>
+<script>
+  /* ════════════════════════════════════════════════════════════════
+     ██  CAMPOS EDITABLES (schema.json)  ██
+     DEFAULTS = lo que se ve si esta página se abre tal cual, sin
+     ningún config inyectado. CONFIG_FIELDS = DEFAULTS fusionado con lo
+     que el proyecto haya guardado (ver templates/_shared/dedica-runtime.js).
+     ═════════════════════════════════════════════════════════════ */
+  const DEFAULTS = {
+    tapTexto: "Touchez pour entrer",
+    titulo: "Notre univers",
+    frases: [
+      'Tu es mon endroit préféré', 'Tout est plus beau avec toi', 'Mon bonheur porte ton nom',
+      'Un amour sans limites', 'Jusqu’aux étoiles et au-delà', 'Un univers à deux',
+      'Toi et moi contre le monde', 'Chaque instant est magique', 'Mon présent et mon avenir',
+      'Mon refuge', 'Je te choisis chaque jour', 'Nos âmes sont liées',
+      'Mon rêve devenu réalité', 'Pour toujours', 'Ma raison de sourire', 'Tu es tout pour moi',
+      'Ma moitié', 'Tu brilles plus que les étoiles', 'Mon cœur t’appartient', 'Pour l’éternité'
+    ],
+    fotos: [],
+    musica: ""
+  };
+  const CONFIG_FIELDS = (window.DEDICA && window.DEDICA.merge) ? window.DEDICA.merge(DEFAULTS, window.DEDICA.config) : DEFAULTS;
+
+  document.getElementById('tap-text').textContent = CONFIG_FIELDS.tapTexto;
+  document.getElementById('top-title').textContent = CONFIG_FIELDS.titulo;
+  document.getElementById('top-kicker').textContent = CONFIG_FIELDS.kicker || '';
+  if (window.DEDIKKA_PAGE_DATA && window.DEDIKKA_PAGE_DATA.title) {
+    document.title = window.DEDIKKA_PAGE_DATA.title + ' · Dedikka';
+  }
+  if (window.DEDIKKA_PAGE_DATA && window.DEDIKKA_PAGE_DATA.slug) {
+    var shareUrl = (window.DEDIKKA_PAGE_DATA.frontend_url || 'https://dedikka.web.app').replace(/\/$/, '') + '/p/' + encodeURIComponent(window.DEDIKKA_PAGE_DATA.slug);
+    var ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.content = shareUrl;
+  }
+  var recipientTitle = document.getElementById('recipient-title');
+  if (CONFIG_FIELDS.recipientName) { recipientTitle.textContent = 'Pour ' + CONFIG_FIELDS.recipientName; recipientTitle.hidden = false; }
+</script>
+<script>
+// ================= Inicio =================
+const startScreen = document.getElementById('start-screen');
+const audio = document.getElementById('audio');
+if (CONFIG_FIELDS.musica) {
+  audio.src = CONFIG_FIELDS.musica;
+  audio.preload = 'none';
+}
+
+let experienceStarted = false;
+function unlockAudioAndStart() {
+  if (experienceStarted) return;
+  experienceStarted = true;
+  if (audio.src) {
+    const playPromise = audio.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(err => console.log("Lecture audio impossible :", err));
+    }
+  }
+  startScreen.classList.add('hidden');
+}
+startScreen.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  unlockAudioAndStart();
+}, {passive: false});
+startScreen.addEventListener('click', unlockAudioAndStart);
+
+const isMobile = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent) || window.innerWidth <= 820;
+
+// ================= Escena Three.js =================
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias: !isMobile});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+renderer.setSize(innerWidth, innerHeight);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 5000);
+
+// --- Cámara con ángulos Euler acumulados correctamente ---
+// Usamos spherical coordinates pero con clamp en phi para evitar el flip.
+// rotY = azimuth (horizontal, libre 360°), rotX = polar (vertical, limitado)
+let targetDist = 400, currentDist = 400;
+let rotX = 0.2; // polar angle (radianes, 0 = top, PI = bottom) — lo usamos como elevación
+let rotY = 0;   // azimuth
+
+// Nebulosa de fondo generada por canvas (sin dependencia externa: la
+// textura original apuntaba a un archivo de three.js/examples que ya no
+// existe en el repo - un 404 silencioso dejaba el fondo en negro plano).
+function makeNebulaTexture(size = 1024) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#050008';
+  ctx.fillRect(0, 0, size, size);
+  const blobs = [
+    { x: 0.3, y: 0.35, r: 0.55, c1: 'rgba(120,0,70,0.55)' },
+    { x: 0.7, y: 0.6, r: 0.5, c1: 'rgba(60,0,90,0.5)' },
+    { x: 0.5, y: 0.5, r: 0.7, c1: 'rgba(40,0,30,0.4)' },
+  ];
+  blobs.forEach(b => {
+    const grad = ctx.createRadialGradient(size * b.x, size * b.y, 0, size * b.x, size * b.y, size * b.r);
+    grad.addColorStop(0, b.c1);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, size, size);
+  });
+  for (let i = 0; i < 300; i++) {
+    ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.5})`;
+    const s = Math.random() * 1.4;
+    ctx.fillRect(Math.random() * size, Math.random() * size, s, s);
+  }
+  return new THREE.CanvasTexture(c);
+}
+const nebulaTex = makeNebulaTexture();
+scene.background = nebulaTex;
+
+// Textura circular suave
+function makeDotTexture(){
+  const size = 64;
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+  grad.addColorStop(0.0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.55, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.85, 'rgba(255,255,255,0.55)');
+  grad.addColorStop(1.0, 'rgba(255,255,255,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+  return new THREE.CanvasTexture(c);
+}
+const dotTexture = makeDotTexture();
+
+// Estrellas de fondo
+(function makeStars(count = isMobile ? 1400 : 2200, spread=3000){
+  const g = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  for(let i=0; i<count; i++){
+    const r = spread * (0.3 + Math.random() * 0.7);
+    const th = Math.random() * Math.PI * 2;
+    const ph = Math.acos(2 * Math.random() - 1);
+    pos[i*3+0] = r * Math.sin(ph) * Math.cos(th);
+    pos[i*3+1] = r * Math.cos(ph);
+    pos[i*3+2] = r * Math.sin(ph) * Math.sin(th);
+  }
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({
+    size: 2.2,
+    sizeAttenuation: false,
+    map: dotTexture,
+    transparent: true,
+    alphaTest: 0.01,
+    depthWrite: false,
+    opacity: 0.9,
+    color: 0xffe6f2
+  })));
+})();
+
+// ================= Corazón =================
+function heartCurve(t){
+  const x = 16 * Math.pow(Math.sin(t), 3);
+  const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+  return { x, y };
+}
+
+const HEART_SCALE = 3.2;
+const HEART_THICKNESS = 3.4;
+const HEART_DEPTH = 8.5;
+const HEART_Y_OFFSET = 6;
+
+const heartPoints = [];
+const HEART_COUNT = isMobile ? 4400 : 5800;
+for (let i = 0; i < HEART_COUNT; i++) {
+  const t = Math.random() * Math.PI * 2;
+  const p0 = heartCurve(t);
+  const p1 = heartCurve(t + 0.001);
+  const tx = p1.x - p0.x, ty = p1.y - p0.y;
+  const tLen = Math.hypot(tx, ty) || 1;
+  const nx = -ty / tLen, ny = tx / tLen;
+  const offset = (Math.random() - 0.5) * HEART_THICKNESS;
+
+  const rawX = p0.x + nx * offset;
+  const rawY = p0.y + ny * offset + HEART_Y_OFFSET;
+
+  heartPoints.push(new THREE.Vector3(
+    rawX * HEART_SCALE,
+    rawY * HEART_SCALE,
+    (Math.random() - 0.5) * HEART_DEPTH
+  ));
+}
+const heartGeom = new THREE.BufferGeometry().setFromPoints(heartPoints);
+const heartMat = new THREE.PointsMaterial({
+  color: 0xff3399,
+  size: 1.2,
+  map: dotTexture,
+  transparent: true,
+  alphaTest: 0.01,
+  depthWrite: false,
+  opacity: 0.95,
+  blending: THREE.AdditiveBlending
+});
+const heart = new THREE.Points(heartGeom, heartMat);
+scene.add(heart);
+
+// ================= Espiral — mismo brillo que el corazón =================
+const spiralPoints = [];
+const arms = 4;
+const SPIRAL_COUNT = isMobile ? 3400 : 5200;
+for (let i = 0; i < SPIRAL_COUNT; i++) {
+  const r = Math.random() * 250; 
+  const armIndex = Math.floor(Math.random() * arms);
+  const theta = (armIndex * Math.PI * 2 / arms) + (r * 0.02) + (Math.random() * 0.4 - 0.2);
+  const sx = Math.cos(theta) * r;
+  const sz = Math.sin(theta) * r;
+  const sy = -35 - (r * 0.4) + (Math.random() * 8 - 4); 
+  spiralPoints.push(new THREE.Vector3(sx, sy, sz));
+}
+const spiralGeom = new THREE.BufferGeometry().setFromPoints(spiralPoints);
+const spiralMat = new THREE.PointsMaterial({
+  color: 0xff3399,   // mismo color que el corazón
+  size: 1.2,         // mismo tamaño
+  map: dotTexture,
+  transparent: true,
+  alphaTest: 0.01,
+  depthWrite: false,
+  opacity: 0.95,     // misma opacidad
+  blending: THREE.AdditiveBlending
+});
+const spiral = new THREE.Points(spiralGeom, spiralMat);
+scene.add(spiral);
+
+// ================= Polvo fino =================
+const DUST_INNER_R = 150;
+const DUST_OUTER_R = 380;
+const dustPoints = [];
+const DUST_COUNT = isMobile ? 7000 : 14000;
+for (let i = 0; i < DUST_COUNT; i++) {
+  const r = DUST_INNER_R + Math.random() * (DUST_OUTER_R - DUST_INNER_R);
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+  dustPoints.push(new THREE.Vector3(
+    r * Math.sin(phi) * Math.cos(theta),
+    r * Math.cos(phi),
+    r * Math.sin(phi) * Math.sin(theta)
+  ));
+}
+const dustGeom = new THREE.BufferGeometry().setFromPoints(dustPoints);
+const dustMat = new THREE.PointsMaterial({
+  color: 0xffc2e6,
+  size: 1.0,
+  map: dotTexture,
+  transparent: true,
+  alphaTest: 0.01,
+  depthWrite: false,
+  opacity: 0.55,
+  blending: THREE.AdditiveBlending
+});
+const dust = new THREE.Points(dustGeom, dustMat);
+scene.add(dust);
+
+// Esfera de colisión
+const hitSphere = new THREE.Mesh(
+  new THREE.SphereGeometry(62, 16, 16),
+  new THREE.MeshBasicMaterial({visible: false})
+);
+scene.add(hitSphere);
+
+// Glow central
+function makeGlow(size=768, c1='255,51,153', c2='255,102,204'){
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const g = c.getContext('2d');
+  const grad = g.createRadialGradient(size/2, size/2, size*0.05, size/2, size/2, size*0.5);
+  grad.addColorStop(0, 'rgba(' + c1 + ',0.7)');
+  grad.addColorStop(0.5, 'rgba(' + c2 + ',0.2)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grad; g.fillRect(0, 0, size, size);
+  return new THREE.CanvasTexture(c);
+}
+const glow = new THREE.Sprite(new THREE.SpriteMaterial({map: makeGlow(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending}));
+glow.scale.set(450, 450, 1);
+scene.add(glow);
+
+// Anillos
+function ringTexture(size=768){
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const g = c.getContext('2d'); g.translate(size/2, size/2);
+  const r1 = size*0.35, r2 = size*0.48;
+  const grd = g.createRadialGradient(0, 0, r1*0.6, 0, 0, r2);
+  grd.addColorStop(0.0, 'rgba(255,200,255,1)');
+  grd.addColorStop(0.3, 'rgba(255,102,204,1)');
+  grd.addColorStop(0.7, 'rgba(204,0,153,0.8)');
+  grd.addColorStop(1.0, 'rgba(0,0,0,0)');
+  g.fillStyle = grd;
+  g.beginPath(); g.arc(0,0,r2,0,Math.PI*2); g.arc(0,0,r1,0,Math.PI*2,true); g.closePath(); g.fill();
+  return new THREE.CanvasTexture(c);
+}
+const ring1 = new THREE.Mesh(new THREE.RingGeometry(80, 115, 128), new THREE.MeshBasicMaterial({map: ringTexture(), transparent: true, side: THREE.DoubleSide, opacity: 0.32, blending: THREE.AdditiveBlending}));
+const ring2 = new THREE.Mesh(new THREE.RingGeometry(125, 155, 128), new THREE.MeshBasicMaterial({map: ringTexture(), transparent: true, side: THREE.DoubleSide, opacity: 0.2, blending: THREE.AdditiveBlending}));
+ring1.rotation.x = ring2.rotation.x = Math.PI/2;
+scene.add(ring1); scene.add(ring2);
+
+// Frases (personalizables via CONFIG_FIELDS.frases)
+const WORDS = [];
+const baseWords = (Array.isArray(CONFIG_FIELDS.frases) && CONFIG_FIELDS.frases.length) ? CONFIG_FIELDS.frases : DEFAULTS.frases;
+
+const PHRASE_REPEAT = isMobile ? 4 : 6;
+for(let i=0; i<PHRASE_REPEAT; i++){ WORDS.push(...baseWords); }
+
+function makeTextTexture(text, color){
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 128;
+  const ctx = c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  let fontSize = 50;
+  ctx.font = `700 ${fontSize}px "Playfair Display", serif`;
+  while (ctx.measureText(text).width > c.width - 50 && fontSize > 26) {
+    fontSize -= 2;
+    ctx.font = `700 ${fontSize}px "Playfair Display", serif`;
+  }
+  ctx.fillStyle = '#ffffff'; ctx.shadowColor = color; ctx.shadowBlur = 25;
+  ctx.fillText(text, c.width/2, c.height/2);
+  return new THREE.CanvasTexture(c);
+}
+const COLORS = ['#ff66cc','#cc66ff','#ff99cc','#ff3399','#ff66a3','#ffa0f8','#e0a7ff','#ff4488','#ff99ff'];
+const textGroup = new THREE.Group(); scene.add(textGroup);
+
+document.fonts.ready.then(() => {
+  for(let i=0; i<WORDS.length; i++){
+    const tex = makeTextTexture(WORDS[i], COLORS[i%COLORS.length]);
+    const mat = new THREE.SpriteMaterial({map: tex, transparent: true});
+    const sp = new THREE.Sprite(mat);
+    sp.scale.set(98, 12.25, 1);
+    const phi = Math.acos(2 * Math.random() - 1); const theta = Math.random() * Math.PI * 2;
+    const r = DUST_INNER_R + Math.random() * (DUST_OUTER_R - DUST_INNER_R - 30);
+    sp.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+    sp.userData = {phi: phi, theta: theta, radius: r, speed: 0.001 + Math.random() * 0.001};
+    textGroup.add(sp);
+  }
+});
+
+// Fotos orbitando (campo "gallery" del schema, ver CONFIG_FIELDS.fotos):
+// mismo mecanismo de esferas de sprites que las frases de arriba, portado
+// de freegalaxy-dia-novia (Dia de la Novia) - ahi el tamaño base era
+// 20/28 ("a la escala de las frases" segun su propio comentario), aca se
+// sube a 34/46 a pedido explicito: las fotos se veian demasiado chicas.
+const PHOTO_PATHS = (Array.isArray(CONFIG_FIELDS.fotos) && CONFIG_FIELDS.fotos.length) ? CONFIG_FIELDS.fotos : DEFAULTS.fotos;
+const PHOTO_REPEAT = isMobile ? 5 : 8;
+const PHOTO_INSTANCES = [];
+for (let rep = 0; rep < PHOTO_REPEAT; rep++) { PHOTO_INSTANCES.push(...PHOTO_PATHS); }
+
+const photoLoader = new THREE.TextureLoader();
+const photoGroup = new THREE.Group(); scene.add(photoGroup);
+const photoBaseSize = isMobile ? 34 : 46;
+
+PHOTO_INSTANCES.forEach((path) => {
+  const phi = Math.acos(2 * Math.random() - 1);
+  const theta = Math.random() * Math.PI * 2;
+  const r = DUST_INNER_R + Math.random() * (DUST_OUTER_R - DUST_INNER_R - 30);
+  const speed = 0.0007 + Math.random() * 0.0009;
+
+  photoLoader.load(path, (tex) => {
+    const iw = (tex.image && tex.image.width) || 1;
+    const ih = (tex.image && tex.image.height) || 1;
+    const ratio = iw / ih;
+    const mat = new THREE.SpriteMaterial({map: tex, transparent: true, depthWrite: false, opacity: 0.94});
+    const sp = new THREE.Sprite(mat);
+    if (ratio >= 1) sp.scale.set(photoBaseSize * ratio, photoBaseSize, 1);
+    else sp.scale.set(photoBaseSize, photoBaseSize / ratio, 1);
+    sp.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+    sp.userData = {phi: phi, theta: theta, radius: r, speed: speed};
+    photoGroup.add(sp);
+  });
+});
+
+// ================= Controles de Cámara — Rotación Suave Sin Trabas =================
+// El problema del "trancazo" horizontal venía de que al restar deltaX del ángulo
+// rotY, si el frame tarda mucho o la sensibilidad es alta, el valor salta.
+// Solución: acumular el target en variables separadas y aplicar lerp suave.
+let isPointerDown = false;
+let isDragging = false;
+let startX = 0, startY = 0;
+let targetRotX = 0.2, targetRotY = 0;
+// Velocidades angulares para inercia
+let velX = 0, velY = 0;
+
+function onDown(e) {
+  isPointerDown = true;
+  isDragging = false;
+  velX = 0; velY = 0; // corta la inercia al tocar de nuevo
+  const t = e.touches ? e.touches[0] : e;
+  startX = t.clientX;
+  startY = t.clientY;
+}
+
+function onMove(e) {
+  if (!isPointerDown) return;
+  if (e.touches && e.touches.length > 1) return; // Pinch manejado aparte
+  const t = e.touches ? e.touches[0] : e;
+  const dx = t.clientX - startX;
+  const dy = t.clientY - startY;
+
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    isDragging = true;
+
+    // Sensibilidad normalizada al tamaño de pantalla
+    const sensX = (Math.PI * 1.5) / innerWidth;   // vuelta completa = 1.5x el ancho
+    const sensY = (Math.PI * 0.8) / innerHeight;
+
+    velY = -dx * sensX;  // negativo = drag derecha → rota derecha (intuitivo)
+    velX =  dy * sensY;  // vertical invertido: arrastrar abajo = bajar vista
+
+    targetRotY += velY;
+    targetRotX = Math.max(-1.25, Math.min(1.25, targetRotX + velX));
+
+    startX = t.clientX;
+    startY = t.clientY;
+  }
+}
+
+function onUp() {
+  isPointerDown = false;
+  // La inercia (velX, velY) se decae en el loop de animación
+}
+
+const dom = renderer.domElement;
+dom.addEventListener('mousedown', onDown);
+dom.addEventListener('mousemove', onMove);
+window.addEventListener('mouseup', onUp);
+
+dom.addEventListener('touchstart', onDown, {passive: true});
+dom.addEventListener('touchmove', onMove, {passive: true});
+window.addEventListener('touchend', (e) => {
+  if (!e.touches || e.touches.length === 0) {
+    onUp();
+  } else {
+    // Queda al menos un dedo: resetear punto de referencia sin cortar inercia
+    const t = e.touches[0];
+    startX = t.clientX;
+    startY = t.clientY;
+    isDragging = false;
+  }
+}, {passive: true});
+
+// ================= Zoom — Pinch Mejorado para Móvil =================
+// Problema anterior: al cambiar de 2 dedos → 1 dedo → 2 dedos de nuevo,
+// `pinch` tenía el valor de la sesión anterior y causaba un salto.
+// Solución: rastrear la distancia SOLO mientras haya exactamente 2 toques
+// activos; resetear a null al salir de ese estado.
+
+addEventListener('wheel', (e) => {
+  targetDist += e.deltaY * 0.25;
+  targetDist = Math.max(180, Math.min(1100, targetDist));
+}, {passive: true});
+
+let pinchDist = null; // null = no hay pinch activo
+
+function getPinchDist(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.hypot(dx, dy);
+}
+
+addEventListener('touchstart', (e) => {
+  if (e.touches.length === 2) {
+    pinchDist = getPinchDist(e.touches);
+    // Al iniciar pinch, parar el drag para que no compitan
+    isPointerDown = false;
+    isDragging = false;
+  }
+}, {passive: true});
+
+addEventListener('touchmove', (e) => {
+  if (e.touches.length === 2) {
+    const newDist = getPinchDist(e.touches);
+    if (pinchDist !== null) {
+      const delta = pinchDist - newDist;
+      // Mayor sensibilidad en móvil (×0.85 en lugar de ×0.5)
+      targetDist += delta * 0.85;
+      targetDist = Math.max(180, Math.min(1100, targetDist));
+    }
+    pinchDist = newDist;
+  } else {
+    // Ya no hay 2 dedos: invalida el estado del pinch
+    if (pinchDist !== null) {
+      pinchDist = null;
+      // Si quedó un dedo, actualizar el punto de referencia para evitar saltos
+      if (e.touches.length === 1) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isPointerDown = true;
+        isDragging = false;
+      }
+    }
+  }
+}, {passive: true});
+
+addEventListener('touchend', (e) => {
+  if (e.touches.length < 2) {
+    pinchDist = null;
+  }
+}, {passive: true});
+
+// ================= Raycaster (click en corazón — ahora sin modal) =================
+// El click en el corazón ya no abre ningún mensaje; lo dejamos sin acción
+// para no romper la experiencia visual limpia.
+
+// ================= Animación =================
+let t = 0;
+const INERTIA_DECAY = 0.88; // decaimiento de inercia de rotación
+
+function tick(){
+  requestAnimationFrame(tick);
+  t += 0.01;
+
+  // Inercia suave de rotación
+  if (!isPointerDown) {
+    velX *= INERTIA_DECAY;
+    velY *= INERTIA_DECAY;
+    targetRotX = Math.max(-1.25, Math.min(1.25, targetRotX + velX));
+    targetRotY += velY;
+  }
+
+  // Lerp suave hacia los ángulos objetivo
+  rotX += (targetRotX - rotX) * 0.12;
+  rotY += (targetRotY - rotY) * 0.12;
+
+  // Animaciones de escena
+  ring1.rotation.z += 0.002;
+  ring2.rotation.z -= 0.0015;
+  spiral.rotation.y -= 0.0045;
+  dust.rotation.y += 0.0006;
+
+  glow.scale.set(450 * (1 + Math.sin(t*0.4)*0.03), 450 * (1 + Math.sin(t*0.4)*0.03), 1);
+
+  // Latido del corazón
+  const s = 1.0 + 0.05 * Math.sin(t * 4);
+  heart.scale.set(s, s, s);
+  hitSphere.scale.set(s, s, s);
+
+  // Frases orbitando
+  textGroup.children.forEach(sp => {
+    sp.material.opacity = 0.8 + 0.2 * Math.sin(t * 2);
+    sp.userData.theta += sp.userData.speed;
+    sp.position.x = sp.userData.radius * Math.sin(sp.userData.phi) * Math.cos(sp.userData.theta);
+    sp.position.z = sp.userData.radius * Math.sin(sp.userData.phi) * Math.sin(sp.userData.theta);
+  });
+
+  // Fotos orbitando
+  photoGroup.children.forEach(sp => {
+    sp.userData.theta += sp.userData.speed;
+    sp.position.x = sp.userData.radius * Math.sin(sp.userData.phi) * Math.cos(sp.userData.theta);
+    sp.position.z = sp.userData.radius * Math.sin(sp.userData.phi) * Math.sin(sp.userData.theta);
+    sp.material.opacity = 0.82 + 0.14 * Math.sin(t * 1.6 + sp.userData.radius);
+  });
+
+  // Suavidad de la cámara
+  currentDist += (targetDist - currentDist) * 0.06;
+
+  // Posición esférica de la cámara con coordenadas correctas para evitar gimbal lock
+  // rotX es elevación (-1.25 abajo a +1.25 arriba), rotY es azimuth libre
+  const camX = currentDist * Math.cos(rotX) * Math.sin(rotY);
+  const camY = currentDist * Math.sin(rotX);
+  const camZ = currentDist * Math.cos(rotX) * Math.cos(rotY);
+  camera.position.set(camX, camY, camZ);
+  camera.lookAt(0, 0, 0);
+
+  renderer.render(scene, camera);
+}
+tick();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a0a;min-height:100vh}</style><title>Dédicace spéciale</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;display=swap" rel="stylesheet"/><style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+
+body {
+    background: #0d0c1d;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=60') no-repeat center/cover;
+    z-index: -2;
+    transform: scale(1.05);
+    will-change: transform;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(13, 12, 29, 0.85), rgba(13, 12, 29, 0.9));
+    z-index: -1;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+h1 {
+    font-size: 3.5em;
+    color: #ff3366;
+    text-shadow: 0 0 15px rgba(255, 51, 102, 0.7);
+    font-weight: 700;
+    letter-spacing: 1px;
+    animation: pulseTitle 3s ease-in-out infinite;
+}
+
+.container {
+    position: relative;
+    max-width: 1100px;
+    width: 90%;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    border: 1px solid rgba(255, 51, 102, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease-out;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.image-container {
+    flex: 0 0 auto;
+}
+
+.cover-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.cover-image:hover {
+    transform: scale(1.03);
+}
+
+.password-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.password-hint {
+    font-size: 1.8em;
+    color: #f8f8f8;
+    font-style: italic;
+    text-align: center;
+    font-weight: 500;
+}
+
+.hint {
+    font-size: 0.7em;
+    color: #ff99aa;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.password-display {
+    font-size: 1.3em;
+    color: #ff3366;
+    background: rgba(255, 51, 102, 0.15);
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ff3366;
+    width: 220px;
+    height: 45px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(255, 51, 102, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.key {
+    width: 65px;
+    height: 65px;
+    font-size: 1.9em;
+    color: #fff;
+    background: linear-gradient(135deg, #ff3366, #d81b60);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 500;
+}
+
+.key:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 51, 102, 0.5);
+    background: linear-gradient(135deg, #d81b60, #ff3366);
+}
+
+.key:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.enter-key {
+    grid-column: span 3;
+    width: auto;
+    height: 55px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f06292, #c2185b);
+    font-size: 1.6em;
+    font-family: 'Playfair Display', serif;
+    padding: 0 25px;
+    transition: all 0.2s ease;
+}
+
+.enter-key:hover {
+    background: linear-gradient(135deg, #c2185b, #f06292);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(198, 40, 91, 0.5);
+}
+
+.enter-key:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(198, 40, 91, 0.4);
+}
+
+.error {
+    color: #e53935;
+    font-size: 0.95em;
+    margin-top: 8px;
+    display: none;
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes pulseTitle {
+    0% { text-shadow: 0 0 10px rgba(255, 51, 102, 0.7); opacity: 0.95; }
+    50% { text-shadow: 0 0 18px rgba(255, 51, 102, 0.9); opacity: 1; }
+    100% { text-shadow: 0 0 10px rgba(255, 51, 102, 0.7); opacity: 0.95; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+@media (min-width: 768px) {
+    .title {
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        font-size: 4.5em;
+    }
+
+    .container {
+        max-width: 1200px;
+        padding: 40px;
+        gap: 25px;
+    }
+
+    .main-content {
+        flex-direction: row;
+        gap: 50px;
+        justify-content: center;
+    }
+
+    .cover-image {
+        width: 380px;
+        height: 380px;
+    }
+
+    .password-section {
+        flex: 1;
+        max-width: 600px;
+    }
+
+    .password-hint {
+        font-size: 2.2em;
+    }
+
+    .hint {
+        font-size: 0.85em;
+    }
+
+    .password-display {
+        width: 260px;
+        height: 50px;
+        font-size: 1.6em;
+        padding: 12px;
+    }
+
+    .keyboard {
+        max-width: 360px;
+        gap: 12px;
+    }
+
+    .key {
+        width: 80px;
+        height: 80px;
+        font-size: 2.2em;
+    }
+
+    .enter-key {
+        width: 180px;
+        height: 60px;
+        font-size: 1.8em;
+    }
+
+    .error {
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 420px) {
+    .title {
+        margin-bottom: 12px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        animation: pulseTitleMobile 3.5s ease-in-out infinite; /* Mobile-specific animation */
+    }
+
+    .container {
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    .cover-image {
+        width: 170px;
+        height: 170px;
+    }
+
+    .password-hint {
+        font-size: 1.1em;
+    }
+
+    .hint {
+        font-size: 0.6em;
+    }
+
+    .password-display {
+        width: 170px;
+        height: 27px;
+        font-size: 1.1em;
+        padding: 8px;
+    }
+
+    .keyboard {
+        max-width: 260px;
+        gap: 8px;
+    }
+
+    .key {
+        width: 45px;
+        height: 45px;
+        font-size: 1.4em;
+    }
+
+    .enter-key {
+    width: 120px;
+    height: 35px;
+    font-size: 1.2em;
+    padding: 0 15px;
+    margin: 0 auto;
+    display: block; /* Asegura que se centre con margin auto */
+}
+
+
+    .error {
+        font-size: 0.85em;
+    }
+
+    .parallax-bg {
+        background-size: cover;
+        transform: none;
+    }
+}
+
+@keyframes pulseTitleMobile {
+    0% { text-shadow: 0 0 10px rgba(255, 51, 102, 0.7); opacity: 0.95; }
+    50% { text-shadow: 0 0 18px rgba(255, 51, 102, 0.9); opacity: 1; }
+    100% { text-shadow: 0 0 10px rgba(255, 51, 102, 0.7); opacity: 0.95; }
+}
+
+
+
+</style></head><body>
+<!-- DEDIKKA_PAGE_DATA -->
+<script>
+/* ===== Données publiques de la dédicace ===== */
+const PAGE_DATA = window.DEDIKKA_PAGE_DATA || {};
+document.addEventListener('DOMContentLoaded', () => {
+    const coverPhoto = PAGE_DATA.images?.cover_image || Object.values(PAGE_DATA.images || {}).find(value => typeof value === 'string' && value);
+    const coverImage = document.querySelector('.cover-image');
+    if (coverImage && coverPhoto) coverImage.src = coverPhoto;
+    const hint = document.querySelector('.hint');
+    const passwordTitle = document.querySelector('.title h1');
+    if (hint) hint.textContent = PAGE_DATA.password_hint ? 'Indice : ' + PAGE_DATA.password_hint : 'Indice : un jour important pour nous';
+    if (passwordTitle) passwordTitle.textContent = PAGE_DATA.password_title || 'Une dédicace pour toi';
+});
+const MAIN_PAGE = "\u003c!DOCTYPE html\u003e\u003chtml lang=\"fr\"\u003e\u003chead\u003e\u003cmeta charset=\"UTF-8\"\u003e\u003cmeta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\"\u003e\u003cstyle\u003e*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a0a;min-height:100vh}\u003c/style\u003e\u003ctitle\u003eVotre d\u00e9dicace\u003c/title\u003e\u003clink href=\"https://fonts.googleapis.com/css2?family=Open+Sans\u0026amp;display=swap\" rel=\"stylesheet\"/\u003e\u003clink href=\"https://fonts.googleapis.com/css2?family=Great+Vibes\u0026amp;family=Allura\u0026amp;family=Dancing+Script\u0026amp;family=Satisfy\u0026amp;family=Tangerine\u0026amp;display=swap\" rel=\"stylesheet\"/\u003e\u003clink href=\"https://fonts.googleapis.com/css2?family=Playfair+Display\u0026amp;family=Orbitron:wght@700\u0026amp;family=Great+Vibes\u0026amp;family=Oswald\u0026amp;family=Parisienne\u0026amp;family=Roboto+Slab\u0026amp;display=swap\" rel=\"stylesheet\"/\u003e\u003clink href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css\" rel=\"stylesheet\"/\u003e\u003cstyle\u003e\n * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: 'Playfair Display', serif;\n        }\n\n        html, body {\n            height: 100%;\n            min-height: 100vh;\n            overflow-x: hidden;\n            overflow-y: auto;\n        }\n\n        body {\n            background: #0d0c1d;\n            color: #fff;\n            overflow-x: hidden;\n        }\n\n        .parallax-bg {\n            position: fixed;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100vh;\n            background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba') no-repeat center/cover;\n            z-index: -2;\n            transform: translateZ(-1px) scale(1.1);\n        }\n\n        .overlay-bg {\n            position: fixed;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: linear-gradient(rgba(13, 12, 29, 0.8), rgba(13, 12, 29, 0.9));\n            z-index: -1;\n        }\n\n        .main-container {\n            position: relative;\n            padding: 60px 20px;\n            max-width: 1200px;\n            margin: 0 auto;\n            z-index: 1;\n            min-height: 100vh;\n            display: flex;\n            flex-direction: column;\n            justify-content: space-between;\n        }\n        .section-title {\n    font-size: 3em;\n    color: #ff4d6d;\n    text-align: center;\n    margin-bottom: 30px;\n    text-shadow: 0 0 15px rgba(255, 77, 109, 0.5);\n}\n\n        .title {\n            font-size: 7em;\n            font-family: 'Tangerine', cursive;\n            color: #ff4d6d;\n            text-align: center;\n            text-shadow: 0 0 20px rgba(255, 77, 109, 0.7);\n            animation: glowTitle 4s ease-in-out infinite;\n            margin-bottom: 40px;\n        }\n\n        .time-since-birth {\n            text-align: center;\n            margin: 40px 0;\n            background: linear-gradient(135deg, rgba(255, 77, 109, 0.3), rgba(139, 0, 50, 0.3));\n            backdrop-filter: blur(15px);\n            padding: 40px;\n            border-radius: 30px;\n            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.2);\n            border: 2px solid #ffd700;\n            animation: fadeInUp 1s ease-out;\n        }\n\n        .time-title {\n            font-size: 3em;\n            color: #ff4d6d;\n            text-shadow: 0 0 10px #ff4d6d;\n            margin-bottom: 20px;\n            font-style: italic;\n        }\n\n        .time-display {\n            font-family: 'Orbitron', sans-serif;\n            font-size: 2.75em;\n            color: #ffd700;\n            text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700;\n            letter-spacing: 8px;\n            font-weight: 700;\n            padding: 15px 25px;\n            border-radius: 12px;\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            max-width: 100%;\n        }\n\n        .time-label {\n            font-size: 1.3em;\n            color: #f4f4f4;\n            margin-top: 15px;\n            font-style: italic;\n            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);\n        }\n\n        .personalized-message {\n            font-size: 1.5em;\n            color: #f4f4f4;\n            margin-top: 20px;\n            font-style: italic;\n            max-width: 600px;\n            margin-left: auto;\n            margin-right: auto;\n            line-height: 1.6;\n        }\n\n        @keyframes glowTitle {\n            0% { text-shadow: 0 0 10px #ff4d6d; }\n            50% { text-shadow: 0 0 30px #ff4d6d, 0 0 40px #ff4d6d; }\n            100% { text-shadow: 0 0 10px #ff4d6d; }\n        }\n\n        .intro {\n            font-size: 1.8em;\n            line-height: 1.6;\n            max-width: 800px;\n            margin: 0 auto 60px;\n            background: rgba(255, 255, 255, 0.1);\n            padding: 30px;\n            border-radius: 15px;\n            animation: fadeInUp 1.5s ease-out;\n            text-align: center;\n        }\n\n        .quote-section {\n            max-width: 700px;\n            margin: 60px auto;\n            font-size: 1.7em;\n            font-style: italic;\n            color: #f4f4f4;\n            background: rgba(255, 77, 109, 0.15);\n            padding: 25px;\n            border-left: 5px solid #ff4d6d;\n            animation: slideInLeft 1.5s ease-out;\n        }\n\n        .carousel {\n            position: relative;\n            width: 100%;\n            aspect-ratio: 16 / 9;\n            max-width: 800px;\n            margin: 60px auto;\n            overflow: hidden;\n            border-radius: 20px;\n            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);\n        }\n\n        .carousel .image-container {\n            position: absolute;\n            width: 100%;\n            height: 100%;\n            opacity: 0;\n            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;\n            z-index: 1;\n        }\n\n        .carousel .image-container.active {\n            opacity: 1;\n            transform: translateX(0);\n            z-index: 2;\n        }\n\n        .carousel .image-container img {\n            width: 100%;\n            height: 100%;\n            object-fit: contain;\n            position: relative;\n            z-index: 2;\n        }\n\n        .carousel .image-container::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: inherit;\n            background-size: cover;\n            background-position: center;\n            filter: blur(52px);\n            z-index: 1;\n            opacity: 0.9;\n        }\n\n        .carousel-btn {\n            position: absolute;\n            top: 50%;\n            transform: translateY(-50%);\n            background: linear-gradient(135deg, #ff4d6d, #e6395c);\n            color: #fff;\n            border: none;\n            padding: 12px 20px;\n            cursor: pointer;\n            font-size: 1.2em;\n            border-radius: 10px;\n            transition: all 0.3s ease;\n            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n            z-index: 3;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n        }\n\n        .carousel-btn:hover {\n            background: linear-gradient(135deg, #e6395c, #ff4d6d);\n            transform: translateY(-50%) scale(1.1);\n            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);\n        }\n\n        .carousel-btn:active {\n            transform: translateY(-50%) scale(0.95);\n        }\n\n        .prev-btn {\n            left: 20px;\n        }\n\n        .next-btn {\n            right: 20px;\n        }\n\n        .heart-btn {\n            position: relative;\n            width: 70px;\n            height: 70px;\n            background: #ff4d6d;\n            border: none;\n            cursor: pointer;\n            margin: 40px auto;\n            transform: rotate(45deg);\n            transition: all 0.3s ease;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            text-align: center;\n            animation: heartPulse 2s ease-in-out infinite;\n            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.5);\n            z-index: 5;\n        }\n\n        .heart-btn::before,\n        .heart-btn::after {\n            content: '';\n            position: absolute;\n            width: 70px;\n            height: 70px;\n            background: #ff4d6d;\n            border-radius: 50%;\n            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.5);\n            transition: all 0.3s ease;\n            z-index: 0;\n        }\n\n        .heart-btn::before {\n            top: -35px;\n            left: 0;\n            z-index: -5;\n        }\n\n        .heart-btn::after {\n            left: -35px;\n            top: 0;\n            z-index: -5;\n        }\n\n        .heart-btn:hover {\n            background: #e6395c;\n            transform: rotate(45deg) scale(1.15);\n            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.7);\n            z-index: 0;\n        }\n\n        .heart-btn:hover::before,\n        .heart-btn:hover::after {\n            background: #e6395c;\n            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.7);\n        }\n\n        .heart-btn span {\n            position: relative;\n            margin-top: -15px;\n            margin-left: -15px;\n            transform: rotate(-45deg);\n            font-family: 'Playfair Display', serif;\n            font-size: 1.5em;\n            color: #fff;\n            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);\n        }\n\n        @keyframes heartPulse {\n            0% { transform: rotate(45deg) scale(1); }\n            50% { transform: rotate(45deg) scale(1.1); }\n            100% { transform: rotate(45deg) scale(1); }\n        }\n\n        .memory-section {\n            max-width: 1000px;\n            margin: 60px auto;\n            padding: 40px;\n            background: rgba(255, 255, 255, 0.08);\n            border-radius: 20px;\n        }\n\n        .memory-item {\n            margin-bottom: 40px;\n            padding: 20px;\n            background: rgba(255, 255, 255, 0.1);\n            border-radius: 15px;\n            animation: fadeInUp 1s ease-out;\n        }\n\n        .memory-item h3 {\n            font-size: 2.2em;\n            color: #ff4d6d;\n            margin-bottom: 15px;\n        }\n\n        .memory-item .date {\n            font-size: 1.3em;\n            color: #ccc;\n            margin-bottom: 15px;\n        }\n\n        .future-plans {\n            max-width: 900px;\n            margin: 60px auto;\n            padding: 40px;\n            background: rgba(255, 255, 255, 0.08);\n            border-radius: 20px;\n            animation: fadeInUp 1s ease-out;\n        }\n\n        .future-plans h2 {\n            font-size: 2.8em;\n            color: #ff4d6d;\n            margin-bottom: 25px;\n            text-align: center;\n        }\n\n        .love-meter {\n            max-width: 600px;\n            margin: 60px auto;\n            padding: 40px;\n            background: rgba(255, 255, 255, 0.12);\n            border-radius: 15px;\n            text-align: center;\n            opacity: 0;\n            transform: translateY(30px);\n            transition: opacity 1s ease-out, transform 1s ease-out;\n        }\n\n        .love-meter.visible {\n            opacity: 1;\n            transform: translateY(0);\n        }\n\n        .love-meter h2 {\n            font-size: 2.8em;\n            color: #ff4d6d;\n            margin-bottom: 20px;\n        }\n\n        .meter-container {\n            width: 100%;\n            height: 30px;\n            background: rgba(255, 255, 255, 0.1);\n            border-radius: 15px;\n            overflow: hidden;\n            position: relative;\n            border: 2px solid #f06292;\n        }\n\n        .meter-fill {\n            width: 0;\n            height: 100%;\n            background: linear-gradient(to right, #ff4d6d, #e6395c);\n            transition: width 2s ease-in-out;\n        }\n\n        .meter-fill.active {\n            width: 100%;\n        }\n\n        .meter-text {\n            font-size: 1.6em;\n            color: #f4f4f4;\n            margin-top: 20px;\n            font-style: italic;\n        }\n\n        .end-message {\n            max-width: 800px;\n            margin: 60px auto;\n            padding: 40px;\n            background: rgba(255, 255, 255, 0.12);\n            border-radius: 15px;\n            font-size: 1.6em;\n            text-align: center;\n            animation: zoomIn 1s ease-out;\n        }\n         .signatur {\n            font-size: 1.5em;\n            font-style: italic;\n            color: #ff4d6d;\n            margin-top: 15px;\n            text-align: center;\n        }\n\n        .signature {\n            font-size: 2.2em;\n            font-style: italic;\n            color: #ff4d6d;\n            margin-top: 30px;\n            text-align: center;\n        }\n\n        .footer {\n            display: flex;\n            flex-direction: column;\n            justify-content: center;\n            align-items: center;\n            text-align: center;\n            padding: 40px 20px;\n            background: rgba(0, 0, 0, 0.8);\n            margin-top: 30px;\n            position: relative;\n            width: 100%;\n            box-sizing: border-box;\n        }\n\n        .footer p {\n            font-size: 1em;\n            color: #f4f4f4;\n            margin: 0 0 10px 0;\n            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);\n        }\n\n        .particle {\n            position: absolute;\n            width: 5px;\n            height: 5px;\n            background: #ff4d6d;\n            border-radius: 50%;\n            opacity: 0;\n        }\n\n        .music-control {\n            position: fixed;\n            top: 20px;\n            right: 20px;\n            z-index: 1000;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n        }\n\n        .music-btn {\n            width: 50px;\n            height: 50px;\n            background: linear-gradient(135deg, #ff4d6d, #e6395c);\n            border: none;\n            border-radius: 50%;\n            cursor: pointer;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);\n            transition: all 0.3s ease;\n        }\n\n        .music-btn:hover {\n            transform: scale(1.1);\n            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6);\n        }\n\n        .music-btn:active {\n            transform: scale(0.95);\n        }\n\n        .music-btn svg {\n            width: 24px;\n            height: 24px;\n            fill: #fff;\n        }\n\n        .volume-control {\n            width: 120px;\n            background: rgba(255, 255, 255, 0.15);\n            padding: 10px;\n            border-radius: 10px;\n            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);\n            border: 1px solid rgba(255, 77, 109, 0.5);\n            margin-top: 10px;\n            display: none;\n            opacity: 0;\n            transform: translateY(-10px);\n            transition: opacity 0.3s ease, transform 0.3s ease;\n        }\n\n        .volume-control.visible {\n            display: block;\n            opacity: 1;\n            transform: translateY(0);\n        }\n\n        .volume-control input {\n            width: 100%;\n            height: 8px;\n            background: rgba(255, 255, 255, 0.3);\n            border-radius: 4px;\n            outline: none;\n            cursor: pointer;\n            -webkit-appearance: none;\n        }\n\n        .volume-control input::-webkit-slider-thumb {\n            -webkit-appearance: none;\n            width: 16px;\n            height: 16px;\n            background: #ff4d6d;\n            border-radius: 50%;\n            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);\n        }\n\n        .volume-control input::-moz-range-thumb {\n            width: 16px;\n            height: 16px;\n            background: #ff4d6d;\n            border-radius: 50%;\n            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);\n            border: none;\n        }\n\n        /* Modal styles for the letter */\n        .letter-overlay {\n            position: fixed;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: rgba(0, 0, 0, 0.6);\n            display: none;\n            justify-content: center;\n            align-items: center;\n            z-index: 1000;\n            overflow-y: auto;\n        }\n\n        .letter-card {\n            background: #ffffff;\n            border-radius: 12px;\n            padding: 40px;\n            max-width: 550px;\n            width: 90%;\n            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);\n            position: relative;\n            border: 2px solid #ef9a9a;\n            background-image: url('data:image/svg+xml;utf8,\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"50\" height=\"50\" viewBox=\"0 0 50 50\"\u003e\u003cpath d=\"M25 10 C20 5, 15 5, 10 10 C5 15, 5 20, 10 25 C15 30, 20 30, 25 25 C30 30, 35 30, 40 25 C45 20, 45 15, 40 10 C35 5, 30 5, 25 10\" fill=\"none\" stroke=\"#ef9a9a\" stroke-width=\"1\" opacity=\"0.1\"/\u003e\u003c/svg\u003e');\n            background-repeat: repeat;\n            animation: slideIn 0.5s ease-out;\n            display: flex;\n            flex-direction: column;\n            max-height: 80vh;\n        }\n\n        @keyframes slideIn {\n            from {\n                transform: translateY(-50px);\n                opacity: 0;\n            }\n            to {\n                transform: translateY(0);\n                opacity: 1;\n            }\n        }\n\n        .letter-card::before {\n            content: '';\n            position: absolute;\n            top: 10px;\n            right: 20px;\n            width: 50px;\n            height: 50px;\n            background: url('data:image/svg+xml;utf8,\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 50 50\"\u003e\u003ccircle cx=\"25\" cy=\"25\" r=\"20\" fill=\"#ef9a9a\"/\u003e\u003cpath d=\"M25 15 C22 10, 18 10, 15 15 C12 20, 12 25, 15 30 C18 35, 22 35, 25 30 C28 35, 32 35, 35 30 C38 25, 38 20, 35 15 C32 10, 28 10, 25 15\" fill=\"#fff\" stroke=\"#ef9a9a\" stroke-width=\"1\"/\u003e\u003c/svg\u003e') no-repeat;\n            opacity: 0.8;\n        }\n\n        .letter-card h2 {\n            margin: 0 0 20px 0;\n            font-size: 50px;\n            color: #b71c1c;\n            text-align: center;\n            font-family: 'Great Vibes', cursive;\n            letter-spacing: 1px;\n            border-bottom: 1px solid #ef9a9a;\n            padding-bottom: 10px;\n            flex-shrink: 0;\n        }\n\n        .letter-card .close {\n            position: absolute;\n            top: 15px;\n            right: 15px;\n            font-size: 24px;\n            background: none;\n            border: none;\n            cursor: pointer;\n            color: #666;\n            transition: color 0.2s;\n        }\n\n        .letter-card .close:hover {\n            color: #ef9a9a;\n        }\n\n        .typewriter-container {\n            font-size: 16px;\n            line-height: 1.8;\n            color: #2d2d2d;\n            width: 100%;\n            max-height: 50vh; \n            overflow-y: auto; \n            padding-right: 10px; \n            flex-grow: 1; \n            margin-bottom: 20px;\n        }\n        .typewriter-container::-webkit-scrollbar {\n    width: 8px;\n}\n\n.typewriter-container::-webkit-scrollbar-track {\n    background: rgba(0, 0, 0, 0.1);\n    border-radius: 4px;\n}\n\n.typewriter-container::-webkit-scrollbar-thumb {\n    background: #ef9a9a;\n    border-radius: 4px;\n}\n\n.typewriter-container::-webkit-scrollbar-thumb:hover {\n    background: #e6395c;\n}\n\n        .line {\n    margin-bottom: 12px;\n    white-space: pre-wrap;\n    word-wrap: break-word;\n    height: 0; /* Inicialmente sin altura */\n    opacity: 0; /* Oculta la l\u00ednea */\n    overflow: hidden; /* Evita que el cursor o contenido vac\u00edo sea visible */\n    transition: height 0.3s ease, opacity 0.3s ease; /* Transici\u00f3n suave */\n}\n.line.active {\n    font-size: 1.05em;\n    line-height: 1.2em;\n    height: auto; /* Altura autom\u00e1tica cuando se activa */\n    opacity: 1; /* Muestra la l\u00ednea */\n    min-height: 28px; /* Restaura el min-height original cuando se escribe */\n}\n\n        .cursor {\n            display: inline-block;\n            width: 2px;\n            height: 1.2em;\n            background-color: #ef9a9a;\n            animation: blink 0.7s infinite;\n            vertical-align: middle;\n            margin-left: 2px;\n        }\n\n        @keyframes blink {\n            0%, 100% { opacity: 0; }\n            50% { opacity: 1; }\n        }\n\n        @keyframes fadeInUp {\n            from { opacity: 0; transform: translateY(50px); }\n            to { opacity: 1; transform: translateY(0); }\n        }\n\n        @keyframes slideInLeft {\n            from { opacity: 0; transform: translateX(-50px); }\n            to { opacity: 1; transform: translateX(0); }\n        }\n\n        @keyframes zoomIn {\n            from { opacity: 0; transform: scale(0.8); }\n            to { opacity: 1; transform: scale(1); }\n        }\n\n        @media (max-width: 768px) {\n            .main-container {\n                padding: 20px;\n                padding-top: 35px;\n            }\n\n            .title {\n                font-size: 4.2em;\n                margin-bottom: 10px;\n            }\n\n            .time-title {\n                font-size: 1.8em;\n            }\n\n            .time-display {\n                display: block;\n                width: 100%;\n                white-space: nowrap;\n                overflow: hidden;\n                text-overflow: clip;\n                text-align: center;\n                font-size: clamp(1rem, 5.4vw, 1.5em);\n                padding: 10px 15px;\n                transform-origin: center;\n                box-sizing: border-box;\n                letter-spacing: 0.2em;\n            }\n\n            .section-title {\n                font-size: 1.8em;\n            }\n\n            .time-label {\n                font-size: 1em;\n            }\n\n            .personalized-message {\n                font-size: 0.9em;\n            }\n\n            .intro {\n                font-size: 0.95em;\n                padding: 15px;\n                margin: 0 auto 30px;\n            }\n\n            .quote-section {\n                margin: 20px auto;\n                font-size: 1.2em;\n            }\n\n            .carousel {\n                max-width: 650px;\n                margin: 20px auto;\n            }\n\n            .carousel-btn {\n                font-size: 0.7em;\n                padding: 8px 14px;\n                color: #e6395c;\n                background: rgba(0, 0, 0, 0.50);\n                border-width: medium;\n                border-style: solid;\n                border-color: #e6395c;\n            }\n\n            .carousel-btn:hover {\n                background: linear-gradient(135deg, rgba(230, 57, 92, 0.3), rgba(255, 77, 109, 0.3));\n            }\n\n            .prev-btn {\n                left: 10px;\n            }\n\n            .next-btn {\n                right: 10px;\n            }\n\n            .heart-btn {\n                width: 60px;\n                height: 60px;\n            }\n\n            .heart-btn::before, .heart-btn::after {\n                width: 60px;\n                height: 60px;\n            }\n\n            .heart-btn::before {\n                top: -30px;\n            }\n\n            .heart-btn::after {\n                left: -30px;\n            }\n\n            .heart-btn span {\n                font-size: 0.9em;\n            }\n\n            .letter-card {\n                padding: 20px;\n                max-width: 90%;\n                max-height: 90vh;\n            }\n\n            .letter-card h2 {\n        font-size: 2em;\n    }\n\n            .typewriter-container {\n                font-size: 14px;\n                max-height: 60vh; \n                padding-right: 8px;\n            }\n            .typewriter-container::-webkit-scrollbar {\n        width: 6px;\n    }\n\n            .memory-section {\n                padding: 18px;\n                margin: 30px auto;\n            }\n\n            .memory-item {\n                padding: 13px;\n                margin-bottom: 20px;\n            }\n\n            .memory-item h3 {\n                font-size: 1.2em;\n                margin-bottom: 10px;\n            }\n\n            .memory-item .date {\n                font-size: 1em;\n                margin-bottom: 8px;\n            }\n\n            .memory-item p {\n                font-size: 0.8em;\n            }\n\n            .future-plans {\n                margin: 25px auto;\n                padding: 22px;\n            }\n\n            .future-plans h2 {\n                font-size: 1.9em;\n            }\n\n            .love-meter {\n                margin: 25px auto;\n                padding: 22px;\n            }\n\n            .love-meter h2 {\n                font-size: 1.8em;\n            }\n\n            .meter-container {\n                height: 25px;\n            }\n\n            .end-message {\n                margin: 25px auto;\n                padding: 22px;\n                font-size: 1.3em;\n            }\n\n            .signature {\n                font-size: 1.8em;\n            }\n\n            .music-control {\n                right: 15px;\n            }\n\n            .music-btn {\n                width: 35px;\n                height: 35px;\n            }\n\n            .music-btn svg {\n                width: 22px;\n                height: 22px;\n            }\n\n            .volume-control {\n                width: 100px;\n                margin-top: 8px;\n            }\n\n            .volume-control input {\n                height: 10px;\n            }\n\n            .volume-control input::-webkit-slider-thumb {\n                width: 18px;\n                height: 18px;\n            }\n\n            .volume-control input::-moz-range-thumb {\n                width: 18px;\n                height: 18px;\n            }\n\n            .time-since-birth {\n                margin: 17px 0;\n                padding: 20px;\n            }\n\n            .footer {\n                padding: 25px 20px;\n                font-size: 0.7em;\n            }\n        }\n\n        @media (max-width: 768px) and (min-aspect-ratio: 16/9) {\n            .main-container {\n                padding: 40px 15px;\n            }\n            .time-display {\n                font-size: 1.3em;\n                letter-spacing: 3px;\n                padding: 4px 6px;\n                transform: scale(0.85);\n            }\n\n            .title {\n                font-size: 3em;\n                margin-bottom: 30px;\n            }\n\n            .end-message {\n                margin: 25px auto;\n            }\n            }\n         .signatur {\n            font-size: 1em;\n           \n        }\n\n            .footer {\n                padding: 25px 20px;\n                font-size: 0.7em;\n            }\n\n            .time-since-birth {\n                padding: 10px;\n            }\n\n            \n\n            \n\n            .intro, .quote-section, .memory-section, .future-plans, .love-meter, .end-message {\n                margin: 30px auto;\n                padding: 20px;\n            }\n\n            .heart-btn {\n                width: 50px;\n                height: 50px;\n            }\n\n            .heart-btn::before, .heart-btn::after {\n                width: 50px;\n                height: 50px;\n            }\n\n            .heart-btn::before {\n                top: -25px;\n            }\n\n            .heart-btn::after {\n                left: -25px;\n            }\n\n            .heart-btn span {\n                font-size: 0.8em;\n                margin-top: -10px;\n                margin-left: -10px;\n            }\n\n            .letter-card {\n                padding: 20px;\n            }\n\n            .letter-card h2 {\n                        font-size: 2em;\n            }\n\n            .typewriter-container {\n                font-size: 13px;\n            }\n        \n\n        .section-title {\n            font-size: 2em;\n            color: #ff4d6d;\n            text-align: center;\n            margin-bottom: 30px;\n            text-shadow: 0 0 15px rgba(255, 77, 109, 0.5);\n        }\n\n        .divider {\n            width: 80%;\n            height: 4px;\n            background: linear-gradient(to right, #ff4d6d, #fff, #ff4d6d);\n            margin: 10px auto;\n            border-radius: 2px;\n        }\n\n        .highlight {\n            color: #ff4d6d;\n            font-weight: bold;\n        }\n\n        .animated-text {\n            display: inline-block;\n            animation: bounceIn 1s ease-out;\n        }\n\n        @keyframes bounceIn {\n            0% { transform: scale(0.3); opacity: 0; }\n            50% { transform: scale(1.2); opacity: 1; }\n            100% { transform: scale(1); }\n        }\n\n        .glass-effect {\n            background: rgba(255, 255, 255, 0.05);\n            backdrop-filter: blur(10px);\n            border: 1px solid rgba(255, 255, 255, 0.1);\n        }\n\n        .hover-effect {\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n\n        .hover-effect:hover {\n            transform: translateY(-5px);\n            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);\n        }\n\n        .fade-in-section {\n            opacity: 0;\n            transform: translateY(30px);\n            transition: opacity 1s ease-out, transform 1s ease-out;\n        }\n\n        .fade-in-section.visible {\n            opacity: 1;\n            transform: translateY(0);\n        }\n\u003c/style\u003e\u003c/head\u003e\u003cbody\u003e\n\u003c!-- REP\u00c8RE PHOTOS : remplace les images PHOTO 1/2/3 par tes liens. REP\u00c8RE MUSIQUE : mets musique.mp3 \u00e0 c\u00f4t\u00e9 de ce fichier ou un lien mp3 --\u003e\n\u003cdiv class=\"music-control\"\u003e\n\u003cbutton aria-label=\"Activer ou couper la musique\" class=\"music-btn\" id=\"musicBtn\"\u003e\n\u003csvg id=\"playIcon\" style=\"display: none;\" viewbox=\"0 0 24 24\"\u003e\n\u003cpath d=\"M8 5v14l11-7z\"\u003e\u003c/path\u003e\n\u003c/svg\u003e\n\u003csvg id=\"pauseIcon\" style=\"display: block;\" viewbox=\"0 0 24 24\"\u003e\n\u003cpath d=\"M6 19h4V5H6zm8-14v14h4V5z\"\u003e\u003c/path\u003e\n\u003c/svg\u003e\n\u003c/button\u003e\n\u003cdiv class=\"volume-control\" id=\"volumeControl\"\u003e\n\u003cinput aria-label=\"Volume control\" id=\"volumeSlider\" max=\"1\" min=\"0\" step=\"0.01\" type=\"range\" value=\"0.5\"/\u003e\n\u003c/div\u003e\n\u003c/div\u003e\n\u003caudio id=\"backgroundMusique\" loop=\"\" preload=\"auto\"\u003e\n\u003csource type=\"audio/mp4\"\u003e\n        Ton navigateur ne peut pas lire ce fichier audio.\n    \u003c/source\u003e\u003c/audio\u003e\n\u003cdiv class=\"parallax-bg\"\u003e\u003c/div\u003e\n\u003cdiv class=\"overlay-bg\"\u003e\u003cdiv class=\"particle\" style=\"left: 50.2889%; top: 40.4307%; animation: 1.72422s ease 1.73678s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 24.7262%; top: 20.0654%; animation: 1.39487s ease 1.72367s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 89.3809%; top: 44.75%; animation: 2.25955s ease 1.06962s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 41.8651%; top: 48.8793%; animation: 1.63728s ease 1.87808s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 6.35879%; top: 9.07934%; animation: 1.6236s ease 2.35127s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 28.1646%; top: 80.7616%; animation: 1.87632s ease 0.172173s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 46.5852%; top: 17.8992%; animation: 2.87116s ease 0.739177s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 55.9329%; top: 24.6607%; animation: 1.49815s ease 2.65423s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 14.213%; top: 93.7461%; animation: 1.95915s ease 2.28809s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 8.06493%; top: 74.8734%; animation: 1.32268s ease 1.27025s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 37.9555%; top: 17.9809%; animation: 2.34784s ease 1.0766s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 12.3643%; top: 9.75383%; animation: 1.99527s ease 1.30947s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 6.53678%; top: 93.2836%; animation: 1.85363s ease 1.63575s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 80.3542%; top: 65.1979%; animation: 1.07144s ease 2.31306s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 24.1874%; top: 21.7736%; animation: 1.83668s ease 1.46077s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 66.6003%; top: 56.9969%; animation: 1.52891s ease 0.790893s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 12.0034%; top: 25.6107%; animation: 1.97394s ease 1.97379s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 94.0081%; top: 27.7695%; animation: 2.13113s ease 2.97212s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 87.5452%; top: 23.4983%; animation: 1.92747s ease 2.23472s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 90.3858%; top: 6.16625%; animation: 2.87125s ease 2.65177s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 71.2765%; top: 65.04%; animation: 2.57157s ease 1.29111s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 17.1175%; top: 75.1509%; animation: 2.41543s ease 0.738976s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 23.6135%; top: 53.5142%; animation: 1.21629s ease 2.66908s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 93.5269%; top: 74.8956%; animation: 1.64317s ease 2.11162s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 79.8458%; top: 27.3538%; animation: 1.03775s ease 2.53833s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 76.4452%; top: 47.5125%; animation: 1.10247s ease 0.826274s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 67.1288%; top: 49.9728%; animation: 1.50669s ease 2.43583s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 80.201%; top: 48.3723%; animation: 1.25162s ease 0.143522s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 50.8011%; top: 6.45691%; animation: 1.0274s ease 2.28629s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 81.844%; top: 53.3953%; animation: 2.19322s ease 1.37621s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 70.5064%; top: 21.2723%; animation: 2.39543s ease 0.570249s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 65.6043%; top: 11.1639%; animation: 2.85783s ease 0.690949s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 80.2102%; top: 82.7365%; animation: 1.30261s ease 1.62915s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 90.4427%; top: 8.14916%; animation: 1.52169s ease 0.810592s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 51.6021%; top: 3.80342%; animation: 1.00251s ease 2.76635s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 38.227%; top: 26.1934%; animation: 1.48658s ease 1.74481s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 84.2221%; top: 84.7109%; animation: 2.17702s ease 2.27383s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 37.6311%; top: 26.896%; animation: 2.95294s ease 1.37336s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 74.6411%; top: 0.683794%; animation: 1.16996s ease 1.29571s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 94.7229%; top: 31.5868%; animation: 1.88441s ease 0.187681s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 88.7348%; top: 60.6099%; animation: 2.15094s ease 2.64329s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 7.1141%; top: 71.9936%; animation: 1.44772s ease 1.82031s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 21.5751%; top: 1.09877%; animation: 2.89113s ease 2.57055s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 12.5799%; top: 33.1186%; animation: 2.62697s ease 0.42952s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 98.5998%; top: 9.71224%; animation: 2.72313s ease 2.25807s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 72.7287%; top: 87.1004%; animation: 1.96403s ease 2.78892s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 36.7946%; top: 99.5594%; animation: 1.84023s ease 0.188112s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 13.6164%; top: 26.0936%; animation: 2.17586s ease 1.12004s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 62.9342%; top: 22.1574%; animation: 1.24605s ease 0.841452s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 31.482%; top: 66.1094%; animation: 2.86111s ease 2.51239s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 74.4579%; top: 98.2406%; animation: 1.8276s ease 2.52015s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 13.2374%; top: 3.67428%; animation: 2.23649s ease 0.785342s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 9.42297%; top: 89.3535%; animation: 1.12883s ease 1.9951s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 26.876%; top: 37.6943%; animation: 1.67252s ease 2.06365s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 5.36765%; top: 33.0577%; animation: 2.93203s ease 0.588784s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 24.5472%; top: 94.5522%; animation: 1.80565s ease 2.00312s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 71.731%; top: 96.7669%; animation: 1.8046s ease 1.76109s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 56.3228%; top: 54.5368%; animation: 2.8226s ease 1.87358s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 64.1455%; top: 87.3914%; animation: 1.35435s ease 1.09563s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 5.34628%; top: 65.7361%; animation: 1.74194s ease 1.20174s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 83.3664%; top: 12.6232%; animation: 1.70428s ease 2.56813s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 84.7066%; top: 72.0989%; animation: 2.37334s ease 0.377817s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 86.0639%; top: 75.0521%; animation: 2.86267s ease 2.71953s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 41.9829%; top: 3.58564%; animation: 2.6846s ease 0.0901933s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 78.028%; top: 41.0826%; animation: 2.93769s ease 1.8706s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 63.2331%; top: 80.165%; animation: 1.98551s ease 0.0740965s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 39.5978%; top: 66.8246%; animation: 1.8846s ease 2.52437s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 39.0001%; top: 32.1485%; animation: 1.44051s ease 1.37102s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 45.9217%; top: 62.9458%; animation: 1.45552s ease 1.79271s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 71.8989%; top: 12.1336%; animation: 2.33624s ease 2.11602s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 13.0369%; top: 66.4163%; animation: 1.94563s ease 0.543242s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 22.9218%; top: 46.6023%; animation: 1.73741s ease 1.23479s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 12.1157%; top: 28.7149%; animation: 1.82001s ease 2.10515s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 18.004%; top: 93.4351%; animation: 1.98523s ease 2.26923s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 63.4099%; top: 83.3519%; animation: 1.26411s ease 0.429417s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 87.7064%; top: 72.1678%; animation: 2.29818s ease 0.577956s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 57.9992%; top: 68.7433%; animation: 2.8093s ease 2.53801s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 5.60775%; top: 20.0801%; animation: 1.00574s ease 0.287505s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 98.4109%; top: 83.916%; animation: 1.99352s ease 1.52002s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 66.1604%; top: 89.2752%; animation: 1.92429s ease 1.19146s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 86.0437%; top: 25.4181%; animation: 2.02731s ease 0.00719789s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 68.1476%; top: 13.5524%; animation: 2.05243s ease 0.0466589s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 6.0976%; top: 80.7709%; animation: 1.62346s ease 0.995215s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 63.6232%; top: 0.8762%; animation: 2.04778s ease 0.404288s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 96.7102%; top: 63.0577%; animation: 2.6434s ease 1.04141s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 81.0304%; top: 21.291%; animation: 1.70128s ease 2.29613s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 65.0732%; top: 63.7199%; animation: 1.63219s ease 2.17194s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 58.744%; top: 60.2964%; animation: 1.36431s ease 2.97334s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 3.74876%; top: 84.3849%; animation: 1.78803s ease 1.79503s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 66.2526%; top: 19.0691%; animation: 2.241s ease 2.16458s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 87.0846%; top: 88.1802%; animation: 2.09366s ease 2.72499s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 62.4659%; top: 56.2921%; animation: 1.2862s ease 1.23568s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 93.325%; top: 1.95512%; animation: 1.37057s ease 2.82374s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 91.816%; top: 16.645%; animation: 2.8464s ease 1.90344s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 98.5148%; top: 95.3251%; animation: 1.19995s ease 2.09285s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 91.2418%; top: 92.7468%; animation: 2.93593s ease 2.77289s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 42.9182%; top: 5.00123%; animation: 1.17085s ease 2.57823s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 75.3131%; top: 77.1567%; animation: 1.88515s ease 1.44375s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 46.228%; top: 51.695%; animation: 1.10674s ease 0.40685s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 83.1381%; top: 19.4928%; animation: 2.87078s ease 1.92464s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 64.4113%; top: 95.4123%; animation: 1.83626s ease 0.329585s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 35.1214%; top: 45.2657%; animation: 2.3s ease 2.70798s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 44.5582%; top: 95.1523%; animation: 2.84883s ease 2.13707s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 20.0079%; top: 12.0538%; animation: 2.50811s ease 0.379653s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 50.2878%; top: 59.3112%; animation: 2.11379s ease 2.43331s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 53.5987%; top: 42.3115%; animation: 2.53124s ease 0.456707s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 80.6578%; top: 81.1635%; animation: 1.68987s ease 0.607401s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 19.8201%; top: 92.8923%; animation: 1.23437s ease 2.10703s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 84.3918%; top: 48.7603%; animation: 2.71424s ease 2.51604s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 43.1656%; top: 48.5258%; animation: 1.23141s ease 0.0988192s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 99.9461%; top: 63.971%; animation: 1.86467s ease 2.93433s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 7.88245%; top: 75.1062%; animation: 2.05261s ease 0.548715s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 48.3776%; top: 91.1045%; animation: 2.92853s ease 0.365128s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 89.221%; top: 23.2639%; animation: 2.64285s ease 1.69488s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 74.3722%; top: 9.72746%; animation: 1.9004s ease 2.42847s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 14.057%; top: 8.03795%; animation: 2.50347s ease 1.88916s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 83.5673%; top: 17.1874%; animation: 2.12525s ease 1.61759s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 11.4493%; top: 30.4352%; animation: 2.23176s ease 2.37125s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 38.8562%; top: 19.4515%; animation: 2.3829s ease 1.07616s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 35.3665%; top: 72.9551%; animation: 2.50218s ease 0.195836s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 46.6401%; top: 43.615%; animation: 2.20871s ease 1.72151s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 23.2825%; top: 59.2698%; animation: 1.65293s ease 2.29693s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 34.4037%; top: 24.5614%; animation: 2.05915s ease 2.34593s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 97.8603%; top: 95.6082%; animation: 1.96717s ease 1.47238s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 38.035%; top: 13.4206%; animation: 2.48031s ease 2.29454s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 37.4359%; top: 7.92102%; animation: 2.95771s ease 0.336914s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 93.586%; top: 51.9594%; animation: 1.62688s ease 2.79123s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 59.1762%; top: 87.603%; animation: 1.32537s ease 2.40978s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 79.327%; top: 83.9994%; animation: 2.41323s ease 0.0253467s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 70.0492%; top: 7.20007%; animation: 1.80571s ease 2.09602s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 46.4032%; top: 47.1965%; animation: 2.57975s ease 1.47273s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 82.0435%; top: 37.2781%; animation: 2.08064s ease 1.13421s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 25.5863%; top: 72.308%; animation: 2.03385s ease 2.60242s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 64.6224%; top: 54.7131%; animation: 2.06697s ease 2.9669s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 3.94141%; top: 68.9315%; animation: 1.21932s ease 0.575389s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 80.0649%; top: 54.5786%; animation: 2.7522s ease 1.74613s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 42.7659%; top: 3.09442%; animation: 2.29974s ease 0.855077s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 92.5983%; top: 72.9074%; animation: 2.91947s ease 2.41718s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 48.0336%; top: 93.4758%; animation: 2.94617s ease 1.91355s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 68.1186%; top: 81.5888%; animation: 2.76279s ease 0.815148s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 76.7449%; top: 77.3417%; animation: 2.53086s ease 2.87997s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 45.2371%; top: 36.289%; animation: 1.76814s ease 2.68225s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 76.1094%; top: 4.33325%; animation: 2.90018s ease 1.84927s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 19.1772%; top: 54.3215%; animation: 1.99677s ease 0.906436s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 9.24131%; top: 29.4561%; animation: 1.79878s ease 2.87298s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 58.4778%; top: 28.8363%; animation: 2.41963s ease 2.6612s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 30.7447%; top: 92.5899%; animation: 1.57558s ease 1.65314s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 51.2053%; top: 96.2242%; animation: 2.39518s ease 1.84476s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 36.6659%; top: 3.68597%; animation: 2.3106s ease 0.0347838s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003cdiv class=\"particle\" style=\"left: 58.7133%; top: 12.4724%; animation: 1.32754s ease 1.28146s infinite normal none running fadeInUp;\"\u003e\u003c/div\u003e\u003c/div\u003e\n\u003cdiv class=\"main-container\"\u003e\n\u003ch1 class=\"title\"\u003eUne d\u00e9dicace pour la personne aim\u00e9e \u2764\ufe0f\u003c/h1\u003e\n\u003cdiv class=\"intro glass-effect\"\u003e\n            Un mot doux pour toi.\n        \u003c/div\u003e\n\u003cdiv class=\"quote-section glass-effect\"\u003e\n            \u00ab Une belle pens\u00e9e pour toi. \u00bb\n        \u003c/div\u003e\n\u003cdiv class=\"carousel\"\u003e\n\u003cdiv class=\"image-container active\" style=\"background-image: url('data:image/svg+xml;utf8,\u003csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'\u003e\u003cdefs\u003e\u003clinearGradient id='g' x1='0' y1='0' x2='1' y2='1'\u003e\u003cstop offset='0' stop-color='%233a1d3f'/\u003e\u003cstop offset='1' stop-color='%23ff4d6d'/\u003e\u003c/linearGradient\u003e\u003c/defs\u003e\u003crect width='800' height='600' fill='url(%23g)'/\u003e\u003ctext x='400' y='290' font-family='Georgia' font-size='54' fill='white' text-anchor='middle'\u003ePHOTO 1\u003c/text\u003e\u003ctext x='400' y='350' font-family='Georgia' font-size='24' fill='white' opacity='.8' text-anchor='middle'\u003eRemplace par ta photo\u003c/text\u003e\u003c/svg\u003e');\"\u003e\n\u003cimg alt=\"Memory 1\" onerror=\"this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22500%22%20viewBox%3D%220%200%201200%20500%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%232b1840%22%2F%3E%3Cstop%20offset%3D%220.5%22%20stop-color%3D%22%234a2350%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237a2d52%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%221200%22%20height%3D%22500%22%20fill%3D%22url%28%23g%29%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-opacity%3D%220.55%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20transform%3D%22translate%28600%20215%29%22%3E%3Crect%20x%3D%22-70%22%20y%3D%22-52%22%20width%3D%22140%22%20height%3D%22104%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22-30%22%20cy%3D%22-14%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M-70%2034%20L-22%20-6%20L6%2022%20L34%20-8%20L70%2028%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22600%22%20y%3D%22330%22%20text-anchor%3D%22middle%22%20font-family%3D%22Poppins%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2234%22%20font-weight%3D%22600%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.85%22%3EYour%20photo%20will%20appear%20here%3C%2Ftext%3E%3C%2Fsvg%3E'; this.closest('.image-container')?.classList.add('is-placeholder');\" src=\"data:image/svg+xml;utf8,\u003csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'\u003e\u003cdefs\u003e\u003clinearGradient id='g' x1='0' y1='0' x2='1' y2='1'\u003e\u003cstop offset='0' stop-color='%233a1d3f'/\u003e\u003cstop offset='1' stop-color='%23ff4d6d'/\u003e\u003c/linearGradient\u003e\u003c/defs\u003e\u003crect width='800' height='600' fill='url(%23g)'/\u003e\u003ctext x='400' y='290' font-family='Georgia' font-size='54' fill='white' text-anchor='middle'\u003ePHOTO 1\u003c/text\u003e\u003ctext x='400' y='350' font-family='Georgia' font-size='24' fill='white' opacity='.8' text-anchor='middle'\u003eRemplace par ta photo\u003c/text\u003e\u003c/svg\u003e\"/\u003e\n\u003c/div\u003e\n\u003cdiv class=\"image-container\" style=\"background-image: url('data:image/svg+xml;utf8,\u003csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'\u003e\u003cdefs\u003e\u003clinearGradient id='g' x1='0' y1='0' x2='1' y2='1'\u003e\u003cstop offset='0' stop-color='%233a1d3f'/\u003e\u003cstop offset='1' stop-color='%23ff4d6d'/\u003e\u003c/linearGradient\u003e\u003c/defs\u003e\u003crect width='800' height='600' fill='url(%23g)'/\u003e\u003ctext x='400' y='290' font-family='Georgia' font-size='54' fill='white' text-anchor='middle'\u003ePHOTO 2\u003c/text\u003e\u003ctext x='400' y='350' font-family='Georgia' font-size='24' fill='white' opacity='.8' text-anchor='middle'\u003eRemplace par ta photo\u003c/text\u003e\u003c/svg\u003e');\"\u003e\n\u003cimg alt=\"Memory 2\" onerror=\"this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22500%22%20viewBox%3D%220%200%201200%20500%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%232b1840%22%2F%3E%3Cstop%20offset%3D%220.5%22%20stop-color%3D%22%234a2350%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237a2d52%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%221200%22%20height%3D%22500%22%20fill%3D%22url%28%23g%29%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-opacity%3D%220.55%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20transform%3D%22translate%28600%20215%29%22%3E%3Crect%20x%3D%22-70%22%20y%3D%22-52%22%20width%3D%22140%22%20height%3D%22104%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22-30%22%20cy%3D%22-14%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M-70%2034%20L-22%20-6%20L6%2022%20L34%20-8%20L70%2028%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22600%22%20y%3D%22330%22%20text-anchor%3D%22middle%22%20font-family%3D%22Poppins%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2234%22%20font-weight%3D%22600%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.85%22%3EYour%20photo%20will%20appear%20here%3C%2Ftext%3E%3C%2Fsvg%3E'; this.closest('.image-container')?.classList.add('is-placeholder');\" src=\"data:image/svg+xml;utf8,\u003csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'\u003e\u003cdefs\u003e\u003clinearGradient id='g' x1='0' y1='0' x2='1' y2='1'\u003e\u003cstop offset='0' stop-color='%233a1d3f'/\u003e\u003cstop offset='1' stop-color='%23ff4d6d'/\u003e\u003c/linearGradient\u003e\u003c/defs\u003e\u003crect width='800' height='600' fill='url(%23g)'/\u003e\u003ctext x='400' y='290' font-family='Georgia' font-size='54' fill='white' text-anchor='middle'\u003ePHOTO 2\u003c/text\u003e\u003ctext x='400' y='350' font-family='Georgia' font-size='24' fill='white' opacity='.8' text-anchor='middle'\u003eRemplace par ta photo\u003c/text\u003e\u003c/svg\u003e\"/\u003e\n\u003c/div\u003e\n\u003cbutton class=\"carousel-btn prev-btn\"\u003e\u003ci class=\"fas fa-chevron-left\"\u003e\u003c/i\u003e\u003c/button\u003e\n\u003cbutton class=\"carousel-btn next-btn\"\u003e\u003ci class=\"fas fa-chevron-right\"\u003e\u003c/i\u003e\u003c/button\u003e\n\u003c/div\u003e\n\u003cdiv class=\"divider\"\u003e\u003c/div\u003e\n\u003cbutton class=\"heart-btn\" id=\"openLetterBtn\"\u003e\u003cspan\u003eLire ma lettre\u003c/span\u003e\u003c/button\u003e\n\u003cdiv class=\"letter-overlay\" id=\"letterOverlay\"\u003e\n\u003cdiv class=\"letter-card\"\u003e\n\u003cbutton class=\"close\" id=\"closeLetterBtn\"\u003e\u00d7\u003c/button\u003e\n\u003ch2\u003eUne lettre pour toi\u003c/h2\u003e\n\u003cdiv class=\"typewriter-container\" id=\"typewriterText\"\u003e\n\u003cdiv class=\"line\"\u003e\u003cspan class=\"text\"\u003e\u003c/span\u003e\u003cspan class=\"cursor\"\u003e\u003c/span\u003e\u003c/div\u003e\n\u003c/div\u003e\n\u003cp class=\"signature\"\u003e\n                                            Avec tout mon amour\n                                    \u003c/p\u003e\n\u003c/div\u003e\n\u003c/div\u003e\n\u003cdiv class=\"memory-section glass-effect fade-in-section\"\u003e\n\u003ch2 class=\"section-title\"\u003eNos souvenirs\u003c/h2\u003e\n\u003cdiv class=\"memory-item hover-effect\"\u003e\n\u003ch3\u003eNotre premi\u00e8re rencontre\u003c/h3\u003e\n\u003cdiv class=\"date\"\u003e15 mars 2023\u003c/div\u003e\n\u003cp\u003eCe jour-l\u00e0, mon c\u0153ur a su qu\u2019il avait trouv\u00e9 sa moiti\u00e9.\u003c/p\u003e\n\u003c/div\u003e\n\u003cdiv class=\"memory-item hover-effect\"\u003e\n\u003ch3\u003eNotre chanson\u003c/h3\u003e\n\u003cdiv class=\"date\"\u003e10 juin 2023\u003c/div\u003e\n\u003cp\u003eChaque note me rappelle toi et les beaux moments partag\u00e9s.\u003c/p\u003e\n\u003c/div\u003e\n\u003cdiv class=\"memory-item hover-effect\"\u003e\n\u003ch3\u003eNotre voyage de r\u00eave\u003c/h3\u003e\n\u003cdiv class=\"date\"\u003e20 d\u00e9cembre 2024\u003c/div\u003e\n\u003cp\u003eExplorer le monde avec toi est ma plus belle aventure.\u003c/p\u003e\n\u003c/div\u003e\n\u003c/div\u003e\n\u003cdiv class=\"time-since-birth glass-effect fade-in-section\"\u003e\n\u003cdiv class=\"time-title\"\u003eLe temps pass\u00e9 ensemble\u003c/div\u003e\n\u003cdiv class=\"time-display\" id=\"timeDisplay\"\u003e9453:16:09:01\u003c/div\u003e\n\u003cdiv class=\"time-label\"\u003eJours : Heures : Minutes : Secondes\u003c/div\u003e\n\u003cdiv class=\"personalized-message\"\u003eChaque instant avec toi compte.\u003c/div\u003e\n\u003c/div\u003e\n\u003cdiv class=\"future-plans glass-effect fade-in-section\"\u003e\n\u003ch2 class=\"section-title\"\u003eNos projets d\u2019avenir\u003c/h2\u003e\n\u003cp\u003eNos beaux projets \u00e0 venir.\u003c/p\u003e\n\u003c/div\u003e\n\u003cdiv class=\"love-meter glass-effect fade-in-section\"\u003e\n\u003ch2\u003e\n                                    Notre amour\n                            \u003c/h2\u003e\n\u003cdiv class=\"meter-container\"\u003e\n\u003cdiv class=\"meter-fill\"\u003e\u003c/div\u003e\n\u003c/div\u003e\n\u003cdiv class=\"meter-text\"\u003e\u00c0 toi, pour toujours\u003c/div\u003e\n\u003c/div\u003e\n\u003cdiv class=\"end-message glass-effect fade-in-section\"\u003e\n            Un message pour toi\n            \u003cp class=\"signature\"\u003eAvec tout mon amour\u003c/p\u003e\n\u003c/div\u003e\n\u003c/div\u003e\n\u003cdiv class=\"footer\"\u003e\n\u003cp\u003e\u00a9 2026 Created with\n                            love\n                        for R\u00e9cipient name\n        \u003c/p\u003e\n\u003c/div\u003e\n\u003cscript\u003e\n        function createStars() {\n            const sky = document.querySelector('.overlay-bg');\n            for (let i = 0; i \u003c 150; i++) {\n                const star = document.createElement('div');\n                star.className = 'particle';\n                star.style.left = `${Math.random() * 100}%`;\n                star.style.top = `${Math.random() * 100}%`;\n                star.style.animation = `fadeInUp ${Math.random() * 2 + 1}s infinite`;\n                star.style.animationDelay = `${Math.random() * 3}s`;\n                sky.appendChild(star);\n            }\n        }\n\n        createStars();\n\n        const carouselContainers = document.querySelectorAll('.carousel .image-container');\n        const nextBtnEl = document.querySelector('.next-btn');\n        const prevBtnEl = document.querySelector('.prev-btn');\n        let currentImage = 0;\n        let isTransitioning = false;\n\n        function showImage(index, direction = 'next') {\n            if (isTransitioning) return;\n            isTransitioning = true;\n\n            const nextContainer = carouselContainers[index];\n\n            carouselContainers.forEach(container =\u003e {\n                container.classList.remove('active');\n                container.style.opacity = '0';\n                container.style.transform = direction === 'next' ? 'translateX(100%)' : 'translateX(-100%)';\n            });\n\n            nextContainer.classList.add('active');\n            nextContainer.style.opacity = '1';\n            nextContainer.style.transform = 'translateX(0)';\n\n            setTimeout(() =\u003e {\n                isTransitioning = false;\n            }, 800);\n\n            currentImage = index;\n        }\n\n        if (carouselContainers.length \u003e 1 \u0026\u0026 nextBtnEl \u0026\u0026 prevBtnEl) {\n            nextBtnEl.addEventListener('click', () =\u003e {\n                const nextIndex = (currentImage + 1) % carouselContainers.length;\n                showImage(nextIndex, 'next');\n            });\n\n            prevBtnEl.addEventListener('click', () =\u003e {\n                const prevIndex = (currentImage - 1 + carouselContainers.length) % carouselContainers.length;\n                showImage(prevIndex, 'prev');\n            });\n\n            setInterval(() =\u003e {\n                const nextIndex = (currentImage + 1) % carouselContainers.length;\n                showImage(nextIndex, 'next');\n            }, 6000);\n        }\n\n        let typewriterTimeout = null;\n\n        function typeLine(lineElement, text, speed = 20, onDone) {\n    const textSpan = lineElement.querySelector('.text');\n    const cursor = lineElement.querySelector('.cursor');\n    const typewriterContainer = document.querySelector('.typewriter-container');\n    textSpan.textContent = '';\n    lineElement.classList.add('active');\n    let index = 0;\n\n    function typeChar() {\n        if (index \u003c text.length) {\n            textSpan.textContent += text.charAt(index);\n            index++;\n            // Scroll to the bottom of the typewriter container smoothly\n            typewriterContainer.scrollTo({\n                top: typewriterContainer.scrollHeight,\n                behavior: 'smooth'\n            });\n            typewriterTimeout = setTimeout(typeChar, speed);\n        } else {\n            cursor.style.display = 'none';\n            // Ensure final scroll to bottom when line is complete\n            typewriterContainer.scrollTo({\n                top: typewriterContainer.scrollHeight,\n                behavior: 'smooth'\n            });\n            if (onDone) onDone();\n        }\n    }\n\n    cursor.style.display = 'inline-block';\n    typeChar();\n}\n\n        function openLetterModal() {\n            const overlay = document.getElementById('letterOverlay');\n            const typewriterText = document.getElementById('typewriterText');\n            const lines = typewriterText.querySelectorAll('.line');\n            const texts = [\"Letter content\"].filter(text =\u003e text.trim() !== '');\n\n            if (typewriterTimeout) {\n                clearTimeout(typewriterTimeout);\n                typewriterTimeout = null;\n            }\n\n            lines.forEach(line =\u003e {\n                const textSpan = line.querySelector('.text');\n                const cursor = line.querySelector('.cursor');\n                textSpan.textContent = '';\n                cursor.style.display = 'none';\n                line.classList.remove('active');\n            });\n\n            overlay.style.display = 'flex';\n\n            function typeNextLine(index) {\n                if (index \u003c lines.length \u0026\u0026 index \u003c texts.length \u0026\u0026 texts[index]) {\n                    typeLine(lines[index], texts[index], 20, () =\u003e {\n                        typeNextLine(index + 1);\n                    });\n                } else {\n                    lines.forEach(line =\u003e line.querySelector('.cursor').style.display = 'none');\n                }\n            }\n\n            typeNextLine(0);\n        }\n\n        document.getElementById('openLetterBtn').addEventListener('click', openLetterModal);\n\n        document.getElementById('closeLetterBtn').addEventListener('click', () =\u003e {\n            const overlay = document.getElementById('letterOverlay');\n            const typewriterText = document.getElementById('typewriterText');\n            const lines = typewriterText.querySelectorAll('.line');\n\n            if (typewriterTimeout) {\n                clearTimeout(typewriterTimeout);\n                typewriterTimeout = null;\n            }\n\n            lines.forEach(line =\u003e {\n                const textSpan = line.querySelector('.text');\n                const cursor = line.querySelector('.cursor');\n                textSpan.textContent = '';\n                cursor.style.display = 'none';\n            });\n\n            overlay.style.display = 'none';\n        });\n\n        window.onclick = function(event) {\n            const overlay = document.getElementById('letterOverlay');\n            if (event.target === overlay) {\n                const typewriterText = document.getElementById('typewriterText');\n                const lines = typewriterText.querySelectorAll('.line');\n\n                if (typewriterTimeout) {\n                    clearTimeout(typewriterTimeout);\n                    typewriterTimeout = null;\n                }\n\n                lines.forEach(line =\u003e {\n                    const textSpan = line.querySelector('.text');\n                    const cursor = line.querySelector('.cursor');\n                    textSpan.textContent = '';\n                    cursor.style.display = 'none';\n                });\n\n                overlay.style.display = 'none';\n            }\n        };\n\n        const fadeSections = document.querySelectorAll('.fade-in-section');\n        const observer = new IntersectionObserver((entries) =\u003e {\n            entries.forEach(entry =\u003e {\n                if (entry.isIntersecting) {\n                    entry.target.classList.add('visible');\n                    if (entry.target.classList.contains('love-meter')) {\n                        const meterFill = entry.target.querySelector('.meter-fill');\n                        setTimeout(() =\u003e {\n                            meterFill.classList.add('active');\n                        }, 500);\n                    }\n                }\n            });\n        }, { threshold: 0.1 });\n\n        fadeSections.forEach(section =\u003e observer.observe(section));\n\n        document.addEventListener('click', (e) =\u003e {\n            for (let i = 0; i \u003c 10; i++) {\n                const particle = document.createElement('div');\n                particle.className = 'particle';\n                particle.style.left = `${e.clientX}px`;\n                particle.style.top = `${e.clientY}px`;\n                particle.style.animation = `zoomIn 0.8s ease-out`;\n                document.body.appendChild(particle);\n                setTimeout(() =\u003e particle.remove(), 800);\n            }\n        });\n\n        document.querySelectorAll('a[href^=\"#\"]').forEach(anchor =\u003e {\n            anchor.addEventListener('click', (e) =\u003e {\n                e.preventDefault();\n                document.querySelector(anchor.getAttribute('href')).scrollIntoView({\n                    behavior: 'smooth'\n                });\n            });\n        });\n\n        // Fecha objetivo en ms. Si esta en el futuro el contador descuenta\n        // (cuenta regresiva); si ya paso, suma el tiempo transcurrido.\n        const targetTime = new Date('2000-11-25T00:00:00').getTime();\n        const timeDisplay = document.getElementById('timeDisplay');\n\n        function updateTime() {\n            // Se recalcula desde el reloj real en cada tick: asi no se desfasa\n            // aunque la pestana quede en segundo plano.\n            let diff = Math.floor(Math.abs(Date.now() - targetTime) / 1000);\n\n            const days = Math.floor(diff / 86400);\n            const hours = Math.floor((diff % 86400) / 3600);\n            const minutes = Math.floor((diff % 3600) / 60);\n            const seconds = diff % 60;\n\n            timeDisplay.textContent = `${days.toString().padStart(3, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;\n        }\n\n        updateTime();\n        setInterval(updateTime, 1000);\n\n        function toggleMusique() {\n            const music = document.getElementById('backgroundMusique');\n            const playIcon = document.getElementById('playIcon');\n            const pauseIcon = document.getElementById('pauseIcon');\n            if (!music) {\n                console.error('No music element found');\n                return;\n            }\n            if (music.paused) {\n                music.play().then(() =\u003e {\n                    console.log('Musique playing at:', music.currentTime);\n                    playIcon.style.display = 'none';\n                    pauseIcon.style.display = 'block';\n                }).catch(error =\u003e {\n                    console.error('Error playing audio:', error.message);\n                });\n            } else {\n                music.pause();\n                console.log('Musique paused at:', music.currentTime);\n                playIcon.style.display = 'block';\n                pauseIcon.style.display = 'none';\n            }\n        }\n\n                window.onload = function() {\n            const music = document.getElementById('backgroundMusique');\n            const musicBtn = document.getElementById('musicBtn');\n            const playIcon = document.getElementById('playIcon');\n            const pauseIcon = document.getElementById('pauseIcon');\n            const volumeSlider = document.getElementById('volumeSlider');\n            const volumeControl = document.getElementById('volumeControl');\n\n            if (!music || !musicBtn || !volumeSlider || !volumeControl) {\n                console.error('Musique or control elements not found');\n                return;\n            }\n\n            music.volume = volumeSlider.value;\n\n            music.load();\n            music.currentTime = 0;\n            music.play().then(() =\u003e {\n                console.log('Autoplay successful at:', music.currentTime);\n                playIcon.style.display = 'none';\n                pauseIcon.style.display = 'block';\n            }).catch(error =\u003e {\n                console.warn('Autoplay blocked:', error.message);\n            });\n\n            musicBtn.addEventListener('click', (e) =\u003e {\n                e.stopPropagation();\n                toggleMusique();\n                if (!volumeControl.classList.contains('visible')) {\n                    volumeControl.classList.add('visible');\n                    clearTimeout(hideVolumeTimeout);\n                    hideVolumeTimeout = setTimeout(() =\u003e volumeControl.classList.remove('visible'), 2000);\n                } else {\n                    volumeControl.classList.remove('visible');\n                }\n            });\n\n            let hideVolumeTimeout = null;\n            volumeSlider.addEventListener('input', (e) =\u003e {\n                music.volume = e.target.value;\n                console.log('Volume set to:', music.volume);\n                clearTimeout(hideVolumeTimeout);\n                volumeControl.classList.add('visible');\n            });\n\n            volumeSlider.addEventListener('change', () =\u003e {\n                hideVolumeTimeout = setTimeout(() =\u003e volumeControl.classList.remove('visible'), 2000);\n            });\n\n            volumeControl.addEventListener('mouseenter', () =\u003e clearTimeout(hideVolumeTimeout));\n            volumeControl.addEventListener('mouseleave', () =\u003e {\n                hideVolumeTimeout = setTimeout(() =\u003e volumeControl.classList.remove('visible'), 2000);\n            });\n\n            volumeSlider.addEventListener('touchstart', (e) =\u003e {\n                e.stopPropagation();\n                clearTimeout(hideVolumeTimeout);\n            });\n            volumeSlider.addEventListener('touchend', () =\u003e {\n                hideVolumeTimeout = setTimeout(() =\u003e volumeControl.classList.remove('visible'), 2000);\n            });\n\n            document.addEventListener('click', (e) =\u003e {\n                if (!volumeControl.contains(e.target) \u0026\u0026 !musicBtn.contains(e.target)) {\n                    volumeControl.classList.remove('visible');\n                    clearTimeout(hideVolumeTimeout);\n                }\n            });\n\n            music.addEventListener('loadeddata', () =\u003e console.log('Audio data loaded'));\n            music.addEventListener('error', (e) =\u003e console.error('Audio error:', e.message));\n            music.addEventListener('play', () =\u003e console.log('Musique play event'));\n            music.addEventListener('pause', () =\u003e console.log('Musique pause event'));\n        };\n            \u003c/script\u003e\u003c/body\u003e\u003c/html\u003e";
+function openMain(){
+    const doc = new DOMParser().parseFromString(MAIN_PAGE, 'text/html');
+    const fields = PAGE_DATA.form_fields || {};
+    const field = (...keys) => {
+        for (const key of keys) {
+            const value = fields[key];
+            if (typeof value === 'string' && value.trim()) return value.trim();
+        }
+        return '';
+    };
+    const recipient = PAGE_DATA.recipient_name || field('data[recipient_name]', 'recipient_name');
+    const sender = field('data[sender_name]', 'sender_name', 'data[signature]', 'signature');
+    const title = field('data[custom_celebration_title]') || PAGE_DATA.title || field('data[title]', 'title');
+    const intro = field('data[intro_message]', 'intro_message');
+    const quote = field('data[quote]', 'quote');
+    const counterTitle = field('data[event_counter_title]', 'event_counter_title');
+    const birthMessage = field('data[birth_message]', 'birth_message');
+    const birthDate = field('data[birth_date]', 'birth_date');
+    const futurePlans = field('data[future_plans]', 'future_plans');
+    const memoriesCount = Math.max(0, Math.min(5, Number.parseInt(field('data[memories_count]') || '3', 10) || 0));
+    const letter = field('data[letter_content]', 'letter_content', 'data[message]', 'message');
+    const endMessage = field('data[end_message]', 'end_message');
+    const heading = doc.querySelector('h1.title');
+    const displayTitle = title || 'Une dédicace spéciale';
+    if (heading) heading.textContent = displayTitle + (recipient ? ' · ' + recipient : ' ❤️');
+    doc.title = displayTitle + (recipient ? ' · ' + recipient : '');
+    const letterTitle = doc.querySelector('.letter-card h2');
+    if (letterTitle) letterTitle.textContent = field('data[letter_title]', 'letter_title') || (recipient ? 'Une lettre pour ' + recipient : 'Ma lettre');
+    const memorySection = doc.querySelector('.memory-section');
+    if (memorySection) {
+        const memoryHeading = memorySection.querySelector('h2');
+        memorySection.replaceChildren(...(memoryHeading ? [memoryHeading] : []));
+        memorySection.hidden = memoriesCount === 0;
+        for (let i = 0; i < memoriesCount; i++) {
+            const memoryTitle = field(`data[memories][${i}][title]`);
+            const memoryDate = field(`data[memories][${i}][date]`);
+            const memoryDescription = field(`data[memories][${i}][description]`);
+            if (!memoryTitle && !memoryDate && !memoryDescription) continue;
+            const card = doc.createElement('div');
+            card.className = 'memory-item hover-effect';
+            const titleNode = doc.createElement('h3');
+            titleNode.textContent = memoryTitle || `Souvenir ${i + 1}`;
+            const dateNode = doc.createElement('div');
+            dateNode.className = 'date';
+            dateNode.textContent = memoryDate;
+            const descriptionNode = doc.createElement('p');
+            descriptionNode.textContent = memoryDescription;
+            card.append(titleNode, dateNode, descriptionNode);
+            memorySection.appendChild(card);
+        }
+    }
+    if (intro) {
+        const introNode = doc.querySelector('.intro');
+        if (introNode) introNode.textContent = intro || 'Un mot doux pour toi.';
+    }
+    if (quote) {
+        const quoteNode = doc.querySelector('.quote-section');
+        if (quoteNode) quoteNode.textContent = quote || '« Une belle pensée pour toi. »';
+    }
+    if (counterTitle) {
+        const counterTitleNode = doc.querySelector('.time-title');
+        if (counterTitleNode) counterTitleNode.textContent = counterTitle;
+    }
+    if (birthMessage) {
+        const birthMessageNode = doc.querySelector('.personalized-message');
+        if (birthMessageNode) birthMessageNode.textContent = birthMessage;
+    }
+    if (futurePlans) {
+        const futurePlansNode = doc.querySelector('.future-plans p');
+        if (futurePlansNode) futurePlansNode.textContent = futurePlans;
+    }
+    if (endMessage) {
+        const endNode = doc.querySelector('.end-message');
+        if (endNode) endNode.textContent = endMessage;
+    }
+    if (sender) doc.querySelectorAll('.signature').forEach(node => { node.textContent = 'Avec tout mon amour, ' + sender; });
+    const footerNote = doc.querySelector('.footer p');
+    if (footerNote) footerNote.textContent = `© ${new Date().getFullYear()} Créé avec amour pour ${recipient || 'la personne aimée'}`;
+    if (recipient || sender) {
+        const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+        let textNode;
+        while ((textNode = walker.nextNode())) {
+            let value = textNode.nodeValue;
+            if (recipient) value = value.replace(/Récipient name|Recipient name|la personne aimée/gi, recipient);
+            if (sender) value = value.replace(/Your name/gi, sender);
+            textNode.nodeValue = value;
+        }
+    }
+    if (letter) {
+        doc.querySelectorAll('script').forEach(script => {
+            script.textContent = script.textContent.replace(/const texts = \["Letter content"\]/, 'const texts = ' + JSON.stringify([letter]));
+        });
+    }
+    if (birthDate && /^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+        doc.querySelectorAll('script').forEach(script => {
+            script.textContent = script.textContent.replace("new Date('2000-11-25T00:00:00')", `new Date('${birthDate}T00:00:00')`);
+        });
+    }
+    const photos = PAGE_DATA.images || {};
+    const cover = photos.cover_image || Object.values(photos).find(value => typeof value === 'string' && value);
+    if (cover) {
+        const coverImage = doc.querySelector('.cover-image');
+        if (coverImage) coverImage.src = cover;
+    }
+
+    // Build the carousel only from photos selected in the form (image_1, image_2, ...).
+    const carousel = doc.querySelector('.carousel');
+    const photoSlides = Object.entries(photos)
+        .map(([key, value]) => ({ key, value, index: Number((/^image_(\d+)$/).exec(key)?.[1]) }))
+        .filter(photo => Number.isInteger(photo.index) && photo.index > 0 && typeof photo.value === 'string' && photo.value)
+        .sort((a, b) => a.index - b.index);
+    const requestedImageCount = Number.parseInt(field('data[images_count]', 'images_count'), 10);
+    const selectedSlides = Number.isFinite(requestedImageCount)
+        ? photoSlides.slice(0, Math.max(0, requestedImageCount))
+        : photoSlides;
+    if (carousel) {
+        carousel.querySelectorAll('.image-container').forEach(slide => slide.remove());
+        carousel.hidden = selectedSlides.length === 0;
+        const nextButton = carousel.querySelector('.next-btn');
+        selectedSlides.forEach((photo, index) => {
+            const slide = doc.createElement('div');
+            slide.className = 'image-container' + (index === 0 ? ' active' : '');
+            const image = doc.createElement('img');
+            image.alt = `Photo du moment ${photo.index}`;
+            image.src = photo.value;
+            slide.appendChild(image);
+            carousel.insertBefore(slide, nextButton);
+        });
+        const previousButton = carousel.querySelector('.prev-btn');
+        if (nextButton) nextButton.hidden = selectedSlides.length < 2;
+        if (previousButton) previousButton.hidden = selectedSlides.length < 2;
+    }
+    const music = field('data[music_url]', 'music_url');
+    const source = doc.querySelector('#backgroundMusique source');
+    if (source && music) {
+        // Older pages stored a frontend-relative path that the backend incorrectly served.
+        const frontendUrl = String(PAGE_DATA.frontend_url || '').replace(/\/$/, '');
+        const musicUrl = music.startsWith('/frontend/assets/') && frontendUrl
+            ? frontendUrl + music
+            : music;
+        if (/^https?:\/\//i.test(musicUrl)) {
+            source.src = musicUrl;
+            source.type = /\.m4a(?:[?#]|$)/i.test(musicUrl) ? 'audio/mp4' : 'audio/mpeg';
+        }
+    }
+    document.open();
+    document.write('<!doctype html>' + doc.documentElement.outerHTML);
+    document.close();
+}
+</script>
+<audio id="backgroundMusique" loop="" preload="auto" volume="0">
+<source type="audio/mp4">
+        Ton navigateur ne peut pas lire ce fichier audio.
+    </source></audio>
+<div class="parallax-bg"></div>
+<div class="overlay"></div>
+<div class="title">
+<h1>Une dédicace pour toi</h1>
+</div>
+<div class="container">
+<div class="main-content">
+<div class="image-container">
+<img alt="Image de couverture" class="cover-image" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%233a1d3f'/><stop offset='1' stop-color='%23ff4d6d'/></linearGradient></defs><rect width='800' height='600' fill='url(%23g)'/><text x='400' y='290' font-family='Georgia' font-size='54' fill='white' text-anchor='middle'>PHOTO 3</text><text x='400' y='350' font-family='Georgia' font-size='24' fill='white' opacity='.8' text-anchor='middle'>Remplace par ta photo</text></svg>"/>
+</div>
+<div class="password-section">
+<p class="password-hint">Entre ton code d’accès</p>
+<p class="hint">Indice : un jour important pour nous</p>
+<div class="password-display" id="password-display"></div>
+<div class="error" id="error">Code incorrect, réessaie.</div>
+<div aria-label="Clavier numérique" class="keyboard" role="region">
+<button class="key" onclick="addDigit('1')">1</button>
+<button class="key" onclick="addDigit('2')">2</button>
+<button class="key" onclick="addDigit('3')">3</button>
+<button class="key" onclick="addDigit('4')">4</button>
+<button class="key" onclick="addDigit('5')">5</button>
+<button class="key" onclick="addDigit('6')">6</button>
+<button class="key" onclick="addDigit('7')">7</button>
+<button class="key" onclick="addDigit('8')">8</button>
+<button class="key" onclick="addDigit('9')">9</button>
+<button class="key delete-key" onclick="deleteDigit()">⌫</button>
+<button class="key" onclick="addDigit('0')">0</button>
+<button class="key" onclick="addDigit('*')">#</button>
+<button class="key enter-key" onclick="checkPassword()">Valider</button>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+        let password = '';
+        const passwordDisplay = document.getElementById('password-display');
+
+        function addDigit(digit) {
+            password += digit;
+            updateDisplay();
+            animateKey(digit);
+        }
+
+        function deleteDigit() {
+            password = password.slice(0, -1);
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            passwordDisplay.textContent = '\u2665'.repeat(password.length);
+        }
+
+        async function checkPassword() {
+            if (password.length === 0) return;
+            const code = password;
+            try {
+                const response = await fetch(`${PAGE_DATA.backend_url}/api/v1/public/pages/${encodeURIComponent(PAGE_DATA.slug)}/verify-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+                if (response.ok) { openMain(); return; }
+            } catch (error) {
+                console.error('Code verification unavailable:', error);
+            }
+            password = '';
+            updateDisplay();
+            passwordDisplay.animate([{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:300});
+        }
+
+        function animateKey(key) {
+            const buttons = document.querySelectorAll('.key');
+            buttons.forEach(button => {
+                if (button.textContent === key) {
+                    button.style.transform = 'scale(0.95)';
+                    setTimeout(() => button.style.transform = 'scale(1)', 100);
+                }
+            });
+        }
+    </script>
+<iframe height="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;" width="1"></iframe></body></html>

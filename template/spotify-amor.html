@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- DEDIKKA_PAGE_DATA -->
+    <link rel="icon" type="image/svg+xml" href="/images/dedikka-icon.svg">
+    <link rel="stylesheet" href="/build/assets/app-Das63TBu.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Playlist d'Amour · Dedikka</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .song-cover > button { visibility: hidden; opacity: 0; transform: translateY(50px) scale(0.5); }
+        .app-splash { position: fixed; inset: 0; z-index: 220; display: flex; align-items: center; justify-content: center; background: #000; opacity: 1; transition: opacity 0.5s ease; }
+        .app-splash.is-hidden { opacity: 0; pointer-events: none; }
+        .app-splash-inner { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .app-splash-logo { width: 88px; height: 88px; animation: splash-pop 0.85s ease both; }
+        .app-splash-logo svg { width: 100%; height: 100%; display: block; }
+        .app-splash-text { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 0.3px; color: #fff; animation: splash-rise 0.85s ease both; }
+        .app-shell { height: 100vh; height: 100dvh; min-height: 100svh; }
+        .song-section:last-child { padding-bottom: 170px; }
+        .song-cover > button:hover { transform: translateY(0) scale(1.1); transition: 0.3s linear; }
+        .song-cover:hover > button { animation: fade-in 0.3s ease; visibility: visible; opacity: 1; transform: translateY(0) scale(1); }
+        .song-cover.playing { border: 1px solid rgba(244,63,94,0.85); box-shadow: 0 0 0 1px rgba(244,63,94,0.4), 0 10px 30px rgba(244,63,94,0.2); }
+        .track-artist { color: #ff6aa9; font-weight: 600; letter-spacing: 0.01em; }
+        .song-cover .fav-badge { position: absolute; top: 10px; left: 10px; border-radius: 9999px; background: rgba(244,63,94,0.95); padding: 2px 8px; font-size: 11px; font-weight: 700; color: #fff; }
+        .hero-overlay { background: linear-gradient(to top, rgba(4,4,10,0.86), rgba(26,13,22,0.28)); }
+        .hero-main-title {
+            color: #ffffff;
+            -webkit-text-stroke: 1.2px rgba(0, 0, 0, 0.75);
+            text-shadow:
+                0 2px 6px rgba(0, 0, 0, 0.85),
+                0 0 2px rgba(0, 0, 0, 0.95),
+                1px 1px 0 rgba(0, 0, 0, 0.8),
+                -1px 1px 0 rgba(0, 0, 0, 0.8),
+                1px -1px 0 rgba(0, 0, 0, 0.8),
+                -1px -1px 0 rgba(0, 0, 0, 0.8);
+        }
+        .love-letter { margin-top: 14px; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; background: linear-gradient(135deg,rgba(30,10,18,0.9),rgba(12,12,12,0.95)); padding: 16px; color: rgba(255,255,255,0.92); line-height: 1.6; }
+        progress { overflow: hidden; cursor: pointer; }
+        progress::-webkit-progress-bar { background-color: rgba(255,255,255,0.2); border-radius: 9999px; }
+        progress::-webkit-progress-value { background-color: #f43f5e; border-radius: 9999px; }
+        progress::-moz-progress-bar { background-color: #f43f5e; border-radius: 9999px; }
+        #likeBtn.liked svg { fill: #f43f5e; stroke: #f43f5e; }
+        .main-content { padding-bottom: calc(152px + env(safe-area-inset-bottom)) !important; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
+        #playerDock { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)); }
+        .main-content::-webkit-scrollbar { width: 8px; }
+        .main-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 9999px; }
+        .mobile-quick-nav ul { -ms-overflow-style: none; scrollbar-width: none; }
+        .mobile-quick-nav ul::-webkit-scrollbar { display: none; }
+        .nav-action { transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+        .nav-action.is-active { background: rgba(255,255,255,0.12); color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12); }
+        .home-link-card { border-radius: 14px; }
+        .moment-card { border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(140deg,rgba(45,16,31,0.92),rgba(21,20,24,0.96)); }
+        .moment-card-btn { cursor: pointer; }
+        .moment-card-btn:focus-visible { outline: 2px solid rgba(244,63,94,0.9); outline-offset: 2px; }
+        body.modal-open { overflow: hidden; }
+        .moment-modal { position: fixed; inset: 0; z-index: 100; padding: 18px; }
+        .moment-modal:not(.hidden) { display: flex; align-items: center; justify-content: center; }
+        .moment-modal-backdrop { position: absolute; inset: 0; border: 0; background: rgba(0,0,0,0.74); backdrop-filter: blur(2px); }
+        .moment-modal-card { position: relative; z-index: 1; width: min(92vw,560px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.18); background: linear-gradient(140deg,rgba(33,17,29,0.97),rgba(14,13,17,0.98)); padding: 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.55); }
+        .moment-modal-close { position: absolute; top: 12px; right: 12px; z-index: 2; height: 34px; width: 34px; border: 0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: rgba(29,185,84,0.95); color: #fff; box-shadow: 0 8px 18px rgba(29,185,84,0.35); cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease; }
+        .moment-modal-close:hover { background: rgba(30,215,96,0.98); transform: scale(1.06); }
+        .moment-modal-close svg { pointer-events: none; }
+        .player-nav-btn { display: flex; height: 36px; width: 36px; align-items: center; justify-content: center; border-radius: 9999px; }
+        .player-main-btn { min-height: 44px; min-width: 44px; position: relative; }
+        .player-nav-btn svg { height: 22px; width: 22px; }
+        #playToggle .player-icon { display: block; flex-shrink: 0; }
+        #playToggle .player-icon-play { width: 0; height: 0; margin-left: 2px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 11px solid #111827; }
+        #playToggle .player-icon-pause { display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+        #playToggle .player-icon-pause .bar { display: block; width: 4px; height: 14px; border-radius: 2px; background: #111827; }
+        @keyframes fade-in { 0% { transform: translateY(50px) scale(0.5); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+        @keyframes splash-pop { 0% { transform: scale(0.78); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes splash-rise { 0% { transform: translateY(8px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @media (hover: none) { .song-cover > button { visibility: visible; opacity: 1; transform: translateY(0) scale(1); } }
+        @media (min-width: 768px) { .main-content { padding-bottom: 102px !important; } #playerDock { padding-bottom: 1.25rem; } .song-section:last-child { padding-bottom: 90px; } }
+    </style>
+
+</head>
+<body class="bg-black text-white" data-view="home">
+
+    <div id="appSplash" class="app-splash" aria-hidden="true">
+        <div class="app-splash-inner">
+            <div class="app-splash-logo">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="12" fill="#1ED2C2"></circle>
+                    <path d="M7 9.2c3.8-1 7.1-.6 10 1" stroke="#0d1117" stroke-width="1.8" stroke-linecap="round"></path>
+                    <path d="M7.8 12.1c3.1-.8 5.9-.5 8.2.8" stroke="#0d1117" stroke-width="1.6" stroke-linecap="round"></path>
+                    <path d="M8.7 14.7c2.5-.6 4.6-.4 6.4.7" stroke="#0d1117" stroke-width="1.5" stroke-linecap="round"></path>
+                </svg>
+            </div>
+            <p class="app-splash-text">Playlist d'Amour</p>
+        </div>
+    </div>
+
+    <section class="app-shell relative flex w-full flex-col overflow-hidden md:flex-row">
+        <aside class="w-full border-b border-white/10 bg-black px-3 pb-3 pt-3 md:h-full md:w-3/12 md:min-w-[198px] md:max-w-[330px] md:border-b-0 md:px-4">
+            <div class="px-3 pb-3 pt-1 md:px-4 md:pb-4 md:pt-3">
+                <a href="#" aria-label="Playlist d'Amour" class="inline-flex items-center gap-2">
+                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28" aria-hidden="true">
+                        <circle cx="12" cy="12" r="12" fill="#1ED2C2"></circle>
+                        <path d="M7 9.2c3.8-1 7.1-.6 10 1" stroke="#0d1117" stroke-width="1.8" stroke-linecap="round"></path>
+                        <path d="M7.8 12.1c3.1-.8 5.9-.5 8.2.8" stroke="#0d1117" stroke-width="1.6" stroke-linecap="round"></path>
+                        <path d="M8.7 14.7c2.5-.6 4.6-.4 6.4.7" stroke="#0d1117" stroke-width="1.5" stroke-linecap="round"></path>
+                    </svg>
+                    <span class="text-white font-bold text-lg tracking-tight">Playlist d'Amour</span>
+                </a>
+            </div>
+
+            <div class="mobile-quick-nav md:hidden">
+                <ul class="flex gap-2 overflow-x-auto pb-1">
+                    <li class="shrink-0"><button type="button" data-view-trigger="home" class="nav-action flex items-center gap-2 rounded-full bg-white/5 px-3 py-2 text-sm text-white/90"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg><span>Accueil</span></button></li>
+                    <li class="shrink-0"><button type="button" data-view-trigger="lista" class="nav-action flex items-center gap-2 rounded-full bg-white/5 px-3 py-2 text-sm text-white/90"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg><span>Notre liste</span></button></li>
+                    <li class="shrink-0"><button type="button" data-view-trigger="momentos" class="nav-action flex items-center gap-2 rounded-full bg-white/5 px-3 py-2 text-sm text-white/90"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 rounded bg-slate-700 p-[2px] stroke-slate-300"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg><span>Nos moments</span></button></li>
+                </ul>
+            </div>
+
+            <ul class="hidden gap-2 md:flex md:flex-col">
+                <li><button type="button" data-view-trigger="home" class="nav-action w-full rounded-md px-3 py-2 text-left text-sm text-white/80 transition-all hover:bg-white/5 hover:text-white md:px-4 md:py-3 md:text-base"><span class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 stroke-white"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg><span class="font-medium">Accueil</span></span></button></li>
+                <li><button type="button" data-view-trigger="lista" class="nav-action w-full rounded-md px-3 py-2 text-left text-sm text-white/80 transition-all hover:bg-white/5 hover:text-white md:px-4 md:py-3 md:text-base"><span class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg><span class="font-medium">Notre liste</span></span></button></li>
+                <li><button type="button" data-view-trigger="momentos" class="nav-action w-full rounded-md px-3 py-2 text-left text-sm text-white/80 transition-all hover:bg-white/5 hover:text-white md:px-4 md:py-3 md:text-base"><span class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 rounded bg-slate-700 p-1 stroke-slate-300"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg><span class="font-medium">Nos moments</span></span></button></li>
+            </ul>
+            <hr class="mt-5 hidden border-white/30 md:block">
+        </aside>
+
+        <main class="main-content min-h-0 w-full flex-1 overflow-y-auto bg-black/95 py-1">
+            <div class="mx-auto min-h-full w-11/12 py-2">
+                <nav id="topSearchBar" class="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                    <div class="flex w-full items-center gap-2 sm:flex-1 sm:gap-5">
+                        <div class="relative w-full" style="max-width:420px">
+                            <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#9ca3af;pointer-events:none;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input id="searchInput"
+                                style="width:100%;border-radius:9999px;background:#2a2a2a;padding:10px 16px 10px 38px;color:#fff;font-size:14px;border:1px solid rgba(255,255,255,0.1);outline:none"
+                                placeholder="Rechercher un détail ou un souvenir...">
+                        </div>
+                    </div>
+                    <div class="flex w-fit cursor-pointer items-center gap-3 self-end rounded-full bg-black px-4 py-1 sm:self-auto">
+                        <img class="h-9 w-9 rounded-full object-cover" alt="Profil">
+                        <span class="hidden text-white md:inline">Pour mon amour</span>
+                    </div>
+                </nav>
+
+                <section id="homeView" data-view-section="home" class="my-5 pb-36 md:pb-16">
+                    <div id="heroBanner" class="relative h-[220px] w-full overflow-hidden rounded-xl bg-cover bg-center sm:h-[300px]"
+                         >
+                        <div class="hero-overlay absolute inset-0 flex flex-col justify-end gap-2 p-4 sm:p-6">
+                            <h1 id="heroTitle" class="hero-main-title text-2xl font-bold text-white sm:text-4xl">Notre Playlist d'Amour</h1>
+                            <p id="loveMessageText" class="max-w-[650px] text-sm text-white/90 sm:text-base">Merci d'être mon endroit préféré au monde.</p>
+                            <div class="flex flex-wrap gap-2 pt-1">
+                                <button id="nextMessageBtn" class="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-400">Autre message</button>
+                                <button id="toggleLetterBtn" class="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/30">Lire la lettre</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <article id="loveLetter" class="love-letter hidden">
+                        <h2 id="letterTitle" class="mb-2 text-xl font-semibold">Lettre pour toi</h2>
+                                                    <p id="letterContent" class="mb-2">J'ai créé cette page pour te rappeler à quel point je t'aime. Chaque photo garde un souvenir précieux, chaque détail a un peu de nous. Je te choisis aujourd'hui, demain et chaque jour.</p>
+                                            </article>
+
+                    <section class="home-links-grid mt-5 grid gap-4 sm:grid-cols-2">
+                        <button type="button" data-view-trigger="lista" class="home-link-card rounded-xl border border-white/10 bg-white/5 p-5 text-left transition hover:bg-white/10">
+                            <h2 class="text-2xl font-bold text-white">Notre liste</h2>
+                        </button>
+                        <button type="button" data-view-trigger="momentos" class="home-link-card rounded-xl border border-white/10 bg-white/5 p-5 text-left transition hover:bg-white/10">
+                            <h2 class="text-2xl font-bold text-white">Nos moments</h2>
+                        </button>
+                    </section>
+                </section>
+
+                <section id="listaView" data-view-section="lista" class="hidden">
+                    <div class="mb-4 flex justify-between py-3">
+                        <h2 class="text-2xl font-bold text-white sm:text-3xl">Notre sélection romantique</h2>
+                        <h3 class="hidden text-white/50 sm:block">Des instants pensés pour nous</h3>
+                    </div>
+                    <section class="song-section mb-6" data-group="forHer">
+                        <div class="songs-grid grid grid-cols-2 gap-3 sm:flex sm:flex-wrap"></div>
+                    </section>
+                </section>
+
+                <section id="momentosView" data-view-section="momentos" class="hidden">
+                    <div class="mb-4 flex justify-between py-3">
+                        <h2 class="text-2xl font-bold text-white sm:text-3xl">Moments inoubliables</h2>
+                        <h3 class="hidden text-white/50 sm:block">Touchez une image pour l’ouvrir</h3>
+                    </div>
+                    <section class="song-section mb-6" data-group="moments">
+                        <div class="songs-grid grid grid-cols-2 gap-3 sm:flex sm:flex-wrap"></div>
+                    </section>
+                </section>
+            </div>
+        </main>
+
+        <div id="playerDock" class="fixed bottom-0 left-0 right-0 z-40 flex w-full flex-col gap-3 border-t border-t-white/20 bg-zinc-900 px-3 py-3 md:h-[90px] md:flex-row md:items-center md:justify-between md:px-0 md:pb-5 md:pt-3">
+            <div class="flex w-full items-center justify-between gap-3 md:w-auto md:justify-start md:gap-4 md:px-3">
+                <div class="flex min-w-0 items-center gap-3">
+                    <img id="currentTrackImage" class="h-[52px] w-[52px] rounded object-cover md:h-[60px] md:w-[60px]" alt="Photo de la piste">
+                    <div class="min-w-0">
+                        <h3 id="currentTrackTitle" class="truncate font-medium text-white">Un café avec toi</h3>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <button id="likeBtn" aria-label="Aimer le morceau">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 rounded p-1 transition-all stroke-white/50 hover:stroke-white">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="mx-0 flex w-full flex-col gap-2 md:mx-4 md:max-w-[700px] md:flex-1 md:gap-4">
+                <div class="flex w-full items-center justify-center gap-3 md:gap-4">
+                    <button id="prevBtn" class="player-nav-btn" aria-label="Précédent">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 stroke-white"><path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953l7.108-4.062A1.125 1.125 0 0121 8.688v8.123zM11.25 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953L9.567 7.71a1.125 1.125 0 011.683.977v8.123z"/></svg>
+                    </button>
+                    <button id="playToggle" class="player-main-btn flex h-11 w-11 items-center justify-center rounded-full bg-white" aria-label="Lire ou mettre en pause"></button>
+                    <button id="nextBtn" class="player-nav-btn" aria-label="Suivant">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 stroke-white"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z"/></svg>
+                    </button>
+                </div>
+                <progress id="playerProgress" value="0" max="100" class="h-[5px] w-full rounded-full"></progress>
+            </div>
+            <div class="hidden items-center gap-4 px-3 md:flex">
+                <span class="text-xs text-white/50">Featured detail</span>
+            </div>
+        </div>
+    </section>
+
+    <div id="momentModal" class="moment-modal hidden" role="dialog" aria-modal="true" aria-labelledby="momentModalTitle">
+        <button type="button" class="moment-modal-backdrop" data-close-moment-modal aria-label="Fermer"></button>
+        <article class="moment-modal-card">
+            <button type="button" class="moment-modal-close" data-close-moment-modal aria-label="Fermer">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <img id="momentModalImage" class="h-[260px] w-full rounded-lg object-cover sm:h-[340px]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20200%22%3E%3Crect%20width%3D%22300%22%20height%3D%22200%22%20fill%3D%22%23111%22%2F%3E%3C%2Fsvg%3E" alt="Moment">
+            <h3 id="momentModalTitle" class="mt-4 text-2xl font-bold text-white"></h3>
+            <p id="momentModalText" class="mt-2 text-white/85"></p>
+        </article>
+    </div>
+
+    <audio id="audioPlayer" preload="metadata"></audio>
+
+    <script>
+        const tracksBySection = {
+            forHer:  [{"id":"track-1","title":"Un café avec toi","description":"Un petit café, une douce discussion et ton sourire : le moment parfait.","image":"","audio":""},{"id":"track-2","title":"Lettre manuscrite","description":"Des mots simples, mais débordants de tout ce que je ressens pour toi.","image":"","audio":""},{"id":"track-3","title":"Tendre étreinte","description":"Ton étreinte illumine ma journée sans prononcer le moindre mot.","image":"","audio":""}],
+            moments: [{"id":"moment-1","title":"Notre premier rendez-vous","artist":"Notre premier rendez-vous","description":"Le jour où tout a commencé et où j’ai su que je voulais continuer avec toi.","image":""},{"id":"moment-2","title":"Nos fous rires","artist":"Nos fous rires","description":"Quand nous rions de tout, le monde devient plus beau.","image":""},{"id":"moment-3","title":"Notre photo préférée","artist":"Notre photo préférée","description":"Une image qui raconte le bonheur de t’aimer.","image":""}]        };
+
+        const loveMessages = ["Merci d’être mon endroit préféré au monde.","À tes côtés, tout devient plus doux et plus beau.","Tu es ma plus belle rencontre et mon plus beau choix.","Ton regard me suffit pour être heureux.","Je voulais simplement te dire : je t’aime."];
+        const _favLabel = "Favori";
+
+        const FAVORITES_KEY = "dedicatoria_favoritas_v1";
+        const body     = document.body;
+        const appSplash = document.getElementById("appSplash");
+        const VIEW_GROUPS = { home: [], lista: ["forHer"], momentos: ["moments"] };
+
+        const searchInput       = document.getElementById("searchInput");
+        const topSearchBar      = document.getElementById("topSearchBar");
+        const playToggle        = document.getElementById("playToggle");
+        const likeBtn           = document.getElementById("likeBtn");
+        const progress          = document.getElementById("playerProgress");
+        const prevBtn           = document.getElementById("prevBtn");
+        const nextBtn           = document.getElementById("nextBtn");
+        const audio             = document.getElementById("audioPlayer");
+        const currentTrackImage  = document.getElementById("currentTrackImage");
+        const currentTrackTitle  = document.getElementById("currentTrackTitle");
+        const loveMessageText   = document.getElementById("loveMessageText");
+        const nextMessageBtn    = document.getElementById("nextMessageBtn");
+        const toggleLetterBtn   = document.getElementById("toggleLetterBtn");
+        const loveLetter        = document.getElementById("loveLetter");
+        const momentModal       = document.getElementById("momentModal");
+        const momentModalImage  = document.getElementById("momentModalImage");
+        const momentModalTitle  = document.getElementById("momentModalTitle");
+        const momentModalText   = document.getElementById("momentModalText");
+
+        const viewSections = Array.from(document.querySelectorAll("[data-view-section]"));
+        const viewTriggers = Array.from(document.querySelectorAll("[data-view-trigger]"));
+
+        const allTracks  = Object.values(tracksBySection).flat();
+        const tracksById = new Map(allTracks.map(t => [t.id, t]));
+        const momentIds  = new Set((tracksBySection.moments || []).map(t => t.id));
+
+        let currentTrackId = allTracks[0]?.id || "";
+        let messageIndex   = 0;
+        let favoriteIds    = new Set();
+        let splashClosed   = false;
+
+        function getCurrentView()  { return body?.dataset.view || "home"; }
+        function getViewGroups(v = getCurrentView()) { return VIEW_GROUPS[v] || []; }
+
+        function sortTracksByFavorites(tracks = []) {
+            return tracks.map((t, i) => ({ t, i, r: favoriteIds.has(t.id) ? 0 : 1 }))
+                .sort((a, b) => a.r - b.r || a.i - b.i).map(x => x.t);
+        }
+
+        function getTrackPoolForView(v = getCurrentView()) {
+            const tracks = getViewGroups(v).flatMap(g => tracksBySection[g] || []).filter(t => !t.hiddenFromPage);
+            return tracks.length ? sortTracksByFavorites(tracks) : [];
+        }
+
+        function getPlayableTrackPool(v = getCurrentView()) {
+            const vp = getTrackPoolForView(v).filter(t => Boolean(t.audio));
+            return vp.length ? vp : sortTracksByFavorites(allTracks.filter(t => Boolean(t.audio)));
+        }
+
+        function setActiveNav(v) {
+            viewTriggers.forEach(t => t.classList.toggle("is-active", t.dataset.viewTrigger === v));
+        }
+
+        function switchView(v) {
+            if (!VIEW_GROUPS[v]) return;
+            body.dataset.view = v;
+            viewSections.forEach(s => s.classList.toggle("hidden", s.dataset.viewSection !== v));
+            if (topSearchBar) topSearchBar.classList.toggle("hidden", v === "home");
+            if (searchInput && v === "home") searchInput.value = "";
+            closeMomentModal();
+            setActiveNav(v);
+            renderSections(searchInput ? searchInput.value : "");
+            const pool = getPlayableTrackPool(v);
+            if (pool.length && !pool.some(t => t.id === currentTrackId)) loadTrack(pool[0].id, false);
+            else highlightCurrentCard();
+        }
+
+        function openMomentModal(id) {
+            if (!momentIds.has(id)) return;
+            const m = tracksById.get(id);
+            if (!m || !momentModal) return;
+            momentModalImage.src = m.image;
+            momentModalImage.alt = m.title;
+            momentModalTitle.textContent = m.title;
+            momentModalText.textContent  = m.description;
+            momentModal.classList.remove("hidden");
+            body.classList.add("modal-open");
+        }
+
+        function closeMomentModal() {
+            momentModal?.classList.add("hidden");
+            body.classList.remove("modal-open");
+        }
+
+        function hideAppSplash() {
+            if (!appSplash || splashClosed) return;
+            splashClosed = true;
+            appSplash.classList.add("is-hidden");
+            setTimeout(() => appSplash.remove(), 520);
+        }
+
+        function initAppSplash() {
+            if (!appSplash) return;
+            appSplash.addEventListener("click", hideAppSplash);
+            window.addEventListener("load", () => setTimeout(hideAppSplash, 1300), { once: true });
+            setTimeout(hideAppSplash, 2600);
+        }
+
+        function getPlayIcon()  { return '<span class="player-icon player-icon-play" aria-hidden="true"></span>'; }
+        function getPauseIcon() { return '<span class="player-icon player-icon-pause" aria-hidden="true"><span class="bar"></span><span class="bar"></span></span>'; }
+
+        function safePlay() {
+            const p = audio?.play();
+            if (p) p.catch(() => renderPlayButton(false));
+        }
+
+        function renderPlayButton(forcePlaying) {
+            if (!playToggle || !audio) return;
+            const isPlaying = typeof forcePlaying === "boolean" ? forcePlaying : !audio.paused;
+            playToggle.innerHTML = isPlaying ? getPauseIcon() : getPlayIcon();
+        }
+
+        function loadFavorites() {
+            try {
+                const p = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+                if (Array.isArray(p)) favoriteIds = new Set(p);
+            } catch { favoriteIds = new Set(); }
+        }
+
+        function saveFavorites() {
+            localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(favoriteIds)));
+        }
+
+        function updateLikeButton() {
+            likeBtn?.classList.toggle("liked", favoriteIds.has(currentTrackId));
+        }
+
+        function escapeHtml(value) {
+            const entities = {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"};
+            return String(value ?? "").replace(/[&<>"']/g, ch => entities[ch]);
+        }
+
+        function cardTemplate(track, group) {
+            const title = escapeHtml(track.title);
+            const description = escapeHtml(track.description);
+            const image = track.image ? `<img class="h-[180px] w-full rounded object-cover" src="${escapeHtml(track.image)}" alt="${title}">` : '<div class="h-[180px] w-full rounded bg-white/5" aria-hidden="true"></div>';
+            if (group === "moments") {
+                return `<button type="button" class="moment-card-btn moment-card w-full overflow-hidden rounded-lg p-3 text-left transition hover:bg-white/10 sm:w-[230px]" data-moment-id="${escapeHtml(track.id)}">
+                    ${image}
+                    <h3 class="mt-3 text-base font-semibold text-white sm:text-lg">${title}</h3>
+                </button>`;
+            }
+            const fav = favoriteIds.has(track.id) ? `<span class="fav-badge">${_favLabel}</span>` : "";
+            const songImage = track.image ? `<img class="h-[60%] w-full rounded object-cover" src="${escapeHtml(track.image)}" alt="${title}">` : '<div class="h-[60%] w-full rounded bg-white/5" aria-hidden="true"></div>';
+            return `<article class="song-cover relative h-[260px] w-full overflow-hidden rounded-lg bg-zinc-800/30 p-3 drop-shadow-lg transition-all hover:bg-zinc-800/90 sm:h-[290px] sm:w-[210px]" data-track-id="${escapeHtml(track.id)}" data-group="${escapeHtml(group)}">
+                ${fav}
+                <button class="card-play-btn absolute right-4 top-28 rounded-full bg-rose-500 p-3 sm:top-36" aria-label="Ouvrir ${title}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"/></svg>
+                </button>
+                ${songImage}
+                <h3 class="mt-3 text-sm text-white sm:text-base">${title}</h3>
+                <p class="mt-1 overflow-hidden text-ellipsis text-xs text-white/80 sm:text-sm">${description}</p>
+            </article>`;
+        }
+
+        function highlightCurrentCard() {
+            document.querySelectorAll(".song-cover").forEach(c => {
+                c.classList.toggle("playing", c.dataset.group !== "moments" && c.dataset.trackId === currentTrackId);
+            });
+        }
+
+        function renderSections(query = "") {
+            const q = query.trim().toLowerCase();
+            const active = new Set(getViewGroups());
+            document.querySelectorAll(".song-section").forEach(section => {
+                const group = section.dataset.group;
+                const grid  = section.querySelector(".songs-grid");
+                if (!grid || !active.has(group)) return;
+                const source   = sortTracksByFavorites((tracksBySection[group] || []).filter(t => !t.hiddenFromPage));
+                const filtered = source.filter(t => `${t.title} ${t.description}`.toLowerCase().includes(q));
+                grid.innerHTML = filtered.length
+                    ? filtered.map(t => cardTemplate(t, group)).join("")
+                    : '<p class="col-span-2 py-4 text-sm text-white/60">Aucun résultat pour cette recherche.</p>';
+            });
+            highlightCurrentCard();
+        }
+
+        function updateNowPlaying(track) {
+            if (!track) return;
+            if (currentTrackTitle) currentTrackTitle.textContent = track.title;
+            if (currentTrackImage) {
+                currentTrackImage.hidden = !track.image;
+                if (track.image) currentTrackImage.src = track.image;
+                else currentTrackImage.removeAttribute("src");
+            }
+            updateLikeButton();
+            highlightCurrentCard();
+        }
+
+        function loadTrack(trackId, autoPlay = false) {
+            const track = tracksById.get(trackId);
+            if (!track || !audio) return;
+            const hasAudio    = Boolean(track.audio);
+            const srcChanged  = hasAudio && (!audio.src || !audio.src.includes(track.audio));
+            currentTrackId    = track.id;
+            if (srcChanged) { audio.src = track.audio; if (progress) progress.value = 0; }
+            updateNowPlaying(track);
+            if (autoPlay && hasAudio) safePlay(); else renderPlayButton(false);
+        }
+
+        function playRelativeTrack(step) {
+            const pool = getPlayableTrackPool();
+            if (!pool.length) return;
+            const idx  = pool.findIndex(t => t.id === currentTrackId);
+            loadTrack(pool[idx === -1 ? 0 : (idx + step + pool.length) % pool.length].id, true);
+        }
+
+        function rotateLoveMessage() {
+            if (!loveMessageText) return;
+            messageIndex = (messageIndex + 1) % loveMessages.length;
+            loveMessageText.textContent = loveMessages[messageIndex];
+        }
+
+        viewTriggers.forEach(t => t.addEventListener("click", () => switchView(t.dataset.viewTrigger)));
+
+        document.addEventListener("click", event => {
+            const cardBtn    = event.target.closest(".card-play-btn");
+            const songCard   = event.target.closest(".song-cover");
+            const momentBtn  = event.target.closest(".moment-card-btn");
+            if (momentBtn)  { openMomentModal(momentBtn.dataset.momentId); return; }
+            if (cardBtn)    { const c = cardBtn.closest(".song-cover"); if (c) loadTrack(c.dataset.trackId, true); return; }
+            if (songCard && !event.target.closest("button") && songCard.dataset.group !== "moments") loadTrack(songCard.dataset.trackId, true);
+        });
+
+        momentModal?.addEventListener("click", e => { if (e.target.closest("[data-close-moment-modal]")) closeMomentModal(); });
+        document.addEventListener("keydown", e => { if (e.key === "Escape" && momentModal && !momentModal.classList.contains("hidden")) closeMomentModal(); });
+        searchInput?.addEventListener("input",  e => renderSections(e.target.value));
+        playToggle?.addEventListener("click",   () => { if (!audio) return; if (!audio.src) { const p = getPlayableTrackPool(); if (p[0]) loadTrack(p[0].id, true); return; } audio.paused ? safePlay() : audio.pause(); });
+        prevBtn?.addEventListener("click", () => playRelativeTrack(-1));
+        nextBtn?.addEventListener("click", () => playRelativeTrack(1));
+
+        likeBtn?.addEventListener("click", () => {
+            if (!currentTrackId) return;
+            favoriteIds.has(currentTrackId) ? favoriteIds.delete(currentTrackId) : favoriteIds.add(currentTrackId);
+            saveFavorites(); updateLikeButton(); renderSections(searchInput ? searchInput.value : "");
+        });
+
+        nextMessageBtn?.addEventListener("click", rotateLoveMessage);
+
+        if (toggleLetterBtn && loveLetter) {
+            toggleLetterBtn.addEventListener("click", () => {
+                loveLetter.classList.toggle("hidden");
+                toggleLetterBtn.textContent = !loveLetter.classList.contains("hidden") ? "Ocultar carta" : "Ver carta";
+            });
+        }
+
+        if (audio) {
+            audio.addEventListener("play",       () => renderPlayButton(true));
+            audio.addEventListener("pause",      () => renderPlayButton(false));
+            audio.addEventListener("timeupdate", () => { if (progress && audio.duration) progress.value = (audio.currentTime / audio.duration) * 100; });
+            audio.addEventListener("ended",      () => playRelativeTrack(1));
+        }
+
+        if (progress) {
+            progress.addEventListener("click", e => {
+                if (!audio || !audio.duration) return;
+                const r = (e.clientX - progress.getBoundingClientRect().left) / progress.getBoundingClientRect().width;
+                audio.currentTime = Math.min(Math.max(r, 0), 1) * audio.duration;
+            });
+        }
+
+        
+        // Intégration dynamique Dedikka
+        const DEDIKKA_DATA = window.DEDIKKA_PAGE_DATA || {};
+        if (DEDIKKA_DATA && (DEDIKKA_DATA.title || DEDIKKA_DATA.form_fields)) {
+            const fields = DEDIKKA_DATA.form_fields || {};
+            const imgs = DEDIKKA_DATA.images || {};
+            
+            const customTitle = fields['data[hero_title]'] || DEDIKKA_DATA.title || fields['data[title]'] || fields['data[page_title]'];
+            if (customTitle) {
+                const h1 = document.getElementById('heroTitle');
+                if (h1) h1.textContent = customTitle;
+                document.title = customTitle + ' · Dedikka';
+            }
+            
+            const customRecipient = DEDIKKA_DATA.recipient_name || fields['data[profile_name]'];
+            if (customRecipient) {
+                const rSpan = document.querySelector('nav .cursor-pointer span');
+                if (rSpan) rSpan.textContent = 'Pour ' + customRecipient;
+            }
+            
+            const letterText = fields['data[letter_text]'] || fields['letter_content'];
+            if (letterText) {
+                const lP = document.getElementById('letterContent');
+                if (lP) lP.innerText = letterText;
+            }
+            
+            const letterT = fields['data[letter_title]'];
+            if (letterT) {
+                const lH = document.getElementById('letterTitle');
+                if (lH) lH.textContent = letterT;
+            }
+            
+            const customMsgs = [];
+            for (let i = 1; i <= 10; i++) {
+                const msg = fields['data[love_msg_' + i + ']'];
+                if (msg) customMsgs.push(msg);
+            }
+            if (customMsgs.length > 0) {
+                loveMessages.length = 0;
+                loveMessages.push(...customMsgs);
+                const loveTextEl = document.getElementById('loveMessageText');
+                if (loveTextEl) loveTextEl.textContent = loveMessages[0];
+            }
+            
+            const heroImg = imgs.image_2 || '';
+            const heroEl = document.getElementById('heroBanner');
+            if (heroEl) heroEl.style.backgroundImage = heroImg ? 'url(' + JSON.stringify(heroImg) + ')' : 'none';
+            const profileImg = imgs.image_1 || '';
+            const pImgEl = document.querySelector('nav .cursor-pointer img');
+            if (pImgEl) {
+                if (profileImg) { pImgEl.src = profileImg; pImgEl.hidden = false; }
+                else { pImgEl.removeAttribute('src'); pImgEl.hidden = true; }
+            }
+
+            const listCount = Math.max(0, Math.min(3, parseInt(fields['data[list_count]'] || '3', 10) || 0));
+            for (let i = 0; i < (tracksBySection.forHer || []).length; i++) {
+                const track = tracksBySection.forHer[i];
+                track.image = imgs['image_' + (i + 3)] || '';
+                track.hiddenFromPage = i >= listCount;
+                const trackTitle = fields['data[list' + (i + 1) + '_title]'];
+                if (trackTitle) track.title = trackTitle;
+                const trackDesc = fields['data[list' + (i + 1) + '_desc]'];
+                if (trackDesc) track.description = trackDesc;
+                track.audio = fields['data[list' + (i + 1) + '_audio]'] || '';
+            }
+            const momentCount = Math.max(0, Math.min(3, parseInt(fields['data[moment_count]'] || '3', 10) || 0));
+            for (let i = 0; i < (tracksBySection.moments || []).length; i++) {
+                const imgKey = 'image_' + (i + 21);
+                tracksBySection.moments[i].image = imgs[imgKey] || '';
+                tracksBySection.moments[i].hiddenFromPage = i >= momentCount;        }
+        }
+
+        loadFavorites();
+        initAppSplash();
+        switchView("home");
+        if (currentTrackId) loadTrack(currentTrackId, false);
+        renderPlayButton(false);
+    </script>
+</body>
+
+</html>

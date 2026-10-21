@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portes du Cœur</title>
+<!-- DEDIKKA_PAGE_DATA -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: #fdf4f1; font-family: 'Jost', sans-serif; color: #5a2a3a; overflow-x: hidden; }
+/* Evitar que textos largos sin espacios se desborden: cortar palabra y respetar el ancho. */
+#pdc-root h1, #pdc-root h2, #pdc-root p { overflow-wrap: anywhere; word-break: break-word; max-width: 100%; }
+::selection { background: #f0c9d2; color: #6e1f33; }
+@keyframes floatUp {
+  0%   { transform: translateY(4vh) translateX(0) rotate(0deg); opacity: 0; }
+  12%  { opacity: var(--maxop, .5); }
+  88%  { opacity: calc(var(--maxop, .5) * .8); }
+  100% { transform: translateY(-110vh) translateX(40px) rotate(34deg); opacity: 0; }
+}
+@keyframes cueBob { 0%,100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(10px); opacity: 1; } }
+@keyframes burstFloat {
+  0%   { transform: translate(-50%,-50%) scale(0.5) rotate(0deg); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--bx)), calc(-50% + var(--by))) scale(1.2) rotate(var(--br)); opacity: 0; }
+}
+@keyframes twinkle { 0%,100% { opacity: .3; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+@keyframes beat { 0%,100% { transform: scale(1); } 12% { transform: scale(1.05); } 24% { transform: scale(1); } 36% { transform: scale(1.05); } }
+
+/* reveal-on-scroll */
+[data-reveal] { opacity: 0; transform: translateY(36px); transition: opacity 1.1s ease, transform 1.1s cubic-bezier(.2,.8,.2,1); }
+[data-reveal].revealed { opacity: 1; transform: var(--rv, none); }
+
+/* pixel buttons hover/active */
+.pixbtn { transition: transform .2s steps(2); }
+.pixbtn:hover { transform: translate(2px,2px); }
+.pixbtn:active { transform: translate(4px,4px); }
+.bigbtn:active { transform: translate(6px,6px); }
+
+.love-divider { position: relative; z-index: 2; width: min(540px,90vw); display: flex; align-items: center; justify-content: center; gap: 16px; color: rgba(255,255,255,.9); font-size: clamp(14px,2.4vw,19px); letter-spacing: 4px; white-space: nowrap; }
+.love-divider::before, .love-divider::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, transparent, rgba(230,166,182,.78)); }
+.love-divider::after { background: linear-gradient(90deg, rgba(230,166,182,.72), transparent); }
+#home .love-divider-top, #home .love-divider-bottom, .home-slice .love-divider-top, .home-slice .love-divider-bottom { position: absolute; left: 50%; transform: translateX(-50%); }
+#home .love-divider-top, .home-slice .love-divider-top { top: clamp(24px,6vh,52px); }
+#home .love-divider-bottom, .home-slice .love-divider-bottom { bottom: clamp(24px,6vh,52px); }
+.hero-title { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; width: 100%; padding: 4px 0 8px; transform: translateY(-8px); }
+.hero-game-title { margin: 0; white-space: nowrap; font-family: 'Press Start 2P',monospace; font-weight: 400; font-size: clamp(12px,2.5vw,30px); line-height: 1.45; letter-spacing: .08em; color: #fff4f7; text-shadow: 3px 3px 0 #7a2238, 6px 6px 0 rgba(0,0,0,.28); }
+.hero-game-title span { color: #e6a6b6; text-shadow: 2px 2px 0 #7a2238; }
+.hero-action { width: 100%; justify-content: center; transform: translateY(clamp(18px,4vh,35px)); }
+#home, .home-slice { min-height: 100svh !important; gap: clamp(14px,2vh,22px) !important; padding: clamp(26px,4vh,44px) 20px !important; }
+.heart-puzzle { width: 410px !important; max-width: 88vw !important; }
+
+@media (max-height: 760px) {
+  #home, .home-slice { gap: 10px !important; padding-top: 18px !important; padding-bottom: 18px !important; }
+  .hero-title { padding: 0 0 4px; transform: translateY(-5px); }
+  .hero-game-title { font-size: clamp(11px,2.1vw,18px); }
+  .heart-puzzle { width: 370px !important; max-width: 84vw !important; }
+  .love-divider { font-size: 14px; }
+}
+
+@media (min-width: 601px) {
+  .hero-title { transform: translateY(-28px); }
+  .hero-game-title { font-size: clamp(24px,3.8vw,34px); }
+  .heart-puzzle { width: 440px !important; max-width: 88vw !important; }
+}
+
+/* Escala propia para monitores: no altera tablet ni celular. */
+@media (min-width: 1100px) and (min-height: 761px) {
+  .love-divider { width: min(680px,50vw); font-size: 19px; }
+  .hero-title { transform: translateY(-30px); }
+  .hero-game-title { font-size: clamp(32px,2.2vw,40px); letter-spacing: .09em; }
+  .heart-puzzle { width: clamp(480px,53vh,530px) !important; max-width: 48vw !important; }
+}
+
+/* La experiencia comienza mostrando únicamente la portada. */
+body.intro-locked { overflow: hidden; }
+#pdc-root.intro-locked { overflow: hidden; }
+#pdc-root:not(.nav-visible) > nav { display: none !important; }
+#mainNav { flex-wrap: nowrap; }
+#mainNav .pixbtn { color: #7a2238 !important; background: #fbe3da !important; box-shadow: inset 0 3px 0 rgba(255,255,255,.6), inset 0 -4px 0 rgba(122,34,56,.25), 0 0 0 3px #7a2238, 4px 4px 0 3px rgba(0,0,0,.25) !important; }
+#mainNav .pixbtn.nav-active { color: #fff5f7 !important; background: #c9486a !important; box-shadow: inset 0 3px 0 rgba(255,255,255,.4), inset 0 -4px 0 rgba(122,34,56,.5), 0 0 0 3px #7a2238, 4px 4px 0 3px rgba(0,0,0,.25) !important; }
+
+/* Menú en una sola fila en celular, ocupando casi todo el ancho.
+   Los botones se reparten el espacio (flex:1) para verse grandes. */
+@media (max-width: 600px) {
+  #mainNav { gap: 6px !important; padding: 9px 10px !important; width: 96vw !important; max-width: 96vw !important; border-width: 3px !important; }
+  #mainNav .pixbtn { flex: 1 1 0 !important; font-size: 9px !important; padding: 13px 4px !important; letter-spacing: 0 !important; text-align: center !important; }
+  /* Título "JE T’AIME" en celular: grande y subido para centrarse entre el
+     divisor y el corazón (sin tocar el resto del layout). */
+  .hero-title { transform: translateY(-45px) !important; padding: 0 !important; }
+  .hero-game-title { font-size: clamp(20px, 7vw, 30px) !important; letter-spacing: .06em !important; }
+  /* Razones: 2 tarjetas por fila en celular, con alto suficiente para el texto. */
+  .reasons-grid { grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
+  .reasons-grid .flip-card { height: 235px !important; }
+  /* Cara trasera (texto): un poco más grande, con alto suficiente para no cortarse. */
+  .reasons-grid .flip-inner > div:last-child { font-size: 16px !important; line-height: 1.4 !important; padding: 14px !important; }
+  .reasons-grid .flip-inner > div:first-child span:first-child { font-size: 22px !important; }
+  .reasons-grid .flip-inner > div:first-child span:last-child { font-size: 16px !important; }
+  /* Mensajes: menos interlineado en celular (líneas menos separadas). */
+  .mensajes-grid p { line-height: 1.35 !important; font-size: 18px !important; }
+  .mensajes-grid > div { padding: 24px 22px !important; }
+  /* Títulos de sección: menos alto entre líneas cuando se parten en celular. */
+  #mensajes h2, #razones h2, #galeria h2, #sorpresa h2 { line-height: 1.1 !important; }
+}
+@media (max-width: 380px) {
+  #mainNav .pixbtn { font-size: 8px !important; padding: 12px 3px !important; }
+}
+#pdc-root.intro-locked > nav,
+#pdc-root.intro-locked > #mensajes,
+#pdc-root.intro-locked > #razones,
+#pdc-root.intro-locked > #galeria,
+#pdc-root.intro-locked > #sorpresa,
+#pdc-root.intro-locked > footer { display: none; }
+
+/* Una vez dentro (sin intro-locked), la portada real deja de mostrarse:
+   solo reaparece a través de la animación de puertas al volver arriba.
+   !important para ganar al display:flex inline de la sección. */
+#pdc-root:not(.intro-locked) > #home { display: none !important; }
+
+/* La portada real se divide en dos mitades y se abre. */
+#doorTransition { position: fixed; inset: 0; z-index: 10000; display: none; pointer-events: none; overflow: hidden; }
+#doorTransition.active { display: block; }
+.door-panel { position: absolute; top: 0; bottom: 0; width: 50%; overflow: hidden; background: #211c26; transition: transform 1.25s cubic-bezier(.72,0,.18,1); will-change: transform; backface-visibility: hidden; }
+.door-panel > .home-slice { position: absolute !important; top: 0 !important; margin: 0 !important; max-width: none !important; pointer-events: none !important; }
+.door-left { left: 0; }
+.door-right { right: 0; }
+.door-left > .home-slice { left: 0 !important; }
+.door-right > .home-slice { left: -50vw !important; }
+#doorTransition.opening .door-left { transform: translateX(-102%); }
+#doorTransition.opening .door-right { transform: translateX(102%); }
+
+/* Cierre: las mitades arrancan separadas (sin transición) y vuelven a juntarse. */
+#doorTransition.closing-start .door-panel { transition: none; }
+#doorTransition.closing-start .door-left { transform: translateX(-102%); }
+#doorTransition.closing-start .door-right { transform: translateX(102%); }
+#doorTransition.closing .door-left { transform: translateX(0); }
+#doorTransition.closing .door-right { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .door-panel { transition-duration: .35s; }
+}
+
+/* ============ SCROLLBAR ============ */
+html { scrollbar-width: thin; scrollbar-color: #c9486a #f7e6e0; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: #f7e6e0; }
+::-webkit-scrollbar-thumb { background: #c9486a; border: 3px solid #f7e6e0; box-shadow: inset 0 2px 0 rgba(255,255,255,.35), inset 0 -2px 0 rgba(122,34,56,.45); }
+::-webkit-scrollbar-thumb:hover { background: #b03b5c; }
+::-webkit-scrollbar-corner { background: #f7e6e0; }
+
+/* ============ MUSIC CONTROL ============ */
+.music-control { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; align-items: center; opacity: 1; transition: opacity .5s ease; }
+/* En la portada (antes de abrir las puertas) el control no se muestra. */
+#pdc-root.intro-locked ~ .music-control { opacity: 0; pointer-events: none; }
+.music-btn { width: 50px; height: 50px; background: linear-gradient(135deg, #c9486a, #7a2238); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,.4); transition: all .3s ease; }
+.music-btn:hover { transform: scale(1.1); box-shadow: 0 8px 20px rgba(201,72,106,.6); }
+.music-btn:active { transform: scale(.95); }
+.music-btn svg { width: 24px; height: 24px; fill: #fff5f7; }
+.volume-control { width: 120px; background: rgba(122,34,56,.85); padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,.4); border: 1px solid rgba(201,72,106,.6); margin-top: 10px; display: none; opacity: 0; transform: translateY(-10px); transition: opacity .3s ease, transform .3s ease; }
+.volume-control.visible { display: block; opacity: 1; transform: translateY(0); }
+.volume-control input { width: 100%; height: 8px; background: rgba(255,255,255,.3); border-radius: 4px; outline: none; cursor: pointer; -webkit-appearance: none; }
+.volume-control input::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #ffd9e2; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,.3); }
+.volume-control input::-moz-range-thumb { width: 16px; height: 16px; background: #ffd9e2; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,.3); border: none; }
+@media (max-width: 768px) { .music-control { right: 15px; top: 15px; } .music-btn { width: 42px; height: 42px; } .music-btn svg { width: 20px; height: 20px; } .volume-control { width: 100px; margin-top: 8px; } }
+
+</style></head><body>
+<!-- ===== REPÈRE PHOTOS / GIFS : remplace les src="data:image/svg..." par tes fichiers (ex: photo1.jpg) ===== -->
+<!-- ===== REPÈRE MUSIQUE : place ton fichier musique.mp3 à côté de ce index.html ===== -->
+<div class="intro-locked" id="pdc-root">
+<div aria-hidden="true" id="doorTransition">
+<div class="door-panel door-left"></div>
+<div class="door-panel door-right"></div>
+</div>
+<div id="heartsLayer" style="position: fixed; inset: 0; z-index: 35; pointer-events: none; overflow: hidden;"><span style="position: absolute; bottom: -6vh; left: 62.2277vw; font-size: 22.7311px; color: rgb(201, 72, 106); --maxop: 0.33132840875972247; animation: 15.396s linear 1.99229s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 43.329vw; font-size: 13.091px; color: rgb(217, 140, 95); --maxop: 0.3919003032896287; animation: 13.5379s linear 4.67877s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 81.5606vw; font-size: 11.3532px; color: rgb(201, 162, 75); --maxop: 0.5921422439622644; animation: 10.6388s linear 4.33436s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 83.561vw; font-size: 25.5941px; color: rgb(230, 179, 164); --maxop: 0.5158403034501661; animation: 19.808s linear 7.09801s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 11.9048vw; font-size: 24.9803px; color: rgb(168, 52, 86); --maxop: 0.5102299937386031; animation: 19.3293s linear 0.729406s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 85.58vw; font-size: 22.1298px; color: rgb(201, 72, 106); --maxop: 0.4124799199218726; animation: 17.9266s linear 0.199869s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 19.3296vw; font-size: 24.1552px; color: rgb(217, 140, 95); --maxop: 0.47494312765966573; animation: 18.3675s linear 1.4113s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 32.9699vw; font-size: 25.8538px; color: rgb(201, 162, 75); --maxop: 0.6093638085875976; animation: 11.4941s linear 3.00604s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 89.5836vw; font-size: 14.5329px; color: rgb(230, 179, 164); --maxop: 0.5918515153298922; animation: 15.3505s linear 3.06039s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 18.0521vw; font-size: 10.0587px; color: rgb(168, 52, 86); --maxop: 0.3574902184321722; animation: 12.5839s linear 8.79882s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 38.4977vw; font-size: 31.8574px; color: rgb(201, 72, 106); --maxop: 0.5681232656682864; animation: 15.1921s linear 1.1719s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 62.2922vw; font-size: 31.5959px; color: rgb(217, 140, 95); --maxop: 0.4858778728792339; animation: 14.4774s linear 6.03838s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 26.8889vw; font-size: 17.2107px; color: rgb(201, 162, 75); --maxop: 0.35138106575756844; animation: 16.1139s linear 7.20765s infinite normal none running floatUp;">♥</span><span style="position: absolute; bottom: -6vh; left: 80.678vw; font-size: 24.7296px; color: rgb(230, 179, 164); --maxop: 0.36840874793229955; animation: 13.3496s linear 7.478s infinite normal none running floatUp;">♥</span></div>
+<nav id="mainNav" style="position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 40; display: flex; flex-wrap: nowrap; justify-content: center; gap: 12px; padding: 10px 14px; max-width: 96vw; background: rgba(38,33,41,0.74); backdrop-filter: blur(10px); border: 3px solid #c9486a; box-shadow: 6px 6px 0 0 rgba(0,0,0,0.28);">
+<button class="pixbtn" data-scroll="mensajes" style="font-family:'Press Start 2P',monospace; font-size:10px; color:#7a2238; background:#fbe3da; border:none; cursor:pointer; padding:11px 13px; image-rendering:pixelated; box-shadow: inset 0 3px 0 rgba(255,255,255,.6), inset 0 -4px 0 rgba(122,34,56,.25), 0 0 0 3px #7a2238, 4px 4px 0 3px rgba(0,0,0,.25);">MESSAGES</button>
+<button class="pixbtn" data-scroll="razones" style="font-family:'Press Start 2P',monospace; font-size:10px; color:#7a2238; background:#fbe3da; border:none; cursor:pointer; padding:11px 13px; image-rendering:pixelated; box-shadow: inset 0 3px 0 rgba(255,255,255,.6), inset 0 -4px 0 rgba(122,34,56,.25), 0 0 0 3px #7a2238, 4px 4px 0 3px rgba(0,0,0,.25);">RAISONS</button>
+<button class="pixbtn" data-scroll="galeria" style="font-family:'Press Start 2P',monospace; font-size:10px; color:#7a2238; background:#fbe3da; border:none; cursor:pointer; padding:11px 13px; image-rendering:pixelated; box-shadow: inset 0 3px 0 rgba(255,255,255,.6), inset 0 -4px 0 rgba(122,34,56,.25), 0 0 0 3px #7a2238, 4px 4px 0 3px rgba(0,0,0,.25);">GALERIE</button>
+<button aria-current="page" class="pixbtn nav-active" data-scroll="sorpresa" style="font-family:'Press Start 2P',monospace; font-size:10px; color:#fff5f7; background:#c9486a; border:none; cursor:pointer; padding:11px 13px; image-rendering:pixelated; box-shadow: inset 0 3px 0 rgba(255,255,255,.4), inset 0 -4px 0 rgba(122,34,56,.5), 0 0 0 3px #7a2238, 4px 4px 0 3px rgba(0,0,0,.25);">SURPRISE</button>
+</nav>
+<section id="home" style="position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(16px, 2.4vw, 26px); padding: clamp(82px, 12vw, 120px) 22px clamp(54px, 8vw, 80px); text-align: center; overflow: hidden; background: radial-gradient(125% 100% at 50% 0%, #38323f 0%, #2a2530 44%, #1c1820 100%);">
+<div style="position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .5; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1.4px); background-size: 5px 5px;"></div>
+<div style="position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(80% 60% at 50% 45%, transparent 40%, rgba(0,0,0,0.4) 100%);"></div>
+<span style="position: absolute; z-index: 1; top: 22%; left: 14%; color: #fff; font-size: 18px; opacity: .8; animation: twinkle 3.2s ease-in-out infinite;">✦</span>
+<span style="position: absolute; z-index: 1; top: 30%; right: 13%; color: #f0c9d2; font-size: 22px; opacity: .8; animation: twinkle 2.6s ease-in-out .5s infinite;">✦</span>
+<span style="position: absolute; z-index: 1; bottom: 26%; left: 11%; color: #f0c9d2; font-size: 16px; opacity: .8; animation: twinkle 3.6s ease-in-out .9s infinite;">✧</span>
+<span style="position: absolute; z-index: 1; bottom: 30%; right: 15%; color: #fff; font-size: 20px; opacity: .8; animation: twinkle 2.9s ease-in-out .3s infinite;">✦</span>
+<div aria-hidden="true" class="love-divider love-divider-top"><span>♡ · ♥ · ♡</span></div>
+<div class="hero-title">
+<h1 class="hero-game-title">JE T’AIME</h1>
+</div>
+<div class="heart-puzzle" style="position: relative; z-index: 2; width: 410px; max-width: 90vw; aspect-ratio: 650.45 / 586.37; animation: beat 4.5s ease-in-out infinite; filter: drop-shadow(0 22px 40px rgba(0,0,0,.55));">
+<svg aria-label="Vos souvenirs réunis dans un cœur" role="img" style="display:block; width:100%; height:100%; overflow:visible;" viewbox="0 0 650.45 586.37">
+<defs>
+<clippath id="canva-pieza-izquierda">
+<path d="M134.3149 0C132.1429 0 129.9809.0505 127.8189.1515 21.8319 5.0109-22.0945 105.8759 10.6179 196.2342 24.2565 233.9171 55.6152 271.4586 78.0431 295.998 99.2134 296.2199 132.5369 281.6926 140.0229 268.7309 140.9625 242.2215 92.6212 234.988 132.8702 208.5089 184.085 174.8203 177.9979 222.1937 186.2729 233.2099 204.0861 235.6161 239.1806 207.1248 248.3033 197.79 247.3739 182.8481 236.7661 160.693 246.8586 146.0946 258.4728 129.2856 278.1184 146.1163 294.3917 141.993 299.9582 126.6975 299.4531 109.5937 290.684 98.4606 276.738 100.2624 263.6255 113.9906 251.7988 98.8546 243.3631 87.6709 246.4242 65.4956 247.4143 50.1799 228.9365 21.8016 180.272 0 134.3149 0Z"></path>
+</clippath>
+<clippath id="canva-pieza-derecha">
+<path d="M121.028 0C61.8535 0 7.7999 32.972 4.6676 55.1251 2.4832 70.5704 3.5239 84.8618 7.6454 96.9996 24.204 98.4088 36.3505 83.1837 48.067 95.7322 55.7021 103.9443 58.1132 123.81 55.6197 137.38 50.1568 167.1411 24.1849 142.1413 10.6232 150.3422 1.0201 150.3422-4.0494 157.6578 4.0185 190.5165 6.4914 200.573 6.2647 199.4705 15.4144 202.9325 30.9731 208.8057 72.4973 223.2722 73.4143 243.0348 74.0943 257.6867 58.6387 260.9839 52.508 272.2562 56.7926 284.0281 73.9941 297.4484 90.5907 295.9137 96.6493 286.3827 94.9698 274.8631 102.7079 264.8581 126.5938 233.9859 166.0069 291.2484 181.0886 297.7787 204.0557 269.2475 237.3471 233.0401 250.0104 185.2616 264.312 131.3214 252.2051 77.577 222.6024 44.4195 193.3913 11.7154 156.2977 0 121.028 0Z"></path>
+</clippath>
+<clippath id="canva-pieza-inferior">
+<path d="M176.7102 0C169.4597 0 166.5932 5.617 154.5582 15.1439 85.8028 69.5954 92.1506 10.8994 84.8879 1.4754 64.7425.0356 44.1885 11.4937 41.2373 25.3663 50.8063 38.4551 110.2331 78.1432 0 102.6137 9.2528 121.5409 63.6633 168.3953 80.8411 185.1831 95.8691 199.8739 152.324 245.021 170.7348 255.9916 197.176 248.2879 321.6572 134.4717 348.0457 99.3573 346.0539 93.2555 329.5822 77.3212 323.5541 72.5262 264.6104 25.5575 294.4918 106.01 253.3359 96.8808 238.7927 93.3714 215.8187 78.491 216.3667 59.3636 220.8245 42.249 271.7994 37.8123 197.6186 6.5023 187.0695 2.0445 181.0837 0 176.7102 0Z"></path>
+</clippath>
+</defs>
+<g transform="translate(0 0) scale(1.28871)">
+<g clip-path="url(#canva-pieza-izquierda)"><image data-heart-photo="1" height="296" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjYWQxNDU3Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iNDIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIj5QSE9UTyAxPC90ZXh0Pjwvc3ZnPg==" preserveaspectratio="xMidYMid slice" transform="translate(0 0) translate(149.0185 148) scale(1.17) translate(-149.0185 -148)" width="298.037" x="0" y="0"/></g>
+</g>
+<g transform="translate(326.971 2.6) scale(1.26356)">
+<g clip-path="url(#canva-pieza-derecha)"><image data-heart-photo="2" height="297.778" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjYzIxODViIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iNDIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIj5QSE9UTyAyPC90ZXh0Pjwvc3ZnPg==" preserveaspectratio="xMidYMid slice" transform="translate(0 -0) translate(128 148.889) scale(1) translate(-128 -148.889)" width="256" x="0" y="0"/></g>
+</g>
+<g transform="translate(115.51 270.102) scale(1.23541)">
+<g clip-path="url(#canva-pieza-inferior)"><image data-heart-photo="3" height="256" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOGUyNGFhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iNDIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIj5QSE9UTyAzPC90ZXh0Pjwvc3ZnPg==" preserveaspectratio="xMidYMid slice" transform="translate(0 0) translate(174.023 128) scale(1) translate(-174.023 -128)" width="348.046" x="0" y="0"/></g>
+</g>
+</svg>
+</div>
+<div class="hero-action" style="position: relative; z-index: 2; display: flex; align-items: center; gap: 14px; margin-top: 4px;">
+<span style="color: #e6a6b6; font-size: 18px;">♥</span>
+<button class="pixbtn bigbtn" id="enterBtn" style="font-family:'Press Start 2P',monospace; font-size:13px; color:#fff5f7; background:#c9486a; border:none; cursor:pointer; padding:15px 22px; image-rendering:pixelated; box-shadow: inset 0 4px 0 rgba(255,255,255,.4), inset 0 -5px 0 rgba(122,34,56,.5), 0 0 0 3px #ffd9e2, 6px 6px 0 3px rgba(0,0,0,.3);">OUVRE-MOI, MON AMOUR ♥</button>
+<span style="color: #e6a6b6; font-size: 18px;">♥</span>
+</div>
+<div aria-hidden="true" class="love-divider love-divider-bottom"><span>♡ · ♥ · ♡</span></div>
+</section>
+<section id="mensajes" style="position: relative; padding: clamp(80px, 12vw, 150px) 22px; background: linear-gradient(180deg, #f7e6e0 0%, #fdf4f1 36%);">
+<div data-reveal="" style="text-align: center; margin-bottom: clamp(40px, 7vw, 72px);">
+<p style="margin: 0 0 8px; font-family: 'Cormorant Garamond', serif; font-style: italic; letter-spacing: 0.34em; text-transform: uppercase; font-size: 13px; color: #c9486a;">Petites vérités</p>
+<h2 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(32px, 6vw, 56px); color: #7a2238;">Ce que je veux te dire</h2>
+</div>
+<div class="mensajes-grid" style="max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: clamp(20px, 3.5vw, 38px); align-items: start;">
+<div data-reveal="" data-show="rotate(-2deg)" style="background: #fffaf6; padding: 32px 28px; border: 3px solid #7a2238; box-shadow: 7px 7px 0 0 rgba(122,34,56,0.16);">
+<div style="font-size: 22px; color: #c9486a; margin-bottom: 12px;">♥</div>
+<p style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 21px; line-height: 1.6; color: #6e3a48;">Depuis ton arrivée, même les jours gris ont appris à sourire. Tu es ma couleur préférée.</p>
+</div>
+<div data-reveal="" data-show="rotate(1.5deg)" style="background: #7a2238; color: #ffeef2; padding: 32px 28px; border: 3px solid #4d1422; box-shadow: 7px 7px 0 0 rgba(122,34,56,0.28); margin-top: 18px;">
+<div style="font-size: 22px; color: #f0c9d2; margin-bottom: 12px;">✦</div>
+<p style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 21px; line-height: 1.6;">Ton étreinte est le seul endroit qui m’ait toujours semblé être chez moi. C’est là que je veux rester.</p>
+</div>
+<div data-reveal="" data-show="rotate(-1deg)" style="background: #fffaf6; padding: 32px 28px; border: 3px solid #7a2238; box-shadow: 7px 7px 0 0 rgba(122,34,56,0.16);">
+<div style="font-size: 22px; color: #c9a24b; margin-bottom: 12px;">❀</div>
+<p style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 21px; line-height: 1.6; color: #6e3a48;">Je ne veux pas vivre un seul instant avec toi. Je les veux tous : les grands, les petits et ceux qui nous attendent.</p>
+</div>
+</div>
+</section>
+<section id="razones" style="padding: clamp(70px, 11vw, 140px) 22px; background: #fdf4f1;">
+<div style="max-width: 1000px; margin: 0 auto;">
+<div data-reveal="" style="text-align: center; margin-bottom: 50px;">
+<p style="margin: 0 0 8px; font-family: 'Press Start 2P', monospace; font-size: 10px; letter-spacing: 0.06em; color: #c9486a;">TOUCHE CHAQUE CARTE</p>
+<h2 style="margin: 14px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(32px, 6vw, 56px); color: #7a2238;">Les raisons pour lesquelles je t’aime</h2>
+</div>
+<div class="reasons-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px;">
+<div class="flip-card" data-reveal="" style="perspective: 1100px; height: 235px; cursor: pointer;">
+<div class="flip-inner" data-flip="0" style="position: relative; width: 100%; height: 100%; transition: transform 0.9s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d;">
+<div style="position: absolute; inset: 0; backface-visibility: hidden; background: linear-gradient(160deg, #fbe9e3, #f6d7cd); border: 3px solid #7a2238; box-shadow: 6px 6px 0 0 rgba(122,34,56,.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+<span style="font-family: 'Press Start 2P', monospace; font-size: 26px; color: #c9486a;">01</span>
+<span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; color: #8a4658; text-align: center; padding: 0 10px;">Ton sourire</span>
+</div>
+<div style="position: absolute; inset: 0; backface-visibility: hidden; transform: rotateY(180deg); background: #7a2238; color: #ffeef2; border: 3px solid #4d1422; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 19px; line-height: 1.5;">C’est la première chose que je cherche chaque matin et ce qui illumine mes journées les plus grises.</div>
+</div>
+</div>
+<div class="flip-card" data-reveal="" style="perspective: 1100px; height: 235px; cursor: pointer;">
+<div class="flip-inner" data-flip="0" style="position: relative; width: 100%; height: 100%; transition: transform 0.9s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d;">
+<div style="position: absolute; inset: 0; backface-visibility: hidden; background: linear-gradient(160deg, #fbe9e3, #f6d7cd); border: 3px solid #7a2238; box-shadow: 6px 6px 0 0 rgba(122,34,56,.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+<span style="font-family: 'Press Start 2P', monospace; font-size: 26px; color: #c9486a;">02</span>
+<span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; color: #8a4658; text-align: center; padding: 0 10px;">Ta façon d’aimer</span>
+</div>
+<div style="position: absolute; inset: 0; backface-visibility: hidden; transform: rotateY(180deg); background: #7a2238; color: #ffeef2; border: 3px solid #4d1422; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 19px; line-height: 1.5;">Tu aimes sans mesure et sans condition, et tu m’apprends chaque jour ce qu’est le véritable amour.</div>
+</div>
+</div>
+<div class="flip-card" data-reveal="" style="perspective: 1100px; height: 235px; cursor: pointer;">
+<div class="flip-inner" data-flip="0" style="position: relative; width: 100%; height: 100%; transition: transform 0.9s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d;">
+<div style="position: absolute; inset: 0; backface-visibility: hidden; background: linear-gradient(160deg, #fbe9e3, #f6d7cd); border: 3px solid #7a2238; box-shadow: 6px 6px 0 0 rgba(122,34,56,.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+<span style="font-family: 'Press Start 2P', monospace; font-size: 26px; color: #c9486a;">03</span>
+<span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; color: #8a4658; text-align: center; padding: 0 10px;">Ton rire</span>
+</div>
+<div style="position: absolute; inset: 0; backface-visibility: hidden; transform: rotateY(180deg); background: #7a2238; color: #ffeef2; border: 3px solid #4d1422; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 19px; line-height: 1.5;">Je pourrais l’écouter mille fois : ce serait toujours mon son préféré au monde.</div>
+</div>
+</div>
+<div class="flip-card" data-reveal="" style="perspective: 1100px; height: 235px; cursor: pointer;">
+<div class="flip-inner" data-flip="0" style="position: relative; width: 100%; height: 100%; transition: transform 0.9s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d;">
+<div style="position: absolute; inset: 0; backface-visibility: hidden; background: linear-gradient(160deg, #fbe9e3, #f6d7cd); border: 3px solid #7a2238; box-shadow: 6px 6px 0 0 rgba(122,34,56,.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+<span style="font-family: 'Press Start 2P', monospace; font-size: 26px; color: #c9486a;">04</span>
+<span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; color: #8a4658; text-align: center; padding: 0 10px;">Pour toujours avec toi</span>
+</div>
+<div style="position: absolute; inset: 0; backface-visibility: hidden; transform: rotateY(180deg); background: #7a2238; color: #ffeef2; border: 3px solid #4d1422; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 19px; line-height: 1.5;">Avec toi, l’avenir a cessé de me faire peur et a commencé à me réjouir.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="galeria" style="padding: clamp(70px, 11vw, 140px) 22px; background: linear-gradient(180deg, #fdf4f1 0%, #f7e6e0 100%);">
+<div style="max-width: 1040px; margin: 0 auto;">
+<div data-reveal="" style="text-align: center; margin-bottom: clamp(40px, 7vw, 70px);">
+<p style="margin: 0 0 8px; font-family: 'Press Start 2P', monospace; font-size: 10px; color: #c9486a;">NOS SOUVENIRS</p>
+<h2 style="margin: 14px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(32px, 6vw, 56px); color: #7a2238;">Nos moments</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(20px, 3vw, 40px);">
+<div data-reveal="" data-show="rotate(3deg)" style="background: #fffdfb; padding: 14px 14px 46px; border: 3px solid #7a2238; box-shadow: 8px 8px 0 0 rgba(122,34,56,0.18); margin-top: 24px;">
+<img data-gallery-photo="4" alt="Chaque aventure" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZDgxYjYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iNDIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIj5QSE9UTyAzPC90ZXh0Pjwvc3ZnPg==" style="display:block; width:clamp(190px,42vw,240px); height:clamp(190px,42vw,240px); object-fit:cover;"/>
+<p style="margin: 14px 0 0; text-align: center; font-family: 'Great Vibes', cursive; font-size: 30px; color: #c9486a; line-height: 1;">Chaque aventure</p>
+</div>
+<div data-reveal="" data-show="rotate(-3deg)" style="background: #fffdfb; padding: 14px 14px 46px; border: 3px solid #7a2238; box-shadow: 8px 8px 0 0 rgba(122,34,56,0.18); margin-top: 0;">
+<img data-gallery-photo="5" alt="Mon endroit préféré" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNmExYjlhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iNDIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIj5QSE9UTyA0PC90ZXh0Pjwvc3ZnPg==" style="display:block; width:clamp(190px,42vw,240px); height:clamp(190px,42vw,240px); object-fit:cover;"/>
+<p style="margin: 14px 0 0; text-align: center; font-family: 'Great Vibes', cursive; font-size: 30px; color: #c9486a; line-height: 1;">Mon endroit préféré</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sorpresa" style="position: relative; padding: clamp(90px, 14vw, 170px) 22px; text-align: center; background: radial-gradient(900px 600px at 50% 40%, #fff8f5 0%, #f7e6e0 70%, #f0d4cb 100%);">
+<div data-reveal="" style="max-width: 560px; margin: 0 auto;">
+<div style="font-size: 16px; letter-spacing: 0.6em; color: #c9a24b; margin-bottom: 20px;">♥ ♥ ♥</div>
+<h2 style="margin: 0 0 14px; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(34px, 7vw, 64px); line-height: 1.1; color: #7a2238;">Et la question la plus importante…</h2>
+<p style="margin: 0 0 36px; font-family: 'Great Vibes', cursive; font-size: clamp(40px, 9vw, 74px); color: #c9486a; line-height: 1; overflow-wrap: anywhere; word-break: break-word;">Veux-tu toujours être à moi ?</p>
+<button class="pixbtn bigbtn" id="loveBtn" style="font-family:'Press Start 2P',monospace; font-size:15px; color:#fff5f7; background:#c9486a; border:none; cursor:pointer; padding:20px 34px; image-rendering:pixelated; box-shadow: inset 0 5px 0 rgba(255,255,255,.4), inset 0 -6px 0 rgba(122,34,56,.5), 0 0 0 4px #7a2238, 7px 7px 0 4px rgba(122,34,56,.3);">OUI, POUR TOUJOURS ♥</button>
+<p id="loveReply" style="margin: 30px auto 0; max-width: 420px; opacity: 0; transform: translateY(12px); transition: opacity 1s ease, transform 1s ease; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(18px, 3vw, 24px); color: #8a4658;">Alors c’est officiel : toi et moi, contre tout et pour toujours. Je t’aime. ♥</p>
+</div>
+</section>
+<footer style="padding: 30px 22px 40px; text-align: center; background: #f0d4cb; font-family: 'Press Start 2P', monospace; font-size: 9px; letter-spacing: 0.08em; color: #a8566a;">FAIT AVEC ♥</footer>
+</div>
+<script>
+(function () {
+  const data = window.DEDIKKA_PAGE_DATA || {};
+  const images = data.images || {};
+  const fields = data.form_fields || {};
+  const backend = String(data.backend_url || '').replace(/\/$/, '');
+  function media(value) {
+    if (!value || typeof value !== 'string') return '';
+    if (/^(https?:|data:|blob:)/i.test(value)) return value;
+    return backend + (value.startsWith('/') ? value : '/' + value);
+  }
+  [1, 2, 3].forEach(function (number) {
+    const image = document.querySelector('[data-heart-photo="' + number + '"]');
+    const src = media(images['image_' + number]);
+    if (image && src) { image.setAttribute('href', src); image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', src); }
+  });
+  [4, 5].forEach(function (number) {
+    const image = document.querySelector('[data-gallery-photo="' + number + '"]');
+    const src = media(images['image_' + number]);
+    if (image && src) image.src = src;
+    else if (image) image.closest('[data-reveal]')?.remove();
+  });
+  const galleryCount = Math.max(0, Math.min(2, Number.parseInt(fields.gallery_count || '2', 10) || 0));
+  document.querySelectorAll('[data-gallery-photo]').forEach(function (image) {
+    const number = Number(image.dataset.galleryPhoto);
+    if (number > galleryCount + 3) image.closest('[data-reveal]')?.remove();
+    const caption = fields['gallery_caption_' + number];
+    if (caption) { image.alt = caption; const label = image.parentElement?.querySelector('p'); if (label) label.textContent = caption; }
+  });
+  const text = function (selector, value) { const el = document.querySelector(selector); if (el && value) el.textContent = value; };
+  text('.hero-game-title', fields.h1_title || data.title);
+  text('#enterBtn', fields.enter_btn_text);
+  text('#mensajes h2', fields.messages_title);
+  document.querySelectorAll('#mensajes .mensajes-grid > div p').forEach(function (el, index) { if (fields['message_' + (index + 1)]) el.textContent = fields['message_' + (index + 1)]; });
+  text('#razones h2', fields.reasons_title);
+  text('#galeria h2', fields.gallery_title);
+  document.querySelectorAll('#razones .flip-card').forEach(function (card, index) {
+    const number = index + 1;
+    const frontTitle = card.querySelector('.flip-inner > div:first-child span:last-child');
+    const backText = card.querySelector('.flip-inner > div:last-child');
+    if (frontTitle && fields['reason_' + number + '_title']) frontTitle.textContent = fields['reason_' + number + '_title'];
+    if (backText && fields['reason_' + number + '_text']) backText.textContent = fields['reason_' + number + '_text'];
+  });
+  text('#sorpresa h2', fields.surprise_title);
+  text('#sorpresa > div > p:nth-of-type(1)', fields.surprise_question);
+  text('#loveBtn', fields.surprise_btn_text);
+  text('#loveReply', fields.surprise_reply);
+  text('footer', fields.footer_text);
+  if (data.title) document.title = data.title + ' · Dedikka';
+  const musicUrl = fields.music_url;
+  if (musicUrl && fields.enable_music !== 'false' && fields.enable_music !== '0') {
+    const audio = document.createElement('audio'); audio.src = media(musicUrl); audio.loop = true; audio.preload = 'metadata'; audio.controls = true;
+    audio.style.cssText = 'position:fixed;right:16px;top:16px;z-index:9999;width:min(240px,65vw)';
+    document.body.append(audio);
+    const enter = document.getElementById('enterBtn');
+    if (enter) enter.addEventListener('click', function () { audio.play().catch(function () {}); }, { once: true });
+  }
+})();
+</script>
+<script>
+(function () {
+  // Contenedor raíz de la plantilla. La clase intro-locked / nav-visible vive aquí
+  // (no en <body>) porque la plantilla se renderiza anidada dentro del layout del sitio.
+  var root = document.getElementById('pdc-root') || document.body;
+
+  // El menú solo aparece después de abandonar completamente la portada.
+  function syncNavVisibility() {
+    var homeSection = document.getElementById('home');
+    if (!homeSection) return;
+    var passedHome = window.scrollY >= homeSection.offsetTop + homeSection.offsetHeight - 1;
+    root.classList.toggle('nav-visible', passedHome && !root.classList.contains('intro-locked'));
+
+    var activeId = '';
+    var marker = window.scrollY + 150;
+    ['mensajes', 'razones', 'galeria', 'sorpresa'].forEach(function (id) {
+      var section = document.getElementById(id);
+      if (section && marker >= section.offsetTop) activeId = id;
+    });
+    document.querySelectorAll('#mainNav [data-scroll]').forEach(function (btn) {
+      var isActive = btn.getAttribute('data-scroll') === activeId;
+      btn.classList.toggle('nav-active', isActive);
+      if (isActive) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', syncNavVisibility, { passive: true });
+  window.addEventListener('resize', syncNavVisibility);
+  syncNavVisibility();
+
+  // Entrada/salida: duplicamos la portada y recortamos una copia en cada mitad.
+  var enterBtn = document.getElementById('enterBtn');
+  var doorTransition = document.getElementById('doorTransition');
+  var home = document.getElementById('home');
+  var leftPanel = doorTransition ? doorTransition.querySelector('.door-left') : null;
+  var rightPanel = doorTransition ? doorTransition.querySelector('.door-right') : null;
+  var doorBusy = false;
+
+  function buildSlice(panel, side) {
+    var clone = home.cloneNode(true);
+    var suffix = '-slice-' + side;
+    clone.removeAttribute('id');
+    clone.classList.add('home-slice');
+    clone.style.width = window.innerWidth + 'px';
+    clone.style.height = Math.max(window.innerHeight, home.getBoundingClientRect().height) + 'px';
+
+    // Evita identificadores SVG duplicados en las dos copias temporales.
+    var renamed = {};
+    clone.querySelectorAll('[id]').forEach(function (el) {
+      var oldId = el.id;
+      renamed[oldId] = oldId + suffix;
+      el.id = renamed[oldId];
+    });
+    clone.querySelectorAll('[clip-path]').forEach(function (el) {
+      var value = el.getAttribute('clip-path');
+      Object.keys(renamed).forEach(function (oldId) {
+        value = value.replace('#' + oldId + ')', '#' + renamed[oldId] + ')');
+      });
+      el.setAttribute('clip-path', value);
+    });
+
+    panel.innerHTML = '';
+    panel.appendChild(clone);
+  }
+
+  function buildDoors() {
+    buildSlice(leftPanel, 'left');
+    buildSlice(rightPanel, 'right');
+  }
+
+  function clearDoors() {
+    doorTransition.classList.remove('active', 'opening', 'closing', 'closing-start');
+    leftPanel.innerHTML = '';
+    rightPanel.innerHTML = '';
+  }
+
+  // Abrir: las mitades se separan y revelan el contenido.
+  if (enterBtn && doorTransition) enterBtn.addEventListener('click', function () {
+    if (doorBusy || doorTransition.classList.contains('active') || !home) return;
+    doorBusy = true;
+    buildDoors();
+    enterBtn.disabled = true;
+    doorTransition.classList.add('active');
+
+    requestAnimationFrame(function () {
+      // Al salir de intro-locked, #home se oculta y el contenido queda desde arriba
+      // (Mensajes en scrollY 0). Las puertas (clon de la portada) tapan la transición.
+      root.classList.remove('intro-locked');
+      window.scrollTo(0, 0);
+      syncNavVisibility();
+      revealCheck();
+
+      requestAnimationFrame(function () {
+        doorTransition.classList.add('opening');
+      });
+    });
+
+    setTimeout(function () {
+      clearDoors();
+      enterBtn.disabled = false;
+      doorBusy = false;
+    }, 1450);
+  });
+
+  // Cerrar: al volver hacia la portada, las mitades entran desde los lados y se juntan.
+  // Clave: NO mostramos la portada real (#home) hasta que las puertas ya estén
+  // completamente cerradas tapando la pantalla; si no, se vería el #home de fondo
+  // entre las dos mitades mientras aún se están juntando.
+  function closeDoors() {
+    if (doorBusy || !home || root.classList.contains('intro-locked')) return;
+    doorBusy = true;
+
+    // 1) Montar las puertas ya separadas y mostrarlas en el MISMO frame (z-index alto).
+    //    Seguimos SIN intro-locked: #home sigue oculto; detrás sólo queda el contenido,
+    //    que las mitades opacas van cubriendo al juntarse.
+    buildDoors();
+    doorTransition.classList.add('active', 'closing-start');
+
+    // 2) Siguiente frame: quitar el estado separado -> las mitades animan al centro.
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        doorTransition.classList.remove('closing-start');
+        doorTransition.classList.add('closing');
+      });
+    });
+
+    // 3) Sólo cuando las puertas ya están CERRADAS (tapan todo), activamos la portada
+    //    real por debajo y luego retiramos las puertas: el cambio queda invisible.
+    setTimeout(function () {
+      root.classList.add('intro-locked');
+      window.scrollTo(0, 0);
+      syncNavVisibility();
+      revealCheck();
+      clearDoors();
+      doorBusy = false;
+    }, 1400);
+  }
+
+  // Disparador del cierre: con #home oculto, el contenido empieza en scrollY 0.
+  // Al volver arriba del todo, cerramos las puertas para regresar a la portada.
+  // "Armado" para que solo se dispare tras haber bajado antes (no al entrar).
+  var closeArmed = false;
+  window.addEventListener('scroll', function () {
+    if (doorBusy || root.classList.contains('intro-locked')) return;
+    if (closeArmed && window.scrollY <= 4) {
+      closeArmed = false;
+      closeDoors();
+    } else if (window.scrollY > 140) {
+      closeArmed = true;
+    }
+  }, { passive: true });
+
+  // ── Scroll suave a secciones ──
+  document.querySelectorAll('[data-scroll]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.getAttribute('data-scroll'));
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+    });
+  });
+
+  // ── Tarjetas que giran (flip) ──
+  document.querySelectorAll('.flip-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var inner = card.querySelector('.flip-inner');
+      var flipped = inner.getAttribute('data-flip') === '1';
+      inner.style.transform = flipped ? 'rotateY(0deg)' : 'rotateY(180deg)';
+      inner.setAttribute('data-flip', flipped ? '0' : '1');
+    });
+  });
+
+  // ── Reveal al hacer scroll ──
+  function revealCheck() {
+    var vh = window.innerHeight || 800;
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      if (el.classList.contains('revealed')) return;
+      if (!el.offsetParent) return;
+      if (el.getBoundingClientRect().top < vh * 0.92) {
+        el.style.setProperty('--rv', el.getAttribute('data-show') || 'none');
+        el.classList.add('revealed');
+      }
+    });
+  }
+  window.addEventListener('scroll', revealCheck, { passive: true });
+  window.addEventListener('resize', revealCheck);
+  revealCheck();
+  setTimeout(revealCheck, 300);
+
+  // ── Botón SORPRESA: explosión de corazones ──
+  var loveBtn = document.getElementById('loveBtn');
+  if (loveBtn) loveBtn.addEventListener('click', function () {
+    var r = loveBtn.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    var glyphs = ['♥', '♡', '❥', '✿'];
+    for (var i = 0; i < 26; i++) {
+      var s = document.createElement('span');
+      s.textContent = glyphs[i % glyphs.length];
+      var ang = Math.random() * Math.PI * 2;
+      var dist = 90 + Math.random() * 220;
+      s.style.cssText = 'position:fixed;left:' + cx + 'px;top:' + cy + 'px;z-index:9999;pointer-events:none;font-size:' + (14 + Math.random() * 26) + 'px;color:' + (Math.random() > 0.5 ? '#c9486a' : '#c9a24b') + ';--bx:' + (Math.cos(ang) * dist) + 'px;--by:' + (Math.sin(ang) * dist - 80) + 'px;--br:' + (Math.random() * 90 - 45) + 'deg;animation:burstFloat ' + (1.2 + Math.random() * 1.1) + 's ease-out forwards;';
+      document.body.appendChild(s);
+      (function (node) { setTimeout(function () { node.remove(); }, 2600); })(s);
+    }
+    var reply = document.getElementById('loveReply');
+    if (reply) { reply.style.opacity = '1'; reply.style.transform = 'translateY(0)'; }
+  });
+
+  // ── Corazones flotando de fondo ──
+  (function spawnHearts() {
+    var layer = document.getElementById('heartsLayer');
+    if (!layer) return;
+    var count = 14;
+    var colors = ['#c9486a', '#d98c5f', '#c9a24b', '#e6b3a4', '#a83456'];
+    for (var i = 0; i < count; i++) {
+      var s = document.createElement('span');
+      s.textContent = '♥';
+      var size = 10 + Math.random() * 22;
+      s.style.cssText = 'position:absolute;bottom:-6vh;left:' + (Math.random() * 100) + 'vw;font-size:' + size + 'px;color:' + colors[i % colors.length] + ';--maxop:' + (0.3 + Math.random() * 0.35) + ';animation:floatUp ' + (10 + Math.random() * 10) + 's linear ' + (Math.random() * 12) + 's infinite;';
+      layer.appendChild(s);
+    }
+  })();
+})();
+
+</script></body></html>
