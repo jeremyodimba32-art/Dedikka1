@@ -2,7 +2,12 @@
 
 from contextlib import asynccontextmanager
 
+import asyncio
+import httpx
+
 import logging
+
+logger = logging.getLogger("dedikka")
 
 from pathlib import Path
 
@@ -276,7 +281,8 @@ def verify_page_code(slug: str, payload: PageCodeInput, request: Request, db: Se
 
 
 
-    client_ip = request.client.host if request.client else "unknown"
+    forwarded = request.headers.get("x-forwarded-for")
+    client_ip = forwarded.split(",")[0].strip() if forwarded else (request.client.host if request.client else "unknown")
 
     key = f"{client_ip}:{slug}"
 
@@ -563,6 +569,13 @@ class AdminCreditInput(BaseModel):
     reason: str = Field(min_length=3, max_length=250)
 
 
+class AdminUserBlockInput(BaseModel):
+
+    blocked: bool
+
+    reason: str = Field(default="Modification du statut du compte par l’administration", max_length=250)
+
+
 
 
 
@@ -582,7 +595,6 @@ class AdminAnnouncementInput(BaseModel):
 
     body: str = Field(min_length=3, max_length=8000)
 
-    confirmation: str = Field(min_length=1, max_length=40)
 
 
 
@@ -3703,6 +3715,8 @@ def admin_users(
 
             "paid_pages_balance": item.paid_pages_balance,
 
+            "is_blocked": item.is_blocked,
+
             "created_at": item.created_at,
 
             "pages_count": db.scalar(select(func.count(Dedication.id)).where(Dedication.user_id == item.id)) or 0,
@@ -3713,6 +3727,169 @@ def admin_users(
 
 
 
+
+
+@app.get(settings.api_prefix + "/admin/users/{user_id}/pages", tags=["admin"])
+def admin_user_pages(
+    user_id: int,
+    user: User = Depends(current_user),
+    db: Session = Depends(get_db),
+):
+    _require_admin(user)
+    target = db.get(User, user_id)
+    if target is None:
+        raise HTTPException(status_code=404, detail="Compte utilisateur introuvable.")
+    now = int(time.time())
+    rows = db.scalars(select(Dedication).where(Dedication.user_id == target.id).order_by(Dedication.created_at.desc()).limit(200)).all()
+    return {
+        "user": {
+            "id": target.id,
+            "name": target.name,
+            "email": target.email,
+            "whatsapp_number": target.whatsapp_number,
+            "paid_pages_balance": target.paid_pages_balance,
+            "is_blocked": target.is_blocked,
+            "created_at": target.created_at,
+        },
+        "items": [{
+            "id": page.id,
+            "title": page.title,
+            "template_name": page.template_name,
+            "slug": page.slug,
+            "url": f"{settings.public_frontend_url.rstrip('/')}/p/{quote(page.slug)}" if settings.public_frontend_url else f"/p/{quote(page.slug)}",
+            "created_at": page.created_at,
+            "expires_at": page.expires_at,
+            "is_expired": page.expires_at is not None and page.expires_at <= now,
+        } for page in rows],
+    }
+
+
+@app.post(settings.api_prefix + "/admin/users/{user_id}/block", tags=["admin"])
+def admin_set_user_block(
+    user_id: int,
+    payload: AdminUserBlockInput,
+    request: Request,
+    user: User = Depends(current_user),
+    db: Session = Depends(get_db),
+    x_csrf_token: str | None = Header(default=None, alias="X-CSRF-Token"),
+    csrf_cookie: str | None = Cookie(default=None, alias=settings.csrf_cookie_name),
+):
+    admin = _require_admin(user)
+    _require_csrf(request, x_csrf_token, csrf_cookie)
+    target = db.get(User, user_id)
+    if target is None:
+        raise HTTPException(status_code=404, detail="Compte utilisateur introuvable.")
+    if target.id == admin.id or target.is_admin:
+        raise HTTPException(status_code=409, detail="Un compte administrateur ne peut pas être bloqué depuis cette action.")
+    target.is_blocked = payload.blocked
+    if payload.blocked:
+        for session in list(target.sessions):
+            db.delete(session)
+    _audit_admin_action(
+        db, admin, "user.blocked" if payload.blocked else "user.unblocked", "user", target.id,
+        {"email": target.email, "reason": payload.reason.strip() or "Action administrateur"},
+    )
+    db.commit()
+    return {"user_id": target.id, "is_blocked": target.is_blocked, "message": "Compte bloqué." if target.is_blocked else "Compte débloqué."}
+
+
+@app.delete(settings.api_prefix + "/admin/users/{user_id}", tags=["admin"])
+async def admin_delete_user(
+    user_id: int,
+    request: Request,
+    user: User = Depends(current_user),
+    db: Session = Depends(get_db),
+    x_csrf_token: str | None = Header(default=None, alias="X-CSRF-Token"),
+    csrf_cookie: str | None = Cookie(default=None, alias=settings.csrf_cookie_name),
+):
+    admin = _require_admin(user)
+    _require_csrf(request, x_csrf_token, csrf_cookie)
+    target = db.get(User, user_id)
+    if target is None:
+        raise HTTPException(status_code=404, detail="Compte utilisateur introuvable.")
+    if target.id == admin.id or target.is_admin:
+        raise HTTPException(status_code=409, detail="Un compte administrateur ne peut pas être supprimé depuis cette action.")
+
+    target_id, target_email = target.id, target.email
+    pages = db.scalars(select(Dedication).where(Dedication.user_id == target_id)).all()
+    pages_count = len(pages)
+    media_values: list[str] = []
+
+    def collect_media(value):
+        if isinstance(value, str):
+            media_values.append(value)
+        elif isinstance(value, dict):
+            for nested in value.values():
+                collect_media(nested)
+        elif isinstance(value, (list, tuple)):
+            for nested in value:
+                collect_media(nested)
+
+    for page in pages:
+        collect_media(page.images)
+        collect_media(page.form_fields)
+
+    storage_paths: set[str] = set()
+    local_files: set[Path] = set()
+    storage_base = settings.supabase_url.rstrip("/")
+    if storage_base.endswith("/rest/v1"):
+        storage_base = storage_base[:-len("/rest/v1")]
+    public_prefix = f"{storage_base}/storage/v1/object/public/{settings.supabase_bucket}/{target_id}/" if storage_base else ""
+    local_prefix = f"/uploads/{target_id}/"
+    for value in media_values:
+        if public_prefix and value.startswith(public_prefix):
+            object_name = value[len(public_prefix):].split("?", 1)[0]
+            if object_name and ".." not in object_name.split("/"):
+                storage_paths.add(object_name)
+            continue
+        path = urlsplit(value).path
+        if path.startswith(local_prefix):
+            filename = Path(path[len(local_prefix):]).name
+            if filename and filename not in {".", ".."}:
+                local_files.add(Path(settings.upload_dir) / str(target_id) / filename)
+
+    db.delete(target)
+    _audit_admin_action(db, admin, "user.deleted", "user", target_id, {"email": target_email, "pages_deleted": pages_count})
+    db.commit()
+
+    media_deleted = 0
+    media_cleanup_failed = 0
+    if storage_paths and storage_base and settings.supabase_secret_key:
+        headers = {"apikey": settings.supabase_secret_key}
+        if not settings.supabase_secret_key.startswith("sb_secret_"):
+            headers["Authorization"] = f"Bearer {settings.supabase_secret_key}"
+        semaphore = asyncio.Semaphore(8)
+
+        async def delete_storage_object(client, object_name: str) -> bool:
+            async with semaphore:
+                endpoint = f"{storage_base}/storage/v1/object/{settings.supabase_bucket}/{quote(object_name, safe='/')}"
+                try:
+                    response = await client.delete(endpoint, headers=headers)
+                    return response.status_code in {200, 204}
+                except httpx.HTTPError:
+                    return False
+
+        async with httpx.AsyncClient(timeout=12.0) as client:
+            results = await asyncio.gather(*(delete_storage_object(client, name) for name in storage_paths))
+        media_deleted += sum(results)
+        media_cleanup_failed += len(results) - sum(results)
+
+    for file_path in local_files:
+        try:
+            file_path.unlink(missing_ok=True)
+            media_deleted += 1
+        except OSError:
+            media_cleanup_failed += 1
+
+    if media_cleanup_failed:
+        logger.warning("Account deletion left %s media object(s) requiring cleanup for user %s", media_cleanup_failed, target_id)
+    return {
+        "user_id": target_id,
+        "pages_deleted": pages_count,
+        "media_deleted": media_deleted,
+        "media_cleanup_failed": media_cleanup_failed,
+        "message": "Compte et dédicaces associés supprimés.",
+    }
 
 
 @app.get(settings.api_prefix + "/admin/pages", tags=["admin"])

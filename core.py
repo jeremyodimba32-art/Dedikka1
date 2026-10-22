@@ -365,6 +365,14 @@ def ensure_schema_compatibility():
             user_columns = {
                 item["name"] for item in inspector.get_columns("users", schema=schema)
             }
+            if "is_blocked" not in user_columns:
+                operations.add_column(
+                    "users",
+                    Column("is_blocked", Boolean, nullable=False, server_default="false"),
+                    schema=schema,
+                )
+                logger.info("Applied migration: users.is_blocked")
+
             if "whatsapp_number" not in user_columns:
                 operations.add_column(
                     "users",

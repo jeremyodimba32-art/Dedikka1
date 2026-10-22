@@ -10,7 +10,7 @@ from typing import Annotated
 from fastapi import APIRouter, Cookie, Depends, Header, HTTPException, Request, Response
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, field_validator
 from pwdlib import PasswordHash
-from sqlalchemy import ForeignKey, Integer, String, func, select
+from sqlalchemy import Boolean, ForeignKey, Integer, String, func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Mapped, Session, mapped_column, relationship
 
@@ -48,6 +48,7 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     google_sub: Mapped[str | None] = mapped_column(String(255), unique=True, index=True, nullable=True)
     whatsapp_number: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    is_blocked: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     paid_pages_balance: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     free_pages_period: Mapped[str] = mapped_column(String(7), nullable=False, default="")
     free_pages_used: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
@@ -279,7 +280,8 @@ def login(
 ):
     lang = get_lang_from_header(accept_language)
     _require_csrf(request, x_csrf_token, csrf_cookie, lang)
-    client_ip = request.client.host if request.client else "unknown"
+    forwarded = request.headers.get("x-forwarded-for")
+    client_ip = forwarded.split(",")[0].strip() if forwarded else (request.client.host if request.client else "unknown")
     rate_key = f"{client_ip}:{payload.email.strip().lower()}"
 
     if _check_rate_limit(rate_key, settings.rate_limit_login_attempts, settings.rate_limit_window_seconds):
@@ -292,6 +294,8 @@ def login(
         raise HTTPException(status_code=401, detail=translate("invalid_credentials", lang))
 
     _clear_failed_attempts(rate_key)
+    if user.is_blocked:
+        raise HTTPException(status_code=403, detail="Ce compte a été bloqué par l’administration.")
     access_token, token = _create_session(db, user, response)
     return AuthOutput(user=user, csrf_token=token, access_token=access_token)
 
@@ -359,6 +363,9 @@ def google_login(
         else:
             user.google_sub = subject
 
+    if user.is_blocked:
+        raise HTTPException(status_code=403, detail="Ce compte a été bloqué par l’administration.")
+
     try:
         db.flush()
         access_token, csrf = _create_session(db, user, response)
@@ -382,6 +389,8 @@ def current_user(
     user = db.get(User, session.user_id) if session else None
     if user is None:
         raise HTTPException(status_code=401, detail=translate("auth_required", lang))
+    if user.is_blocked:
+        raise HTTPException(status_code=403, detail="Ce compte a été bloqué par l’administration.")
     return user
 
 
