@@ -235,10 +235,8 @@ async def send_page_created_whatsapp(
     name: str,
     title: str,
     page_url: str,
-    backend_url: str,
-    allow_qr: bool = True,
 ) -> None:
-    """Send the published link and a direct PNG QR link through PyWAGate."""
+    """Send the published dedication link through PyWAGate."""
     if not phone:
         return
     if not settings.pywagate_base_url or not settings.pywagate_api_key:
@@ -256,9 +254,6 @@ async def send_page_created_whatsapp(
         f"Bonjour {safe_name}, votre dédicace « {safe_title} » est prête.\n\n"
         f"Lien : {page_url}"
     )
-    if allow_qr:
-        qr_url = f"{backend_url.rstrip('/')}/api/v1/qr-heart?{urlencode({'url': page_url})}"
-        message += f"\nCode QR PNG : {qr_url}"
     endpoint = f"{settings.pywagate_base_url.rstrip('/')}/api/messages/send"
     payload = {
         "session_id": settings.pywagate_session_id,
@@ -297,7 +292,7 @@ async def send_page_created_notifications(
     channels = ("e-mail", "WhatsApp")
     results = await asyncio.gather(
         send_page_created_email(email, name, title, page_url, backend_url, allow_qr, is_free, duration_days),
-        send_page_created_whatsapp(phone, name, title, page_url, backend_url, allow_qr),
+        send_page_created_whatsapp(phone, name, title, page_url),
         return_exceptions=True,
     )
     for channel, result in zip(channels, results):

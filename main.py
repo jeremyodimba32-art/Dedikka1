@@ -19,6 +19,8 @@ from fastapi import FastAPI, HTTPException, Query
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from starlette.middleware.gzip import GZipMiddleware
+
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 
 from fastapi.staticfiles import StaticFiles
@@ -2716,6 +2718,10 @@ app = FastAPI(
 
 )
 
+# Published templates contain large inline assets. Compress HTML responses so
+# mobile clients download them faster without changing the rendered document.
+app.add_middleware(GZipMiddleware, minimum_size=1024)
+
 
 
 
@@ -3847,6 +3853,16 @@ async def admin_delete_user(
             filename = Path(path[len(local_prefix):]).name
             if filename and filename not in {".", ".."}:
                 local_files.add(Path(settings.upload_dir) / str(target_id) / filename)
+
+    # Delete dependent rows explicitly instead of relying only on ON DELETE
+    # CASCADE: existing production databases may still have older FK rules.
+    grants = db.scalars(
+        select(PlanCreditGrant).where(PlanCreditGrant.user_id == target_id)
+    ).all()
+    for page in pages:
+        db.delete(page)
+    for grant in grants:
+        db.delete(grant)
 
     db.delete(target)
     _audit_admin_action(db, admin, "user.deleted", "user", target_id, {"email": target_email, "pages_deleted": pages_count})
