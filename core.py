@@ -53,6 +53,8 @@ class Settings(BaseSettings):
     pywagate_base_url: str = ""
     pywagate_api_key: str = ""
     pywagate_session_id: str = "default"
+    # Bouclier Inter-Serveurs (Load Balancer <-> Backends)
+    backend_shield_key: str = ""
     # Passerelle de paiement Chariow & Contrôle Admin
     chariow_base_url: str = "https://api.chariow.com/v1"
     chariow_api_key: str = ""

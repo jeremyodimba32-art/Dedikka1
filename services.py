@@ -254,27 +254,47 @@ async def send_page_created_whatsapp(
         f"Bonjour {safe_name}, votre dédicace « {safe_title} » est prête.\n\n"
         f"Lien : {page_url}"
     )
-    endpoint = f"{settings.pywagate_base_url.rstrip('/')}/api/messages/send"
+    # Support multi-serveurs avec bascule automatique intelligente (failover)
+    candidate_urls = [
+        u.strip().rstrip("/")
+        for u in re.split(r"[,;]+", settings.pywagate_base_url)
+        if u.strip()
+    ]
+    if not candidate_urls:
+        return
+
     payload = {
         "session_id": settings.pywagate_session_id,
         "to": recipient,
         "message": message,
     }
-    try:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(12.0)) as client:
-            response = await client.post(
-                endpoint,
-                json=payload,
-                headers={"X-API-Key": settings.pywagate_api_key},
-            )
-        if response.status_code != 200:
-            logger.error("PyWAGate rejected a publication notification: HTTP %s", response.status_code)
-            return
-        result = response.json()
-        if not isinstance(result, dict) or result.get("success") is not True:
-            logger.error("PyWAGate did not confirm a publication notification")
-    except (httpx.HTTPError, ValueError):
-        logger.exception("Could not send publication notification through PyWAGate")
+    headers = {"X-API-Key": settings.pywagate_api_key}
+    last_error = None
+
+    for idx, base_url in enumerate(candidate_urls):
+        endpoint = f"{base_url}/api/messages/send"
+        try:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(8.0)) as client:
+                response = await client.post(endpoint, json=payload, headers=headers)
+
+            if response.status_code == 200:
+                result = response.json()
+                if isinstance(result, dict) and result.get("success") is True:
+                    logger.info("✅ WhatsApp envoyé avec succès via PyWAGate [%s] à %s", base_url, recipient)
+                    return
+                logger.warning("⚠️ PyWAGate [%s] a renvoyé success!=True (%s). Bascule sur le serveur suivant...", base_url, result)
+            elif response.status_code >= 500 or response.status_code in (502, 503, 504):
+                logger.warning("⚠️ PyWAGate [%s] indisponible (HTTP %s). Bascule sur le serveur suivant...", base_url, response.status_code)
+            else:
+                logger.error("PyWAGate [%s] a rejeté la requête (HTTP %s)", base_url, response.status_code)
+        except (httpx.RequestError, httpx.TimeoutException) as exc:
+            last_error = exc
+            logger.warning("⚠️ Erreur réseau vers PyWAGate [%s] (%s). Bascule sur le serveur suivant...", base_url, exc)
+        except Exception as exc:
+            last_error = exc
+            logger.exception("Erreur inattendue PyWAGate [%s]", base_url)
+
+    logger.error("❌ Tous les serveurs PyWAGate ont échoué pour %s (Dernière erreur: %s)", recipient, last_error)
 
 
 async def send_page_created_notifications(

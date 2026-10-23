@@ -2722,8 +2722,52 @@ app = FastAPI(
 # mobile clients download them faster without changing the rendered document.
 app.add_middleware(GZipMiddleware, minimum_size=1024)
 
+# ==============================================================================
+# BOUCLIER INTER-SERVEURS (BACKEND SHIELD)
+# Interdit tout accès direct externe à cette instance sans passer par le Load Balancer.
+# ==============================================================================
+import os as _os
+BACKEND_SHIELD_KEY = (_os.getenv("BACKEND_SHIELD_KEY") or getattr(settings, "backend_shield_key", "")).strip()
 
+@app.middleware("http")
+async def backend_shield_guard_middleware(request: Request, call_next):
+    # Si la clé n'est pas configurée (local/dev/staging), sécurité inactive : ne rien casser
+    if not BACKEND_SHIELD_KEY:
+        return await call_next(request)
 
+    path = request.url.path
+    method = request.method
+
+    # 1. Requêtes CORS preflight (OPTIONS)
+    if method == "OPTIONS":
+        return await call_next(request)
+
+    # 2. Endpoints publics vitaux de santé (Render health checks / monitoring)
+    api_prefix = settings.api_prefix.rstrip("/")
+    if path in {"/health", "/ping", "/healthz", f"{api_prefix}/health"}:
+        return await call_next(request)
+
+    # 3. Webhooks de paiement Chariow (déjà protégés par signature cryptographique HMAC)
+    if path == f"{api_prefix}/payments/webhook/chariow":
+        return await call_next(request)
+
+    # 4. Vérification de la clé secrète du bouclier
+    shield_header = (request.headers.get("x-backend-shield") or "").strip()
+    if not shield_header or not hmac.compare_digest(shield_header, BACKEND_SHIELD_KEY):
+        logger.warning(
+            "🛡️ [BOUCLIER ACTIF] Accès direct refusé (403 Forbidden) - IP=%s Path=%s",
+            request.client.host if request.client else "unknown",
+            path
+        )
+        return JSONResponse(
+            status_code=403,
+            content={
+                "detail": "Accès direct non autorisé. Veuillez passer par le point d'accès Dedikka.",
+                "error": "DIRECT_ACCESS_FORBIDDEN"
+            }
+        )
+
+    return await call_next(request)
 
 
 @app.middleware("http")
@@ -2953,8 +2997,9 @@ app.include_router(public_router)
 
 
 
+@app.get("/health", tags=["health"])
+@app.get("/ping", tags=["health"])
 @app.get(settings.api_prefix + "/health", tags=["health"])
-
 def health():
 
     return {
